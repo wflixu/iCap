@@ -5,11 +5,12 @@
 //  Created by 李旭 on 2024/1/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct iCapApp: App {
+    @AppStorage("showMenuBarExtra") private var showMenuBarExtra = true
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -24,9 +25,20 @@ struct iCapApp: App {
     }()
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup("iCap") {
             ContentView()
         }
         .modelContainer(sharedModelContainer)
+
+        Settings {
+            SettingsView()
+        }
+
+        MenuBarExtra(
+            "App Menu Bar Extra", systemImage: "star",
+            isInserted: $showMenuBarExtra)
+        {
+            StatusMenu()
+        }.menuBarExtraStyle(.menu)
     }
 }
