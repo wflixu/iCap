@@ -5,11 +5,15 @@
 //  Created by 李旭 on 2024/1/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct iCapApp: App {
+    
+    @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    
+    @AppStorage("showMenuBarExtra") private var showMenuBarExtra = true
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -24,9 +28,26 @@ struct iCapApp: App {
     }()
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup("iCap") {
             ContentView()
-        }
+        }.commands(content: {
+            CommandMenu("my") {
+                Text("my")
+            }
+            
+        })
+        .handlesExternalEvents(matching: Set(arrayLiteral: "main"))
         .modelContainer(sharedModelContainer)
+
+        Settings {
+            SettingsView()
+        }
+
+        MenuBarExtra(
+            "App Menu Bar Extra", image: "menubar",
+            isInserted: $showMenuBarExtra)
+        {
+            StatusMenu()
+        }.menuBarExtraStyle(.menu)
     }
 }
