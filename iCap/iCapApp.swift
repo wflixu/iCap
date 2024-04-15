@@ -44,7 +44,7 @@ struct iCapApp: App {
         }
 
         MenuBarExtra(
-            "App Menu Bar Extra", systemImage: "star",
+            "App Menu Bar Extra", image: "menubar",
             isInserted: $showMenuBarExtra)
         {
             StatusMenu()

@@ -48,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5C159EA82BCD367900EF2F06 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5C3456582B69EB4300278BF2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5C34565A2B69EC2900278BF2 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		5C34565D2B69ECA300278BF2 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
@@ -99,6 +100,7 @@
 		5CF3D9782B63B25B00753013 = {
 			isa = PBXGroup;
 			children = (
+				5C159EA82BCD367900EF2F06 /* README.md */,
 				5CF3D9832B63B25B00753013 /* iCap */,
 				5CF3D9822B63B25B00753013 /* Products */,
 			);
