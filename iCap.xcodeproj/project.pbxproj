@@ -11,51 +11,18 @@
 		5C34565B2B69EC2900278BF2 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C34565A2B69EC2900278BF2 /* GeneralSettingsView.swift */; };
 		5C34565E2B69ECA300278BF2 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C34565D2B69ECA300278BF2 /* AdvancedSettingsView.swift */; };
 		5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456602B69EDDB00278BF2 /* StatusMenu.swift */; };
-		5C3456812B6A028600278BF2 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C3456802B6A028600278BF2 /* Media.xcassets */; };
-		5C3456832B6A028600278BF2 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5C3456822B6A028600278BF2 /* icon.icns */; };
-		5C3456852B6A028600278BF2 /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456842B6A028600278BF2 /* ActionViewController.swift */; };
-		5C3456882B6A028600278BF2 /* ActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C3456862B6A028600278BF2 /* ActionViewController.xib */; };
-		5C34568D2B6A028600278BF2 /* MyFinderMenu.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5C34567E2B6A028600278BF2 /* MyFinderMenu.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		5C3456982B6A0A6400278BF2 /* FinderSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456972B6A0A6400278BF2 /* FinderSync.swift */; };
-		5C34569D2B6A0A6400278BF2 /* MyFinderContext.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5C3456952B6A0A6400278BF2 /* MyFinderContext.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		5C3456BD2B6A0BE200278BF2 /* ContextXPCHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456BC2B6A0BE200278BF2 /* ContextXPCHelp.swift */; };
-		5C3456BF2B6A0BE200278BF2 /* ContextXPCHelpProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456BE2B6A0BE200278BF2 /* ContextXPCHelpProtocol.swift */; };
-		5C3456C12B6A0BE200278BF2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456C02B6A0BE200278BF2 /* main.swift */; };
-		5C3456C62B6A0BE200278BF2 /* ContextXPCHelp.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = 5C3456BA2B6A0BE200278BF2 /* ContextXPCHelp.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5C4A08402B6760E80046B005 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 5C4A083F2B6760E80046B005 /* SwiftUIX */; };
 		5C4C133F2B67BEDA001B66D2 /* MyCustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4C133E2B67BEDA001B66D2 /* MyCustomMenu.swift */; };
 		5C4C13412B67C6F5001B66D2 /* MyContextMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4C13402B67C6F5001B66D2 /* MyContextMenuController.swift */; };
 		5C4C13432B67C793001B66D2 /* MyContextMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4C13422B67C793001B66D2 /* MyContextMenuView.swift */; };
+		5CA3C1A02BCCC96200ED3A48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA3C19F2BCCC96200ED3A48 /* AppDelegate.swift */; };
+		5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */; };
 		5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9842B63B25C00753013 /* iCapApp.swift */; };
 		5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9862B63B25C00753013 /* ContentView.swift */; };
 		5CF3D9892B63B25C00753013 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9882B63B25C00753013 /* Item.swift */; };
 		5CF3D98B2B63B25D00753013 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3D98A2B63B25D00753013 /* Assets.xcassets */; };
 		5CF3D98E2B63B25D00753013 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3D98D2B63B25D00753013 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5C34568B2B6A028600278BF2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5CF3D9792B63B25B00753013 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C34567D2B6A028600278BF2;
-			remoteInfo = MyFinderMenu;
-		};
-		5C34569B2B6A0A6400278BF2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5CF3D9792B63B25B00753013 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C3456942B6A0A6400278BF2;
-			remoteInfo = MyFinderContext;
-		};
-		5C3456C42B6A0BE200278BF2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5CF3D9792B63B25B00753013 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C3456B92B6A0BE200278BF2;
-			remoteInfo = ContextXPCHelp;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		5C3456792B6A013500278BF2 /* Embed Foundation Extensions */ = {
@@ -64,8 +31,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				5C34569D2B6A0A6400278BF2 /* MyFinderContext.appex in Embed Foundation Extensions */,
-				5C34568D2B6A028600278BF2 /* MyFinderMenu.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,7 +41,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/XPCServices";
 			dstSubfolderSpec = 16;
 			files = (
-				5C3456C62B6A0BE200278BF2 /* ContextXPCHelp.xpc in Embed XPC Services */,
 			);
 			name = "Embed XPC Services";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,26 +52,11 @@
 		5C34565A2B69EC2900278BF2 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		5C34565D2B69ECA300278BF2 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		5C3456602B69EDDB00278BF2 /* StatusMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenu.swift; sourceTree = "<group>"; };
-		5C34567E2B6A028600278BF2 /* MyFinderMenu.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MyFinderMenu.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C3456802B6A028600278BF2 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		5C3456822B6A028600278BF2 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
-		5C3456842B6A028600278BF2 /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
-		5C3456872B6A028600278BF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ActionViewController.xib; sourceTree = "<group>"; };
-		5C3456892B6A028600278BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C34568A2B6A028600278BF2 /* MyFinderMenu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyFinderMenu.entitlements; sourceTree = "<group>"; };
-		5C3456952B6A0A6400278BF2 /* MyFinderContext.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MyFinderContext.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C3456972B6A0A6400278BF2 /* FinderSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderSync.swift; sourceTree = "<group>"; };
-		5C3456992B6A0A6400278BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C34569A2B6A0A6400278BF2 /* MyFinderContext.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyFinderContext.entitlements; sourceTree = "<group>"; };
-		5C3456BA2B6A0BE200278BF2 /* ContextXPCHelp.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = ContextXPCHelp.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C3456BC2B6A0BE200278BF2 /* ContextXPCHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextXPCHelp.swift; sourceTree = "<group>"; };
-		5C3456BE2B6A0BE200278BF2 /* ContextXPCHelpProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextXPCHelpProtocol.swift; sourceTree = "<group>"; };
-		5C3456C02B6A0BE200278BF2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		5C3456C22B6A0BE200278BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C3456C32B6A0BE200278BF2 /* ContextXPCHelp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ContextXPCHelp.entitlements; sourceTree = "<group>"; };
 		5C4C133E2B67BEDA001B66D2 /* MyCustomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomMenu.swift; sourceTree = "<group>"; };
 		5C4C13402B67C6F5001B66D2 /* MyContextMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContextMenuController.swift; sourceTree = "<group>"; };
 		5C4C13422B67C793001B66D2 /* MyContextMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContextMenuView.swift; sourceTree = "<group>"; };
+		5CA3C19F2BCCC96200ED3A48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairView.swift; sourceTree = "<group>"; };
 		5CF3D9812B63B25B00753013 /* iCap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF3D9842B63B25C00753013 /* iCapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCapApp.swift; sourceTree = "<group>"; };
 		5CF3D9862B63B25C00753013 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,27 +67,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5C34567B2B6A028600278BF2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C3456922B6A0A6400278BF2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C3456B72B6A0BE200278BF2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CF3D97E2B63B25B00753013 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,48 +96,10 @@
 			path = StatusBar;
 			sourceTree = "<group>";
 		};
-		5C34567F2B6A028600278BF2 /* MyFinderMenu */ = {
-			isa = PBXGroup;
-			children = (
-				5C3456802B6A028600278BF2 /* Media.xcassets */,
-				5C3456822B6A028600278BF2 /* icon.icns */,
-				5C3456842B6A028600278BF2 /* ActionViewController.swift */,
-				5C3456862B6A028600278BF2 /* ActionViewController.xib */,
-				5C3456892B6A028600278BF2 /* Info.plist */,
-				5C34568A2B6A028600278BF2 /* MyFinderMenu.entitlements */,
-			);
-			path = MyFinderMenu;
-			sourceTree = "<group>";
-		};
-		5C3456962B6A0A6400278BF2 /* MyFinderContext */ = {
-			isa = PBXGroup;
-			children = (
-				5C3456972B6A0A6400278BF2 /* FinderSync.swift */,
-				5C3456992B6A0A6400278BF2 /* Info.plist */,
-				5C34569A2B6A0A6400278BF2 /* MyFinderContext.entitlements */,
-			);
-			path = MyFinderContext;
-			sourceTree = "<group>";
-		};
-		5C3456BB2B6A0BE200278BF2 /* ContextXPCHelp */ = {
-			isa = PBXGroup;
-			children = (
-				5C3456BC2B6A0BE200278BF2 /* ContextXPCHelp.swift */,
-				5C3456BE2B6A0BE200278BF2 /* ContextXPCHelpProtocol.swift */,
-				5C3456C02B6A0BE200278BF2 /* main.swift */,
-				5C3456C22B6A0BE200278BF2 /* Info.plist */,
-				5C3456C32B6A0BE200278BF2 /* ContextXPCHelp.entitlements */,
-			);
-			path = ContextXPCHelp;
-			sourceTree = "<group>";
-		};
 		5CF3D9782B63B25B00753013 = {
 			isa = PBXGroup;
 			children = (
 				5CF3D9832B63B25B00753013 /* iCap */,
-				5C34567F2B6A028600278BF2 /* MyFinderMenu */,
-				5C3456962B6A0A6400278BF2 /* MyFinderContext */,
-				5C3456BB2B6A0BE200278BF2 /* ContextXPCHelp */,
 				5CF3D9822B63B25B00753013 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -218,9 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				5CF3D9812B63B25B00753013 /* iCap.app */,
-				5C34567E2B6A028600278BF2 /* MyFinderMenu.appex */,
-				5C3456952B6A0A6400278BF2 /* MyFinderContext.appex */,
-				5C3456BA2B6A0BE200278BF2 /* ContextXPCHelp.xpc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -231,6 +118,8 @@
 				5C34565F2B69EDBA00278BF2 /* StatusBar */,
 				5C34565C2B69EC8200278BF2 /* Settings */,
 				5CF3D9842B63B25C00753013 /* iCapApp.swift */,
+				5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */,
+				5CA3C19F2BCCC96200ED3A48 /* AppDelegate.swift */,
 				5CF3D9862B63B25C00753013 /* ContentView.swift */,
 				5CF3D9882B63B25C00753013 /* Item.swift */,
 				5C4C133E2B67BEDA001B66D2 /* MyCustomMenu.swift */,
@@ -254,57 +143,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5C34567D2B6A028600278BF2 /* MyFinderMenu */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C34568E2B6A028600278BF2 /* Build configuration list for PBXNativeTarget "MyFinderMenu" */;
-			buildPhases = (
-				5C34567A2B6A028600278BF2 /* Sources */,
-				5C34567B2B6A028600278BF2 /* Frameworks */,
-				5C34567C2B6A028600278BF2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MyFinderMenu;
-			productName = MyFinderMenu;
-			productReference = 5C34567E2B6A028600278BF2 /* MyFinderMenu.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		5C3456942B6A0A6400278BF2 /* MyFinderContext */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C34569E2B6A0A6400278BF2 /* Build configuration list for PBXNativeTarget "MyFinderContext" */;
-			buildPhases = (
-				5C3456912B6A0A6400278BF2 /* Sources */,
-				5C3456922B6A0A6400278BF2 /* Frameworks */,
-				5C3456932B6A0A6400278BF2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MyFinderContext;
-			productName = MyFinderContext;
-			productReference = 5C3456952B6A0A6400278BF2 /* MyFinderContext.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		5C3456B92B6A0BE200278BF2 /* ContextXPCHelp */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C3456C72B6A0BE200278BF2 /* Build configuration list for PBXNativeTarget "ContextXPCHelp" */;
-			buildPhases = (
-				5C3456B62B6A0BE200278BF2 /* Sources */,
-				5C3456B72B6A0BE200278BF2 /* Frameworks */,
-				5C3456B82B6A0BE200278BF2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ContextXPCHelp;
-			productName = ContextXPCHelp;
-			productReference = 5C3456BA2B6A0BE200278BF2 /* ContextXPCHelp.xpc */;
-			productType = "com.apple.product-type.xpc-service";
-		};
 		5CF3D9802B63B25B00753013 /* iCap */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5CF3D9922B63B25D00753013 /* Build configuration list for PBXNativeTarget "iCap" */;
@@ -318,9 +156,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				5C34568C2B6A028600278BF2 /* PBXTargetDependency */,
-				5C34569C2B6A0A6400278BF2 /* PBXTargetDependency */,
-				5C3456C52B6A0BE200278BF2 /* PBXTargetDependency */,
 			);
 			name = iCap;
 			packageProductDependencies = (
@@ -340,15 +175,6 @@
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
-					5C34567D2B6A028600278BF2 = {
-						CreatedOnToolsVersion = 15.2;
-					};
-					5C3456942B6A0A6400278BF2 = {
-						CreatedOnToolsVersion = 15.2;
-					};
-					5C3456B92B6A0BE200278BF2 = {
-						CreatedOnToolsVersion = 15.2;
-					};
 					5CF3D9802B63B25B00753013 = {
 						CreatedOnToolsVersion = 15.2;
 					};
@@ -371,38 +197,11 @@
 			projectRoot = "";
 			targets = (
 				5CF3D9802B63B25B00753013 /* iCap */,
-				5C34567D2B6A028600278BF2 /* MyFinderMenu */,
-				5C3456942B6A0A6400278BF2 /* MyFinderContext */,
-				5C3456B92B6A0BE200278BF2 /* ContextXPCHelp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5C34567C2B6A028600278BF2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C3456812B6A028600278BF2 /* Media.xcassets in Resources */,
-				5C3456832B6A028600278BF2 /* icon.icns in Resources */,
-				5C3456882B6A028600278BF2 /* ActionViewController.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C3456932B6A0A6400278BF2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C3456B82B6A0BE200278BF2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CF3D97F2B63B25B00753013 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -415,36 +214,11 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5C34567A2B6A028600278BF2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C3456852B6A028600278BF2 /* ActionViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C3456912B6A0A6400278BF2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C3456982B6A0A6400278BF2 /* FinderSync.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C3456B62B6A0BE200278BF2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C3456BF2B6A0BE200278BF2 /* ContextXPCHelpProtocol.swift in Sources */,
-				5C3456BD2B6A0BE200278BF2 /* ContextXPCHelp.swift in Sources */,
-				5C3456C12B6A0BE200278BF2 /* main.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CF3D97D2B63B25B00753013 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CA3C1A02BCCC96200ED3A48 /* AppDelegate.swift in Sources */,
 				5C3456592B69EB4300278BF2 /* SettingsView.swift in Sources */,
 				5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */,
 				5C34565E2B69ECA300278BF2 /* AdvancedSettingsView.swift in Sources */,
@@ -455,185 +229,13 @@
 				5C4C133F2B67BEDA001B66D2 /* MyCustomMenu.swift in Sources */,
 				5C34565B2B69EC2900278BF2 /* GeneralSettingsView.swift in Sources */,
 				5C4C13412B67C6F5001B66D2 /* MyContextMenuController.swift in Sources */,
+				5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		5C34568C2B6A028600278BF2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C34567D2B6A028600278BF2 /* MyFinderMenu */;
-			targetProxy = 5C34568B2B6A028600278BF2 /* PBXContainerItemProxy */;
-		};
-		5C34569C2B6A0A6400278BF2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C3456942B6A0A6400278BF2 /* MyFinderContext */;
-			targetProxy = 5C34569B2B6A0A6400278BF2 /* PBXContainerItemProxy */;
-		};
-		5C3456C52B6A0BE200278BF2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C3456B92B6A0BE200278BF2 /* ContextXPCHelp */;
-			targetProxy = 5C3456C42B6A0BE200278BF2 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		5C3456862B6A028600278BF2 /* ActionViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5C3456872B6A028600278BF2 /* Base */,
-			);
-			name = ActionViewController.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		5C34568F2B6A028600278BF2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MyFinderMenu/MyFinderMenu.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyFinderMenu/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MyFinderMenu;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.iCap.MyFinderMenu;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		5C3456902B6A028600278BF2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MyFinderMenu/MyFinderMenu.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyFinderMenu/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MyFinderMenu;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.iCap.MyFinderMenu;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		5C34569F2B6A0A6400278BF2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MyFinderContext/MyFinderContext.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyFinderContext/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MyFinderContext;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.iCap.MyFinderContext;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		5C3456A02B6A0A6400278BF2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MyFinderContext/MyFinderContext.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyFinderContext/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MyFinderContext;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.iCap.MyFinderContext;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		5C3456C82B6A0BE200278BF2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = ContextXPCHelp/ContextXPCHelp.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ContextXPCHelp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ContextXPCHelp;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.ContextXPCHelp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		5C3456C92B6A0BE200278BF2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = ContextXPCHelp/ContextXPCHelp.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ContextXPCHelp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ContextXPCHelp;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.ContextXPCHelp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		5CF3D9902B63B25D00753013 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -759,13 +361,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iCap/iCap.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iCap/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4L3563XCBN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = iCap;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -789,13 +394,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iCap/iCap.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iCap/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4L3563XCBN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = iCap;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -815,33 +423,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5C34568E2B6A028600278BF2 /* Build configuration list for PBXNativeTarget "MyFinderMenu" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C34568F2B6A028600278BF2 /* Debug */,
-				5C3456902B6A028600278BF2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5C34569E2B6A0A6400278BF2 /* Build configuration list for PBXNativeTarget "MyFinderContext" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C34569F2B6A0A6400278BF2 /* Debug */,
-				5C3456A02B6A0A6400278BF2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5C3456C72B6A0BE200278BF2 /* Build configuration list for PBXNativeTarget "ContextXPCHelp" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C3456C82B6A0BE200278BF2 /* Debug */,
-				5C3456C92B6A0BE200278BF2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		5CF3D97C2B63B25B00753013 /* Build configuration list for PBXProject "iCap" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

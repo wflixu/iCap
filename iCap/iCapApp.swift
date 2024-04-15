@@ -10,6 +10,9 @@ import SwiftUI
 
 @main
 struct iCapApp: App {
+    
+    @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    
     @AppStorage("showMenuBarExtra") private var showMenuBarExtra = true
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -27,7 +30,13 @@ struct iCapApp: App {
     var body: some Scene {
         WindowGroup("iCap") {
             ContentView()
-        }
+        }.commands(content: {
+            CommandMenu("my") {
+                Text("my")
+            }
+            
+        })
+        .handlesExternalEvents(matching: Set(arrayLiteral: "main"))
         .modelContainer(sharedModelContainer)
 
         Settings {
