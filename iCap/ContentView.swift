@@ -6,83 +6,69 @@
 //
 
 import AppKit
+import AVFoundation
 import CoreImage
+import Foundation
+import KeyboardShortcuts
 import ScreenCaptureKit
 import SwiftData
 import SwiftUI
 import SwiftUIX
-import AVFoundation
 
 struct ContentView: View {
-    @State private var isEditing: Bool = false
-    @State var searchText: String = ""
-    @State private var isAppLaunchedByHotkey = false
-    @State private var isCapturingSelection = false
-    @State private var selectionRect: NSRect?
-    @State private var  capimg: NSImage?
-
-    var cgimage: NSImage?
+    @AppStorage("imageFormat") private var imageFormat: ImageFormat = .png
+    @AppStorage("imageSavePath") private var imageSavePath: String = "/Users/"
     
+    @State var showPathPicker: Bool = false
     var body: some View {
         VStack {
-            Button(action: {
-                takeScreenshot(of: nil)
-            }) {
-                Text("捕获整个屏幕")
-            }
-
-            Button(action: {
-                isCapturingSelection = true
-            }) {
-                Text("捕获选定区域")
-            }
-
-//            if isCapturingSelection {
-//                CrosshairView(selectionRect: $selectionRect)
-//            }
-        }
-        VStack {
-            if capimg != nil {
-                Image(nsImage: capimg!)
-            }
-        }
-        Text("test")
-        HStack {
-//            MyContextMenuView(title: $searchText)
-            Text("test")
-
             SettingsLink(label: {
                 /*@START_MENU_TOKEN@*/Text("Settings")/*@END_MENU_TOKEN@*/
             })
-            Button("shotcut") {
-                print("clock")
-            }.keyboardShortcut("X", modifiers: [.command, .shift])
+            Form {
+                Section(header: Text("iCap 设置")) {
+                    KeyboardShortcuts.Recorder("截屏快捷键:", name: .startScreenShot)
+                    Picker("保存图片格式", selection: $imageFormat) {
+                        Text("png").tag(ImageFormat.png)
+                        Text("jpeg").tag(ImageFormat.jpeg)
+                    }.padding([.leading, .trailing, .bottom], 10)
+                    HStack {
+                        Button("图片保存路径") {
+                            showPathPicker = true
+                        }.fileImporter(isPresented: $showPathPicker, allowedContentTypes: [.directory], allowsMultipleSelection: false) { result in
 
-        }.onAppear {
-            print("contentview appear")
-        }
-        .onDisappear {}
+                            switch result {
+                                case .success(let dirs):
+
+                                    for dir in dirs {
+                                        print(dir.path)
+                                        imageSavePath = dir.path;
+                                    }
+
+                                case .failure(let error):
+                                    // handle error
+                                    print(error)
+                            }
+                        }
+                        Spacer()
+                        
+                        Text(imageSavePath)
+                    }
+                    
+                }
+            }
+            Spacer()
+            
+            ImageDrawView()
+        }.frame(width: 800, height: 800)
+            .onAppear {
+                initSavePath()
+            }
     }
 
-    func takeScreenshot(of rect: NSRect?) {
-        Task {
-            let availableContent = try? await SCShareableContent.current
-
-            guard let availableContent = availableContent,
-                  let display = availableContent.displays.first
-            else {
-                print("not display")
-                return ;
-            }
-
-            let myContentFilter = SCContentFilter(display: display,
-                                                  excludingApplications: [], exceptingWindows: [])
-            let myConfiguration = SCStreamConfiguration()
-            if let res = try? await SCScreenshotManager.captureImage(contentFilter: myContentFilter, configuration: myConfiguration) {
-                
-                self.capimg = NSImage(cgImage: res, size: CGSize(width: 600, height: 400))
-            }
-        }
+    func initSavePath() {
+        let home = URL.homeDirectory
+        imageSavePath = home.path + "/Desktop"
     }
 }
 

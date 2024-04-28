@@ -11,12 +11,17 @@
 		5C34565B2B69EC2900278BF2 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C34565A2B69EC2900278BF2 /* GeneralSettingsView.swift */; };
 		5C34565E2B69ECA300278BF2 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C34565D2B69ECA300278BF2 /* AdvancedSettingsView.swift */; };
 		5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456602B69EDDB00278BF2 /* StatusMenu.swift */; };
+		5C3F2E9C2BDE2F4C00157333 /* ScreenshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */; };
 		5C4A08402B6760E80046B005 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 5C4A083F2B6760E80046B005 /* SwiftUIX */; };
 		5C4C133F2B67BEDA001B66D2 /* MyCustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4C133E2B67BEDA001B66D2 /* MyCustomMenu.swift */; };
 		5C4C13412B67C6F5001B66D2 /* MyContextMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4C13402B67C6F5001B66D2 /* MyContextMenuController.swift */; };
 		5C4C13432B67C793001B66D2 /* MyContextMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4C13422B67C793001B66D2 /* MyContextMenuView.swift */; };
-		5CA3C1A02BCCC96200ED3A48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA3C19F2BCCC96200ED3A48 /* AppDelegate.swift */; };
+		5C9BE1BE2BDE707800FE56BD /* ImageDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */; };
 		5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */; };
+		5CC56DD02BDBA0C100CFEEAB /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 5CC56DCF2BDBA0C100CFEEAB /* KeyboardShortcuts */; };
+		5CC56DD22BDBA1F300CFEEAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC56DD12BDBA1F300CFEEAB /* Constants.swift */; };
+		5CC56DD42BDBA9D000CFEEAB /* SCContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */; };
+		5CC56DD62BDC176600CFEEAB /* ActionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC56DD52BDC175F00CFEEAB /* ActionBar.swift */; };
 		5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9842B63B25C00753013 /* iCapApp.swift */; };
 		5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9862B63B25C00753013 /* ContentView.swift */; };
 		5CF3D9892B63B25C00753013 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9882B63B25C00753013 /* Item.swift */; };
@@ -53,11 +58,16 @@
 		5C34565A2B69EC2900278BF2 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		5C34565D2B69ECA300278BF2 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		5C3456602B69EDDB00278BF2 /* StatusMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenu.swift; sourceTree = "<group>"; };
+		5C3F2E9A2BDE11C900157333 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotView.swift; sourceTree = "<group>"; };
 		5C4C133E2B67BEDA001B66D2 /* MyCustomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomMenu.swift; sourceTree = "<group>"; };
 		5C4C13402B67C6F5001B66D2 /* MyContextMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContextMenuController.swift; sourceTree = "<group>"; };
 		5C4C13422B67C793001B66D2 /* MyContextMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContextMenuView.swift; sourceTree = "<group>"; };
-		5CA3C19F2BCCC96200ED3A48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDrawView.swift; sourceTree = "<group>"; };
 		5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairView.swift; sourceTree = "<group>"; };
+		5CC56DD12BDBA1F300CFEEAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCContext.swift; sourceTree = "<group>"; };
+		5CC56DD52BDC175F00CFEEAB /* ActionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionBar.swift; sourceTree = "<group>"; };
 		5CF3D9812B63B25B00753013 /* iCap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF3D9842B63B25C00753013 /* iCapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCapApp.swift; sourceTree = "<group>"; };
 		5CF3D9862B63B25C00753013 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -73,6 +83,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C4A08402B6760E80046B005 /* SwiftUIX in Frameworks */,
+				5CC56DD02BDBA0C100CFEEAB /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,13 +128,18 @@
 		5CF3D9832B63B25B00753013 /* iCap */ = {
 			isa = PBXGroup;
 			children = (
+				5C3F2E9A2BDE11C900157333 /* Info.plist */,
 				5C34565F2B69EDBA00278BF2 /* StatusBar */,
 				5C34565C2B69EC8200278BF2 /* Settings */,
 				5CF3D9842B63B25C00753013 /* iCapApp.swift */,
 				5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */,
-				5CA3C19F2BCCC96200ED3A48 /* AppDelegate.swift */,
 				5CF3D9862B63B25C00753013 /* ContentView.swift */,
+				5CC56DD52BDC175F00CFEEAB /* ActionBar.swift */,
+				5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */,
+				5CC56DD12BDBA1F300CFEEAB /* Constants.swift */,
+				5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */,
 				5CF3D9882B63B25C00753013 /* Item.swift */,
+				5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */,
 				5C4C133E2B67BEDA001B66D2 /* MyCustomMenu.swift */,
 				5CF3D98A2B63B25D00753013 /* Assets.xcassets */,
 				5CF3D98F2B63B25D00753013 /* iCap.entitlements */,
@@ -162,6 +178,7 @@
 			name = iCap;
 			packageProductDependencies = (
 				5C4A083F2B6760E80046B005 /* SwiftUIX */,
+				5CC56DCF2BDBA0C100CFEEAB /* KeyboardShortcuts */,
 			);
 			productName = iCap;
 			productReference = 5CF3D9812B63B25B00753013 /* iCap.app */;
@@ -193,6 +210,7 @@
 			mainGroup = 5CF3D9782B63B25B00753013;
 			packageReferences = (
 				5C4A083E2B6760E80046B005 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
+				5CC56DCE2BDBA0C100CFEEAB /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			productRefGroup = 5CF3D9822B63B25B00753013 /* Products */;
 			projectDirPath = "";
@@ -220,18 +238,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CA3C1A02BCCC96200ED3A48 /* AppDelegate.swift in Sources */,
+				5C3F2E9C2BDE2F4C00157333 /* ScreenshotView.swift in Sources */,
 				5C3456592B69EB4300278BF2 /* SettingsView.swift in Sources */,
+				5CC56DD42BDBA9D000CFEEAB /* SCContext.swift in Sources */,
 				5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */,
 				5C34565E2B69ECA300278BF2 /* AdvancedSettingsView.swift in Sources */,
 				5C4C13432B67C793001B66D2 /* MyContextMenuView.swift in Sources */,
 				5CF3D9892B63B25C00753013 /* Item.swift in Sources */,
 				5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */,
+				5CC56DD62BDC176600CFEEAB /* ActionBar.swift in Sources */,
 				5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */,
+				5C9BE1BE2BDE707800FE56BD /* ImageDrawView.swift in Sources */,
 				5C4C133F2B67BEDA001B66D2 /* MyCustomMenu.swift in Sources */,
 				5C34565B2B69EC2900278BF2 /* GeneralSettingsView.swift in Sources */,
 				5C4C13412B67C6F5001B66D2 /* MyContextMenuController.swift in Sources */,
 				5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */,
+				5CC56DD22BDBA1F300CFEEAB /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +384,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = iCap/iCap.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
@@ -372,6 +395,7 @@
 				DEVELOPMENT_TEAM = 4L3563XCBN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iCap/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iCap;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -395,6 +419,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = iCap/iCap.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
@@ -405,6 +430,7 @@
 				DEVELOPMENT_TEAM = 4L3563XCBN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iCap/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iCap;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -454,6 +480,14 @@
 				minimumVersion = 0.1.9;
 			};
 		};
+		5CC56DCE2BDBA0C100CFEEAB /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -461,6 +495,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5C4A083E2B6760E80046B005 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
 			productName = SwiftUIX;
+		};
+		5CC56DCF2BDBA0C100CFEEAB /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5CC56DCE2BDBA0C100CFEEAB /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

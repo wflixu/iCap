@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>com.apple.security.app-sandbox</key>
-	<false/>
+    <key>NSScreenCaptureUsageDescription</key>
+    <string>您的应用需要访问屏幕录制才能截取屏幕</string>
 </dict>
 </plist>
