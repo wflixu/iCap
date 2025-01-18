@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,19 +12,17 @@
 		5C34565E2B69ECA300278BF2 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C34565D2B69ECA300278BF2 /* AdvancedSettingsView.swift */; };
 		5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456602B69EDDB00278BF2 /* StatusMenu.swift */; };
 		5C3F2E9C2BDE2F4C00157333 /* ScreenshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */; };
-		5C4A08402B6760E80046B005 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 5C4A083F2B6760E80046B005 /* SwiftUIX */; };
-		5C4C133F2B67BEDA001B66D2 /* MyCustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4C133E2B67BEDA001B66D2 /* MyCustomMenu.swift */; };
-		5C4C13412B67C6F5001B66D2 /* MyContextMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4C13402B67C6F5001B66D2 /* MyContextMenuController.swift */; };
-		5C4C13432B67C793001B66D2 /* MyContextMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4C13422B67C793001B66D2 /* MyContextMenuView.swift */; };
+		5C6D55F72D3B5FB000DD2979 /* OverlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */; };
 		5C9BE1BE2BDE707800FE56BD /* ImageDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */; };
+		5C9BE1C12BDEA62800FE56BD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BE1C02BDEA62800FE56BD /* Model.swift */; };
 		5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */; };
-		5CC56DD02BDBA0C100CFEEAB /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 5CC56DCF2BDBA0C100CFEEAB /* KeyboardShortcuts */; };
 		5CC56DD22BDBA1F300CFEEAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC56DD12BDBA1F300CFEEAB /* Constants.swift */; };
 		5CC56DD42BDBA9D000CFEEAB /* SCContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */; };
 		5CC56DD62BDC176600CFEEAB /* ActionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC56DD52BDC175F00CFEEAB /* ActionBar.swift */; };
+		5CC92F7B2D3A015300214098 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 5CC92F7A2D3A015300214098 /* KeyboardShortcuts */; };
+		5CC92F7D2D3A06B900214098 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC92F7C2D3A06B000214098 /* AppState.swift */; };
 		5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9842B63B25C00753013 /* iCapApp.swift */; };
 		5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9862B63B25C00753013 /* ContentView.swift */; };
-		5CF3D9892B63B25C00753013 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9882B63B25C00753013 /* Item.swift */; };
 		5CF3D98B2B63B25D00753013 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3D98A2B63B25D00753013 /* Assets.xcassets */; };
 		5CF3D98E2B63B25D00753013 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3D98D2B63B25D00753013 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -60,18 +58,18 @@
 		5C3456602B69EDDB00278BF2 /* StatusMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenu.swift; sourceTree = "<group>"; };
 		5C3F2E9A2BDE11C900157333 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotView.swift; sourceTree = "<group>"; };
-		5C4C133E2B67BEDA001B66D2 /* MyCustomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomMenu.swift; sourceTree = "<group>"; };
-		5C4C13402B67C6F5001B66D2 /* MyContextMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContextMenuController.swift; sourceTree = "<group>"; };
-		5C4C13422B67C793001B66D2 /* MyContextMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContextMenuView.swift; sourceTree = "<group>"; };
+		5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayerView.swift; sourceTree = "<group>"; };
+		5C72E4FA2C78820F00EAA205 /* ScreenCaptureKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenCaptureKit.framework; path = System/Library/Frameworks/ScreenCaptureKit.framework; sourceTree = SDKROOT; };
 		5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDrawView.swift; sourceTree = "<group>"; };
+		5C9BE1C02BDEA62800FE56BD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairView.swift; sourceTree = "<group>"; };
 		5CC56DD12BDBA1F300CFEEAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCContext.swift; sourceTree = "<group>"; };
 		5CC56DD52BDC175F00CFEEAB /* ActionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionBar.swift; sourceTree = "<group>"; };
+		5CC92F7C2D3A06B000214098 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		5CF3D9812B63B25B00753013 /* iCap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF3D9842B63B25C00753013 /* iCapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCapApp.swift; sourceTree = "<group>"; };
 		5CF3D9862B63B25C00753013 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		5CF3D9882B63B25C00753013 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		5CF3D98A2B63B25D00753013 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5CF3D98D2B63B25D00753013 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5CF3D98F2B63B25D00753013 /* iCap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iCap.entitlements; sourceTree = "<group>"; };
@@ -82,8 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C4A08402B6760E80046B005 /* SwiftUIX in Frameworks */,
-				5CC56DD02BDBA0C100CFEEAB /* KeyboardShortcuts in Frameworks */,
+				5CC92F7B2D3A015300214098 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,12 +105,29 @@
 			path = StatusBar;
 			sourceTree = "<group>";
 		};
+		5C72E4F92C78820F00EAA205 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5C72E4FA2C78820F00EAA205 /* ScreenCaptureKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5C9BE1BF2BDEA59100FE56BD /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				5C9BE1C02BDEA62800FE56BD /* Model.swift */,
+			);
+			path = Editor;
+			sourceTree = "<group>";
+		};
 		5CF3D9782B63B25B00753013 = {
 			isa = PBXGroup;
 			children = (
 				5C159EA82BCD367900EF2F06 /* README.md */,
 				5CF3D9832B63B25B00753013 /* iCap */,
 				5CF3D9822B63B25B00753013 /* Products */,
+				5C72E4F92C78820F00EAA205 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,23 +143,22 @@
 			isa = PBXGroup;
 			children = (
 				5C3F2E9A2BDE11C900157333 /* Info.plist */,
+				5CF3D98A2B63B25D00753013 /* Assets.xcassets */,
+				5CF3D98F2B63B25D00753013 /* iCap.entitlements */,
 				5C34565F2B69EDBA00278BF2 /* StatusBar */,
 				5C34565C2B69EC8200278BF2 /* Settings */,
-				5CF3D9842B63B25C00753013 /* iCapApp.swift */,
+				5C9BE1BF2BDEA59100FE56BD /* Editor */,
 				5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */,
 				5CF3D9862B63B25C00753013 /* ContentView.swift */,
 				5CC56DD52BDC175F00CFEEAB /* ActionBar.swift */,
 				5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */,
 				5CC56DD12BDBA1F300CFEEAB /* Constants.swift */,
 				5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */,
-				5CF3D9882B63B25C00753013 /* Item.swift */,
 				5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */,
-				5C4C133E2B67BEDA001B66D2 /* MyCustomMenu.swift */,
-				5CF3D98A2B63B25D00753013 /* Assets.xcassets */,
-				5CF3D98F2B63B25D00753013 /* iCap.entitlements */,
+				5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */,
+				5CC92F7C2D3A06B000214098 /* AppState.swift */,
+				5CF3D9842B63B25C00753013 /* iCapApp.swift */,
 				5CF3D98C2B63B25D00753013 /* Preview Content */,
-				5C4C13402B67C6F5001B66D2 /* MyContextMenuController.swift */,
-				5C4C13422B67C793001B66D2 /* MyContextMenuView.swift */,
 			);
 			path = iCap;
 			sourceTree = "<group>";
@@ -177,8 +190,7 @@
 			);
 			name = iCap;
 			packageProductDependencies = (
-				5C4A083F2B6760E80046B005 /* SwiftUIX */,
-				5CC56DCF2BDBA0C100CFEEAB /* KeyboardShortcuts */,
+				5CC92F7A2D3A015300214098 /* KeyboardShortcuts */,
 			);
 			productName = iCap;
 			productReference = 5CF3D9812B63B25B00753013 /* iCap.app */;
@@ -209,8 +221,7 @@
 			);
 			mainGroup = 5CF3D9782B63B25B00753013;
 			packageReferences = (
-				5C4A083E2B6760E80046B005 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
-				5CC56DCE2BDBA0C100CFEEAB /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				5CC92F792D3A015300214098 /* XCLocalSwiftPackageReference "../../repos/KeyboardShortcuts-main" */,
 			);
 			productRefGroup = 5CF3D9822B63B25B00753013 /* Products */;
 			projectDirPath = "";
@@ -239,19 +250,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C3F2E9C2BDE2F4C00157333 /* ScreenshotView.swift in Sources */,
+				5C6D55F72D3B5FB000DD2979 /* OverlayerView.swift in Sources */,
 				5C3456592B69EB4300278BF2 /* SettingsView.swift in Sources */,
 				5CC56DD42BDBA9D000CFEEAB /* SCContext.swift in Sources */,
 				5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */,
 				5C34565E2B69ECA300278BF2 /* AdvancedSettingsView.swift in Sources */,
-				5C4C13432B67C793001B66D2 /* MyContextMenuView.swift in Sources */,
-				5CF3D9892B63B25C00753013 /* Item.swift in Sources */,
 				5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */,
 				5CC56DD62BDC176600CFEEAB /* ActionBar.swift in Sources */,
 				5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */,
+				5C9BE1C12BDEA62800FE56BD /* Model.swift in Sources */,
+				5CC92F7D2D3A06B900214098 /* AppState.swift in Sources */,
 				5C9BE1BE2BDE707800FE56BD /* ImageDrawView.swift in Sources */,
-				5C4C133F2B67BEDA001B66D2 /* MyCustomMenu.swift in Sources */,
 				5C34565B2B69EC2900278BF2 /* GeneralSettingsView.swift in Sources */,
-				5C4C13412B67C6F5001B66D2 /* MyContextMenuController.swift in Sources */,
 				5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */,
 				5CC56DD22BDBA1F300CFEEAB /* Constants.swift in Sources */,
 			);
@@ -381,13 +391,12 @@
 		5CF3D9932B63B25D00753013 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = iCap/iCap.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -397,13 +406,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iCap/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iCap;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.iCap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -416,31 +426,31 @@
 		5CF3D9942B63B25D00753013 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = iCap/iCap.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iCap/Preview Content\"";
-				DEVELOPMENT_TEAM = 4L3563XCBN;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 4L3563XCBN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iCap/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iCap;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.iCap;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.icap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -471,34 +481,16 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		5C4A083E2B6760E80046B005 /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.9;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		5CC92F792D3A015300214098 /* XCLocalSwiftPackageReference "../../repos/KeyboardShortcuts-main" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../repos/KeyboardShortcuts-main";
 		};
-		5CC56DCE2BDBA0C100CFEEAB /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5C4A083F2B6760E80046B005 /* SwiftUIX */ = {
+		5CC92F7A2D3A015300214098 /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5C4A083E2B6760E80046B005 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
-			productName = SwiftUIX;
-		};
-		5CC56DCF2BDBA0C100CFEEAB /* KeyboardShortcuts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5CC56DCE2BDBA0C100CFEEAB /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
 		};
 /* End XCSwiftPackageProductDependency section */

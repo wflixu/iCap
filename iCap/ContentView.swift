@@ -13,18 +13,14 @@ import KeyboardShortcuts
 import ScreenCaptureKit
 import SwiftData
 import SwiftUI
-import SwiftUIX
 
 struct ContentView: View {
     @AppStorage("imageFormat") private var imageFormat: ImageFormat = .png
     @AppStorage("imageSavePath") private var imageSavePath: String = "/Users/"
-    
+
     @State var showPathPicker: Bool = false
     var body: some View {
         VStack {
-            SettingsLink(label: {
-                /*@START_MENU_TOKEN@*/Text("Settings")/*@END_MENU_TOKEN@*/
-            })
             Form {
                 Section(header: Text("iCap 设置")) {
                     KeyboardShortcuts.Recorder("截屏快捷键:", name: .startScreenShot)
@@ -42,7 +38,7 @@ struct ContentView: View {
 
                                     for dir in dirs {
                                         print(dir.path)
-                                        imageSavePath = dir.path;
+                                        imageSavePath = dir.path
                                     }
 
                                 case .failure(let error):
@@ -51,15 +47,12 @@ struct ContentView: View {
                             }
                         }
                         Spacer()
-                        
+
                         Text(imageSavePath)
                     }
-                    
                 }
             }
             Spacer()
-            
-            ImageDrawView()
         }.frame(width: 800, height: 800)
             .onAppear {
                 initSavePath()
@@ -74,5 +67,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+       
 }

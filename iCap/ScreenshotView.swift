@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 class ScreenshotWindow: NSWindow {
     let overlayView = ScreenshotOverlayView()
 
@@ -19,6 +18,7 @@ class ScreenshotWindow: NSWindow {
         self.backgroundColor = NSColor.clear
         self.collectionBehavior = [.canJoinAllSpaces, .fullScreenPrimary]
         self.isReleasedWhenClosed = false
+
         self.contentView = overlayView
         NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown, handler: myKeyDownEvent)
     }
@@ -32,28 +32,8 @@ class ScreenshotWindow: NSWindow {
         }
         return event
     }
-    
-    func showActionBar() {
-        guard let screen = SCContext.getScreenWithMouse() else { return }
-        let wX = (screen.frame.width - 510) / 2
-        let wY = screen.visibleFrame.minY + 36
-        var window = NSWindow()
-        let contentView = NSHostingView(rootView: ActionBar())
-        contentView.frame = NSRect(x: wX, y: wY, width: 510, height: 36)
-        print("--- \(contentView.frame.height) ww\(contentView.frame.width)")
-        window = NSWindow(contentRect: contentView.frame, styleMask: [], backing: .buffered, defer: false)
-        window.level = .screenSaver
-        window.title = WindowTitle.actionbar.desc
-        window.standardWindowButton(.closeButton)?.isHidden = true
-        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
-        window.standardWindowButton(.zoomButton)?.isHidden = true
-        window.contentView = contentView
-        window.titleVisibility = .hidden
-        window.isReleasedWhenClosed = false
-        window.titlebarAppearsTransparent = true
-        window.isMovableByWindowBackground = true
-        window.makeKeyAndOrderFront(self)
-    }
+
+
 }
 
 class ScreenshotOverlayView: NSView {
@@ -65,7 +45,7 @@ class ScreenshotOverlayView: NSView {
     var lastMouseLocation: NSPoint?
 
     let controlPointSize: CGFloat = 10.0
-    let controlPointColor: NSColor = NSColor.systemYellow
+    let controlPointColor: NSColor = .systemYellow
 
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
@@ -75,9 +55,16 @@ class ScreenshotOverlayView: NSView {
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-
-        NSColor.black.withAlphaComponent(0.5).setFill()
+        print("dirty react: \(dirtyRect.width) - \(dirtyRect.height) -- \(dirtyRect.minX) -- \(dirtyRect.minY)")
+        NSColor.clear.withAlphaComponent(0.1).setFill()
         dirtyRect.fill()
+        
+        guard let image = SCContext.screenImage // 你的 CGImage 对象
+        else { return }
+        if let context = NSGraphicsContext.current?.cgContext {
+            context.draw(image, in: bounds)
+        }
+        NSCursor.crosshair.set()
 
         // Draw selection rectangle
         if let rect = selectionRect {
@@ -87,7 +74,7 @@ class ScreenshotOverlayView: NSView {
             dashedBorder.setLineDash(dashPattern, count: 2, phase: 0.0)
             NSColor.white.setStroke()
             dashedBorder.stroke()
-            NSColor.init(white: 1, alpha: 0.01).setFill()
+            NSColor(white: 1, alpha: 0.01).setFill()
             __NSRectFill(rect)
             // Draw control points
             for handle in ResizeHandle.allCases {
@@ -100,6 +87,7 @@ class ScreenshotOverlayView: NSView {
             }
         }
     }
+
 //
     func handleForPoint(_ point: NSPoint) -> ResizeHandle {
         guard let rect = selectionRect else { return .none }
@@ -142,6 +130,7 @@ class ScreenshotOverlayView: NSView {
         activeHandle = handleForPoint(location)
         if let rect = selectionRect, NSPointInRect(location, rect) { dragIng = true }
         needsDisplay = true
+       
         SCContext.closeActionbarWindow()
     }
 
@@ -149,7 +138,6 @@ class ScreenshotOverlayView: NSView {
         guard var initialLocation = initialLocation else { return }
         let currentLocation = convert(event.locationInWindow, from: nil)
         if activeHandle != .none {
-
             // Calculate new rectangle size and position
             var newRect = selectionRect ?? CGRect.zero
 
@@ -189,7 +177,7 @@ class ScreenshotOverlayView: NSView {
             default:
                 break
             }
-            self.selectionRect = newRect
+            selectionRect = newRect
             initialLocation = currentLocation // Update initial location for continuous dragging
             lastMouseLocation = currentLocation // Update last mouse location
         } else {
@@ -200,26 +188,27 @@ class ScreenshotOverlayView: NSView {
                 let deltaY = currentLocation.y - initialLocation.y
 
                 // 更新矩形位置
-                let x = self.selectionRect?.origin.x
-                let y = self.selectionRect?.origin.y
-                let w = self.selectionRect?.size.width
-                let h = self.selectionRect?.size.height
-                self.selectionRect?.origin.x = min(max(0.0, x! + deltaX), self.frame.width - w!)
-                self.selectionRect?.origin.y = min(max(0.0, y! + deltaY), self.frame.height - h!)
+                let x = selectionRect?.origin.x
+                let y = selectionRect?.origin.y
+                let w = selectionRect?.size.width
+                let h = selectionRect?.size.height
+                selectionRect?.origin.x = min(max(0.0, x! + deltaX), frame.width - w!)
+                selectionRect?.origin.y = min(max(0.0, y! + deltaY), frame.height - h!)
                 initialLocation = currentLocation
             } else {
-                //dragIng = false
+                // dragIng = false
                 // 创建新矩形
                 let origin = NSPoint(x: min(initialLocation.x, currentLocation.x), y: min(initialLocation.y, currentLocation.y))
                 let size = NSSize(width: abs(currentLocation.x - initialLocation.x), height: abs(currentLocation.y - initialLocation.y))
-                self.selectionRect = NSRect(origin: origin, size: size)
-                //initialLocation = currentLocation
+                selectionRect = NSRect(origin: origin, size: size)
+                // initialLocation = currentLocation
             }
             self.initialLocation = initialLocation
         }
         lastMouseLocation = currentLocation
         needsDisplay = true
     }
+
 //
     override func mouseUp(with event: NSEvent) {
         initialLocation = nil
@@ -227,20 +216,18 @@ class ScreenshotOverlayView: NSView {
         dragIng = false
         if let rect = selectionRect {
             SCContext.screenArea = rect
-           
-            
+
             Task {
                 try await Task.sleep(nanoseconds: UInt64(1.0 * 1e8))
                 showActionBar(rect)
             }
-            
-            //let rectArray = [Int(rect.origin.x), Int(rect.origin.y), Int(rect.size.width), Int(rect.size.height)]
-            //ud.setValue(rectArray, forKey: "screenArea")
+
+            // let rectArray = [Int(rect.origin.x), Int(rect.origin.y), Int(rect.size.width), Int(rect.size.height)]
+            // ud.setValue(rectArray, forKey: "screenArea")
         }
     }
-    
+
     func showActionBar(_ ns: NSRect?) {
-        
         var window = NSWindow()
         let contentView = NSHostingView(rootView: ActionBar())
         contentView.frame = SCContext.getActionBarPosition(ns)
@@ -257,6 +244,28 @@ class ScreenshotOverlayView: NSView {
         window.isMovableByWindowBackground = true
         window.makeKeyAndOrderFront(self)
     }
+    
+    //    func showActionBar() {
+    //        guard let screen = SCContext.getScreenWithMouse() else { return }
+    //        let wX = (screen.frame.width - 510) / 2
+    //        let wY = screen.visibleFrame.minY + 36
+    //        var window = NSWindow()
+    //        let contentView = NSHostingView(rootView: ActionBar())
+    //        contentView.frame = NSRect(x: wX, y: wY, width: SCContext.screenArea?.width ?? 536, height: 36)
+    //        print("--- \(contentView.frame.height) ww\(contentView.frame.width)")
+    //        window = NSWindow(contentRect: contentView.frame, styleMask: [], backing: .buffered, defer: false)
+    //        window.level = .screenSaver
+    //        window.title = WindowTitle.actionbar.desc
+    //        window.standardWindowButton(.closeButton)?.isHidden = true
+    //        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+    //        window.standardWindowButton(.zoomButton)?.isHidden = true
+    //        window.contentView = contentView
+    //        window.titleVisibility = .hidden
+    //        window.isReleasedWhenClosed = false
+    //        window.titlebarAppearsTransparent = true
+    //        window.isMovableByWindowBackground = true
+    //        window.makeKeyAndOrderFront(self)
+    //    }
 }
 
 #Preview {

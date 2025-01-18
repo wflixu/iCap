@@ -33,16 +33,44 @@ enum SCContext {
             w.close()
         }
     }
+
     static func showMainWindow() {
-        for w in NSApplication.shared.windows.filter({ $0.title == "iCap" }) {
-            print("the window \(w.title) will show")
-            w.makeKeyAndOrderFront(nil)
+        print("showMainWindow ")
+        for w in NSApplication.shared.windows {
+            print("the window \(w.title)-- will show")
+
+            switch w.title {
+                case "iCap":
+                    print("start show window")
+                case "Connection Doctor":
+//                    w.level = .floating
+                    w.makeKeyAndOrderFront(nil)
+
+//                    NotificationCenter.default.addObserver(
+//                        forName: NSWindow.didResignKeyNotification,
+//                        object: w,
+//                        queue: .main
+//                    ) { _ in
+//                        // 窗口失去焦点时，恢复为 .normal
+//                        w.level = .normal
+//                    }
+                default:
+                    print("no action at window: \(w.title) ")
+            }
+//            if w.title == "iCap" {
+//                print("start show window")
+//
+            ////                w.windowController?.showWindow(nil)
+//
+//            } else {
+//                w.level = .floating
+//                w.makeKeyAndOrderFront(nil)
+//            }
         }
     }
-    
+
     static func showAreaSelectWindow() {
         guard let screen = SCContext.getScreenWithMouse() else { return }
-
         let screenshotWindow = ScreenshotWindow(contentRect: screen.frame, styleMask: [], backing: .buffered, defer: false)
         screenshotWindow.title = WindowTitle.overlay.desc
         screenshotWindow.makeKeyAndOrderFront(nil)
@@ -52,15 +80,23 @@ enum SCContext {
     static func getActionBarPosition(_ select: NSRect?) -> NSRect {
         if let screen = SCContext.getScreenWithMouse() {
             if let screenArea = select {
-                return NSRect(x: screenArea.minX, y: screenArea.minY - 36, width: screenArea.width, height: 36)
+                print("screenArea ----\(screenArea) ")
+                return NSRect(x: screenArea.minX, y: screenArea.minY - 46, width: screenArea.width, height: 36)
             } else {
                 let wX = (screen.frame.width - 510) / 2
                 let wY = screen.visibleFrame.minY + 36
                 return NSRect(x: wX, y: wY, width: 510, height: 36)
             }
         } else {
+            print("----")
             return NSRect()
         }
+    }
+
+    static func getImageSavePath() -> String {
+        // 读取 UserDefaults 中存储的路径
+        let savePath = UserDefaults.standard.string(forKey: "imageSavePath") ?? "/Users/"
+        return savePath
     }
 
     static func getScreenImage() async throws -> CGImage {
@@ -90,7 +126,7 @@ enum SCContext {
         }
     }
 
-    static func saveImage(_ to: ImageSaveTo = .pasteboard) {
+    static func saveImage(_ to: ImageSaveTo = .pasteboard) -> Data? {
         if let rect = SCContext.screenArea, let cgimage = SCContext.screenImage {
             print("rect\(rect.height) \(rect.width) x:\(rect.minX) y: \(rect.minY)  origin:\(rect.origin.x) \(rect.origin.y)")
             print("cgimg\(cgimage.height) \(cgimage.width)")
@@ -99,16 +135,13 @@ enum SCContext {
             let newimg = cgimage.cropping(to: clipRect)!
             let bitmap = NSBitmapImageRep(cgImage: newimg)
             let pngData = bitmap.representation(using: .png, properties: [:])
-            let filePath = "/Users/lixu/Desktop/" + Util.getDatetimeFileName()
+//            let filePath = SCContext.getImageSavePath() + "/" + Util.getDatetimeFileName()
 
             if let data = pngData {
                 if to == .file {
-                    do {
-                        try data.write(to: URL(fileURLWithPath: filePath))
-                        print("Image saved successfully at: \(filePath)")
-                    } catch {
-                        print("Error saving image: \(error)")
-                    }
+                    // 获取应用沙盒的 Documents 目录
+
+                    return data
                 } else {
                     let pb = NSPasteboard.general
                     pb.clearContents()
@@ -121,6 +154,8 @@ enum SCContext {
         } else {
             print("screenArea,cgimage  not ")
         }
+
+        return nil
     }
 }
 

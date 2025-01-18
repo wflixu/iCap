@@ -1,0 +1,4 @@
+project: iCap.xcodeproj
+retain_public: true
+schemes:
+- iCap

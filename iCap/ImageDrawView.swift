@@ -8,6 +8,47 @@
 import AppKit
 import Foundation
 import SwiftUI
+import Observation
+
+// 定义共享数据类，符合 Observable 协议
+@Observable
+class SharedData {
+    var message: String = "Hello, World!"
+}
+
+struct ParentView: View {
+    @State private var sharedData = SharedData() // 使用 @State 来管理共享数据对象
+
+    var body: some View {
+        VStack {
+            Text("Parent View: \(sharedData.message)")
+            ChildView(sharedData: sharedData) // 将共享数据对象传递给子视图
+            
+            Button("start message") {
+                sharedData.message = "message from parent"
+            }
+        }
+        .padding()
+        .border(Color.red, width: 2)
+    }
+}
+
+struct ChildView: View {
+    var sharedData: SharedData // 引用传递的共享数据对象
+
+    var body: some View {
+        VStack {
+            Text("Child View: \(sharedData.message)")
+            Button(action: {
+                sharedData.message = "Message Changed from Child!" // 修改共享数据对象的属性
+            }) {
+                Text("Change Message")
+            }
+        }
+        .border(Color.blue, width: 2)
+    }
+}
+
 
 struct ImageDrawView: View {
     @State private var showImport: Bool = false
@@ -16,6 +57,19 @@ struct ImageDrawView: View {
     
     var body: some View {
         VStack {
+            HStack {
+                Canvas { context, size in
+                    context.stroke(
+                        Path(ellipseIn: CGRect(origin: .zero, size: size)),
+                        with: .color(.green),
+                        lineWidth: 4)
+                }
+                .frame(width: 300, height: 200)
+                .border(Color.blue)
+            }
+            HStack {
+                ParentView()
+            }
             HStack {
                 Button("load image") {
                     showImport = true
