@@ -27,7 +27,7 @@ enum LineWidth: CGFloat {
     case thick = 5.0
 }
 
-struct ColorPreset {
+enum ColorPreset {
     static let red = NSColor(red: 1, green: 0, blue: 0, alpha: 1)
     static let green = NSColor(red: 0, green: 1, blue: 0, alpha: 1)
     static let blue = NSColor(red: 0, green: 0, blue: 1, alpha: 1)
@@ -37,48 +37,57 @@ struct ColorPreset {
 
 extension NSBitmapImageRep.FileType {
     var desc: String {
-           switch self {
-               case .png:
-                   ".png"
-               case .jpeg:
-                   ".jpeg"
-               default:
-                    ""
-           }
-       }
+        switch self {
+            case .png:
+                ".png"
+            case .jpeg:
+                ".jpeg"
+            default:
+                ""
+        }
+    }
 }
 
-enum ImageSaveTo:String {
+enum ImageSaveTo: String {
     case file, pasteboard
 }
 
-enum WindowTitle:String {
-    case overlay, actionbar
-    
+enum WindowTitle: String {
+    case overlay, actionbar, overlayer
+
     var desc: String {
         switch self {
             case .overlay:
                 "Area Selector"
+            case .overlayer:
+                "Overlayer"
             case .actionbar:
                 "Action Bar"
-                
+        }
+    }
+}
+
+enum AppWinsInfo: String {
+    case overlayer, main
+
+    var desc: String {
+        switch self {
+            case .overlayer:
+                "Overlayer"
+            case .main:
+                "iCap"
+        }
+    }
+
+    var id: String {
+        switch self {
+            case .overlayer:
+                "overlayer"
+            case .main:
+                "main"
         }
     }
 }
 
 enum ImageFormat: String { case png, jpeg }
 
-
-class Util {
-    static func getDatetimeFileName(_ type: NSBitmapImageRep.FileType = .png) -> String {
- 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
-
-        let now = Date()
-        let timestampAndDateString = formatter.string(from: now)
-
-       
-        return  timestampAndDateString + type.desc
-    }
-}

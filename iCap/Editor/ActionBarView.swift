@@ -1,8 +1,8 @@
 //
-//  AreaSelector.swift
+//  ActionBarView.swift
 //  iCap
 //
-//  Created by 李旭 on 2024/4/27.
+//  Created by 李旭 on 2025/3/29.
 //
 
 import AppKit
@@ -10,13 +10,18 @@ import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct ActionBar: View {
+struct ActionBarView: View {
+    @AppLog(category: "ActionBarView")
+    private var logger
+    
     @State private var showSelectPath = false
 
     @State private var isShowingFileExporter = false
 
     @AppStorage("imageFormat") private var imageFormat: ImageFormat = .png
     @AppStorage("imageSavePath") private var imageSavePath: String = "/Users/"
+
+    @EnvironmentObject var store: AppState
 
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
@@ -33,30 +38,25 @@ struct ActionBar: View {
     }
 
     func onSave() {
-        let _data = SCContext.saveImage()
+        _ = SCContext.saveImage()
         SCContext.closeWindows()
     }
 
     func onSaveFile() {
-        if let imageData = SCContext.saveImage(.file) {
-            let savePanel = NSSavePanel()
-            savePanel.allowedContentTypes = [.png]
-            savePanel.nameFieldStringValue = Util.getDatetimeFileName()
+        SCContext.setOverlayWindowLevel(.normal)
 
-            savePanel.begin { result in
-                if result == .OK, let url = savePanel.url {
-                    do {
-                        try imageData.write(to: url)
-                        print("Image saved successfully at: \(url.path)")
-                    } catch {
-                        print("Error saving image: \(error.localizedDescription)")
-                    }
-                } else {
-                    print("Save operation canceled by the user.")
-                }
+        if let imageData = SCContext.saveImage(.file) {
+            
+            let url = URL(fileURLWithPath: imageSavePath).appendingPathComponent(Util.getDatetimeFileName()).appendingPathExtension(imageFormat.rawValue)
+            logger.info("Saving image to: \(url.path)")
+            do {
+                try imageData.write(to: url)
+                print("Image saved successfully at: \(url.path)")
+            } catch {
+                print("Error saving image: \(error.localizedDescription)")
             }
+            store.setIsShow(false)
         }
-        SCContext.closeWindows()
     }
 }
 
@@ -70,5 +70,5 @@ enum ResizeHandle: CaseIterable {
 }
 
 #Preview {
-    ActionBar()
+    ActionBarView()
 }

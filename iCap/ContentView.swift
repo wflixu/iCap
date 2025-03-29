@@ -14,80 +14,126 @@ import ScreenCaptureKit
 import SwiftData
 import SwiftUI
 
-struct ContentView: View {
-    @AppStorage("imageFormat") private var imageFormat: ImageFormat = .png
-    @AppStorage("imageSavePath") private var imageSavePath: String = "/Users/"
+enum Tabs: String, CaseIterable, Identifiable {
+    case general = "General"
+    case about = "About"
 
-    @State var showPathPicker: Bool = false
-    var body: some View {
-        VStack {
-            Form {
-                Section(header: Text("iCap 设置")) {
-                    KeyboardShortcuts.Recorder("截屏快捷键:", name: .startScreenShot)
-                    // KeyboardShortcuts.Recorder("立即截屏:", name: .takeScreenshot)
-                    Picker("保存图片格式", selection: $imageFormat) {
-                        Text("png").tag(ImageFormat.png)
-                        Text("jpeg").tag(ImageFormat.jpeg)
-                    }.padding([.leading, .trailing, .bottom], 10)
-                    HStack {
-                        Button("图片保存路径") {
-                            showPathPicker = true
-                        }.fileImporter(isPresented: $showPathPicker, allowedContentTypes: [.directory], allowsMultipleSelection: false) { result in
+    var id: String { self.rawValue }
 
-                            switch result {
-                                case .success(let dirs):
-
-                                    for dir in dirs {
-                                        print(dir.path)
-                                        imageSavePath = dir.path
-                                    }
-
-                                case .failure(let error):
-                                    // handle error
-                                    print(error)
-                            }
-                        }
-                        Spacer()
-
-                        Text(imageSavePath)
-                    }
-                }
-            }
-            Spacer()
-            HStack {
-                Button("矩形") {
-                    // 触发矩形绘制模式
-                }
-                Button("箭头") {
-                    // 触发箭头绘制模式
-                }
-                Button("文字") {
-                    // 触发文字标注模式
-                }
-            }
-            Button("截图") {
-                Task {
-                    do {
-                        try await SCContext.getScreenImage()
-                        SCContext.showAreaSelectWindow()
-                    } catch {
-                        print("截图失败: \(error)")
-                    }
-                }
-            }
-        }.frame(width: 800, height: 800)
-            .onAppear {
-                initSavePath()
-            }
+    var icon: String {
+        switch self {
+        case .general: "slider.horizontal.2.square"
+        case .about: "exclamationmark.circle"
+        }
     }
 
-    func initSavePath() {
-        let home = URL.homeDirectory
-        imageSavePath = home.path + "/Desktop"
+    var title: String {
+        switch self {
+        case .general: "General Settings"
+        case .about: "About"
+        }
+    }
+}
+
+struct ContentView: View {
+    @Environment(\.openWindow) private var openWindow
+
+    @State private var selectedTab: Tabs = .general
+    @EnvironmentObject var appState: AppState
+
+    var body: some View {
+        NavigationSplitView {
+            self.sidebar
+        } detail: {
+            self.detailView
+        }
+        .navigationTitle(LocalizedStringKey(selectedTab.title))
+            
+    }
+
+    @ViewBuilder
+    private var sidebar: some View {
+        Section {
+            Divider()
+            List(selection: self.$selectedTab) {
+                ForEach(Tabs.allCases, id: \.self) { tab in
+                    HStack {
+                        // 使用固定大小的frame来确保图标大小一致
+                        Label {
+                            Text(LocalizedStringKey(tab.rawValue))
+                                .font(.title2)
+                        } icon: {
+                            Image(systemName: tab.icon)
+                                .font(.title2)
+                                .frame(width: 24, height: 24)
+                        }
+                        .padding(.all, 8)
+                        .labelStyle(.titleAndIcon)
+                        Spacer(minLength: 0)
+                    }
+                    .onTapGesture {
+                        self.selectedTab = tab
+                    }
+                }
+            }
+            .listStyle(SidebarListStyle())
+            .scrollDisabled(true)
+            .navigationSplitViewColumnWidth(210)
+        } header: {
+            //  App Icon 部分
+            VStack {
+                HStack {
+                    Spacer()
+                    Image("Logo")
+                        .resizable()
+                        .frame(width: 64, height: 64)
+                    Spacer()
+                }
+                HStack(alignment: .bottom) {
+                    Spacer()
+                    Text("iCap").font(.title)
+                    Text("\(self.getAppVersion())")
+                    Spacer()
+                }
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 24)
+        }
+        .removeSidebarToggle()
+    }
+
+    @ViewBuilder var detailView: some View {
+        // 右侧内容
+        Group {
+            switch self.selectedTab {
+            case .general:
+                GeneralTabView()
+            case .about:
+                AboutTabView()
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
+    }
+
+    func getAppVersion() -> String {
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            return version
+        }
+        return "Unknown"
+    }
+}
+
+extension View {
+    /// Removes the sidebar toggle button from the toolbar.
+    func removeSidebarToggle() -> some View {
+        toolbar(removing: .sidebarToggle)
+            .toolbar {
+                Color.clear
+            }
     }
 }
 
 #Preview {
     ContentView()
-       
 }

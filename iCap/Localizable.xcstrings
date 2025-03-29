@@ -1,0 +1,137 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@" : {
+
+    },
+    "%@（%@）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@（%2$@）"
+          }
+        }
+      }
+    },
+    "About" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关于"
+          }
+        }
+      }
+    },
+    "Advanced" : {
+
+    },
+    "App Menu Bar Extra" : {
+
+    },
+    "Change Message" : {
+
+    },
+    "Child View: %@" : {
+
+    },
+    "Font Size (%.0f pts)" : {
+
+    },
+    "General" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用"
+          }
+        }
+      }
+    },
+    "General Settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用配置"
+          }
+        }
+      }
+    },
+    "Hello, World!" : {
+
+    },
+    "iCap" : {
+
+    },
+    "iCap is a powerful screen capture and recording tool for macOS, featuring instant screenshot capabilities, screen recording, and easy sharing options." : {
+
+    },
+    "jpeg" : {
+
+    },
+    "load image" : {
+
+    },
+    "Parent View: %@" : {
+
+    },
+    "png" : {
+
+    },
+    "Quit" : {
+
+    },
+    "Save" : {
+
+    },
+    "Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置"
+          }
+        }
+      }
+    },
+    "Show" : {
+
+    },
+    "Show Previews" : {
+
+    },
+    "Start" : {
+
+    },
+    "start message" : {
+
+    },
+    "保存图片格式" : {
+
+    },
+    "取消" : {
+
+    },
+    "图片保存路径" : {
+
+    },
+    "截图" : {
+
+    },
+    "截屏快捷键:" : {
+
+    },
+    "操作" : {
+
+    },
+    "添加性质" : {
+
+    }
+  },
+  "version" : "1.0"
+}

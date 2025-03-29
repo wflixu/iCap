@@ -5,13 +5,12 @@
 //  Created by 李旭 on 2025/1/17.
 //
 
+import AppKit
 import Combine
 import KeyboardShortcuts
-import AppKit
 
 @MainActor
 class AppState: ObservableObject {
-    
     @AppLog(category: "AppState")
     private var logger
     
@@ -22,34 +21,36 @@ class AppState: ObservableObject {
     var isShow: Bool = false
     
     init() {
-        KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
-            print("------\(self.self)")
-            self.takeScreenShot()
-        }
+//        KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
+//            print("------\(self.self)")
+//            self.takeScreenShot()
+//        }
     }
     
-    static var share  = AppState()
+    static var share = AppState()
+    
     @MainActor
     func takeScreenShot() {
         print("takeScreenShot")
         Task {
-            if let _res = try? await SCContext.getScreenImage() {
-                logger.info("takeScreenShot success")
+            if (try? await SCContext.getScreenImage()) != nil {
+                self.logger.info("takeScreenShot success")
             }
         }
     }
-    func showOverlayer() {
-        print("start show overlayer")
-        self.isShow = true
-        // 打开 id 为 overlayer 的窗口
-        NSApplication.shared.windows.forEach { nsw in
-            print("the window: \(nsw.title)")
-        }
+
+    func setIsShow(_ isShow: Bool) {
+        self.logger.info("start show overlayer")
+        self.isShow = isShow
+    }
+    
+    func hideOverlayerWin() {
+        print("start hide overlayer")
+        self.isShow = false
         if let window = NSApplication.shared.windows.first(where: { $0.title == "Item-0" }) {
-            window.level = .screenSaver
-            window.makeKeyAndOrderFront(nil)
-        }else {
-            print("start show overlayer failed")
+            window.close()
+        } else {
+            print("hide overlayer failed - window not found")
         }
     }
 }

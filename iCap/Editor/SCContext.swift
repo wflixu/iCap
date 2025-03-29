@@ -12,7 +12,7 @@ import Foundation
 import ScreenCaptureKit
 import UserNotifications
 
-enum SCContext {
+class SCContext {
     static var screenImage: CGImage?
     static var screenArea: NSRect?
 
@@ -25,6 +25,18 @@ enum SCContext {
     static func closeWindows() {
         for w in NSApplication.shared.windows.filter({ $0.title == WindowTitle.actionbar.desc || $0.title == WindowTitle.overlay.desc }) {
             w.close()
+        }
+    }
+
+    static func closeOverlayWindow() {
+        for w in NSApplication.shared.windows.filter({ $0.title == AppWinsInfo.overlayer.desc }) {
+            w.close()
+        }
+    }
+    
+    static func setOverlayWindowLevel(_ level: NSWindow.Level) {
+        for w in NSApplication.shared.windows.filter({ $0.title == AppWinsInfo.overlayer.desc }) {
+            w.level = level
         }
     }
 
@@ -42,6 +54,7 @@ enum SCContext {
             switch w.title {
                 case "iCap":
                     print("start show window")
+
                 case "Connection Doctor":
 //                    w.level = .floating
                     w.makeKeyAndOrderFront(nil)
@@ -69,13 +82,7 @@ enum SCContext {
         }
     }
 
-    static func showAreaSelectWindow() {
-        guard let screen = SCContext.getScreenWithMouse() else { return }
-        let screenshotWindow = ScreenshotWindow(contentRect: screen.frame, styleMask: [], backing: .buffered, defer: false)
-        screenshotWindow.title = WindowTitle.overlay.desc
-        screenshotWindow.makeKeyAndOrderFront(nil)
-        screenshotWindow.orderFrontRegardless()
-    }
+    static func showAreaSelectWindow() {}
 
     static func getActionBarPosition(_ select: NSRect?) -> NSRect {
         if let screen = SCContext.getScreenWithMouse() {
@@ -104,17 +111,17 @@ enum SCContext {
         guard CGPreflightScreenCaptureAccess() else {
             throw AppError.permissionDenied
         }
-        
+
         let availableContent = try await SCShareableContent.current
-        
+
         guard let display = availableContent.displays.first else {
             throw AppError.noDisplayFound
         }
-        
+
         let contentFilter = SCContentFilter(display: display,
-                                          excludingApplications: [], 
-                                          exceptingWindows: [])
-        
+                                            excludingApplications: [],
+                                            exceptingWindows: [])
+
         let configuration = SCStreamConfiguration()
         if let screen = getScreenWithMouse() {
             configuration.width = Int(screen.frame.width * screen.backingScaleFactor)
@@ -123,7 +130,7 @@ enum SCContext {
             configuration.pixelFormat = kCVPixelFormatType_32BGRA
             configuration.showsCursor = true
         }
-        
+
         do {
             let image = try await SCScreenshotManager.captureImage(
                 contentFilter: contentFilter,

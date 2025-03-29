@@ -229,7 +229,7 @@ class ScreenshotOverlayView: NSView {
 
     func showActionBar(_ ns: NSRect?) {
         var window = NSWindow()
-        let contentView = NSHostingView(rootView: ActionBar())
+        let contentView = NSHostingView(rootView: ActionBarView())
         contentView.frame = SCContext.getActionBarPosition(ns)
         window = NSWindow(contentRect: contentView.frame, styleMask: [], backing: .buffered, defer: false)
         window.level = .screenSaver

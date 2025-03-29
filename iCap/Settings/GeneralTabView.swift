@@ -1,0 +1,91 @@
+//
+//  GeneralTabView.swift
+//  iCap
+//
+//  Created by 李旭 on 2025/3/29.
+//
+
+import SwiftUI
+
+import AppKit
+import AVFoundation
+import CoreImage
+import Foundation
+import KeyboardShortcuts
+import ScreenCaptureKit
+import SwiftData
+
+struct GeneralTabView: View {
+    @AppLog(category: "iCapApp")
+    private var logger
+
+    @AppStorage("imageFormat") private var imageFormat: ImageFormat = .png
+    @AppStorage("imageSavePath") private var imageSavePath: String = Util.getDesktopPath()
+    @State var showPathPicker: Bool = false
+
+    @Environment(\.openWindow) private var openWindow
+
+    var body: some View {
+        VStack {
+            Section {
+                Form {
+                    KeyboardShortcuts.Recorder("截屏快捷键:", name: .startScreenShot)
+                    // KeyboardShortcuts.Recorder("立即截屏:", name: .takeScreenshot)
+                    Picker("保存图片格式", selection: $imageFormat) {
+                        Text("png").tag(ImageFormat.png)
+                        Text("jpeg").tag(ImageFormat.jpeg)
+                    }.padding([.leading, .trailing, .bottom], 10)
+                    HStack {
+                        Button("图片保存路径") {
+                            showPathPicker = true
+                        }.fileImporter(isPresented: $showPathPicker, allowedContentTypes: [.directory], allowsMultipleSelection: false) { result in
+
+                            switch result {
+                                case .success(let dirs):
+
+                                    for dir in dirs {
+                                        // 进入安全范围
+                                        let success = dir.startAccessingSecurityScopedResource()
+                                        if success {
+                                            // 完成后释放资源
+                                            logger.info("startAccessingSecurityScopedResource success")
+                                            //                            folderURL.stopAccessingSecurityScopedResource()
+                                        } else {
+                                            logger.warning("fail access scope \(dir.path)")
+                                        }
+                                        print(dir.path)
+                                        // 获取bookmark 权限
+                                        imageSavePath = dir.path
+                                    }
+
+                                case .failure(let error):
+                                    // handle error
+                                    print(error)
+                            }
+                        }
+                        Spacer()
+
+                        Text(imageSavePath)
+                    }
+                }
+            }
+            .padding([.top], 40)
+            Spacer()
+
+            Button("截图") {
+                Task {
+                    do {
+                        try await SCContext.getScreenImage()
+                        openWindow(id: "overlayer")
+                    } catch {
+                        print("截图失败: \(error)")
+                    }
+                }
+            }
+        }
+    }
+}
+
+#Preview {
+    GeneralTabView()
+}
