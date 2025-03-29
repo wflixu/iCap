@@ -13,6 +13,7 @@
 		5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456602B69EDDB00278BF2 /* StatusMenu.swift */; };
 		5C3F2E9C2BDE2F4C00157333 /* ScreenshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */; };
 		5C6D55F72D3B5FB000DD2979 /* OverlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */; };
+		5C74BA862D97B07B005673DB /* AppLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C74BA852D97B07B005673DB /* AppLogger.swift */; };
 		5C9BE1BE2BDE707800FE56BD /* ImageDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */; };
 		5C9BE1C12BDEA62800FE56BD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BE1C02BDEA62800FE56BD /* Model.swift */; };
 		5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */; };
@@ -24,7 +25,6 @@
 		5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9842B63B25C00753013 /* iCapApp.swift */; };
 		5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9862B63B25C00753013 /* ContentView.swift */; };
 		5CF3D98B2B63B25D00753013 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3D98A2B63B25D00753013 /* Assets.xcassets */; };
-		5CF3D98E2B63B25D00753013 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CF3D98D2B63B25D00753013 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +60,7 @@
 		5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotView.swift; sourceTree = "<group>"; };
 		5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayerView.swift; sourceTree = "<group>"; };
 		5C72E4FA2C78820F00EAA205 /* ScreenCaptureKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenCaptureKit.framework; path = System/Library/Frameworks/ScreenCaptureKit.framework; sourceTree = SDKROOT; };
+		5C74BA852D97B07B005673DB /* AppLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogger.swift; sourceTree = "<group>"; };
 		5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDrawView.swift; sourceTree = "<group>"; };
 		5C9BE1C02BDEA62800FE56BD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairView.swift; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 		5CF3D9842B63B25C00753013 /* iCapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCapApp.swift; sourceTree = "<group>"; };
 		5CF3D9862B63B25C00753013 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5CF3D98A2B63B25D00753013 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5CF3D98D2B63B25D00753013 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5CF3D98F2B63B25D00753013 /* iCap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iCap.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,10 +113,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5C74BA892D97B0B3005673DB /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				5CC56DD12BDBA1F300CFEEAB /* Constants.swift */,
+				5C74BA852D97B07B005673DB /* AppLogger.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		5C9BE1BF2BDEA59100FE56BD /* Editor */ = {
 			isa = PBXGroup;
 			children = (
 				5C9BE1C02BDEA62800FE56BD /* Model.swift */,
+				5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */,
+				5CC56DD52BDC175F00CFEEAB /* ActionBar.swift */,
+				5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */,
+				5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */,
+				5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */,
+				5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -145,30 +160,15 @@
 				5C3F2E9A2BDE11C900157333 /* Info.plist */,
 				5CF3D98A2B63B25D00753013 /* Assets.xcassets */,
 				5CF3D98F2B63B25D00753013 /* iCap.entitlements */,
+				5C74BA892D97B0B3005673DB /* Shared */,
 				5C34565F2B69EDBA00278BF2 /* StatusBar */,
 				5C34565C2B69EC8200278BF2 /* Settings */,
 				5C9BE1BF2BDEA59100FE56BD /* Editor */,
-				5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */,
 				5CF3D9862B63B25C00753013 /* ContentView.swift */,
-				5CC56DD52BDC175F00CFEEAB /* ActionBar.swift */,
-				5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */,
-				5CC56DD12BDBA1F300CFEEAB /* Constants.swift */,
-				5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */,
-				5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */,
-				5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */,
 				5CC92F7C2D3A06B000214098 /* AppState.swift */,
 				5CF3D9842B63B25C00753013 /* iCapApp.swift */,
-				5CF3D98C2B63B25D00753013 /* Preview Content */,
 			);
 			path = iCap;
-			sourceTree = "<group>";
-		};
-		5CF3D98C2B63B25D00753013 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				5CF3D98D2B63B25D00753013 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,7 +237,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CF3D98E2B63B25D00753013 /* Preview Assets.xcassets in Resources */,
 				5CF3D98B2B63B25D00753013 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,6 +259,7 @@
 				5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */,
 				5C9BE1C12BDEA62800FE56BD /* Model.swift in Sources */,
 				5CC92F7D2D3A06B900214098 /* AppState.swift in Sources */,
+				5C74BA862D97B07B005673DB /* AppLogger.swift in Sources */,
 				5C9BE1BE2BDE707800FE56BD /* ImageDrawView.swift in Sources */,
 				5C34565B2B69EC2900278BF2 /* GeneralSettingsView.swift in Sources */,
 				5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */,
@@ -400,7 +400,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"iCap/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 4L3563XCBN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -435,7 +435,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"iCap/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 4L3563XCBN;
 				ENABLE_PREVIEWS = YES;

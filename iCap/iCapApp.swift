@@ -64,9 +64,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SCStreamDelegate, SCStreamOu
         let shortcut = KeyboardShortcuts.Shortcut(KeyboardShortcuts.Key.x, modifiers: [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.shift])
         KeyboardShortcuts.setShortcut(shortcut, for: .startScreenShot)
 
-        KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
-            takeScreenShot()
-        }
+        // KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
+        //     takeScreenShot()
+        // }
 
         requestScreenRecordingPermission()
     }

@@ -100,29 +100,39 @@ enum SCContext {
     }
 
     static func getScreenImage() async throws -> CGImage {
-        let availableContent = try? await SCShareableContent.current
-
-        guard let availableContent = availableContent,
-              let display = availableContent.displays.first
-        else {
-            print("not display")
-            throw AppError.notDisplay
+        // 检查屏幕录制权限
+        guard CGPreflightScreenCaptureAccess() else {
+            throw AppError.permissionDenied
         }
-
-        let myContentFilter = SCContentFilter(display: display,
-                                              excludingApplications: [], exceptingWindows: [])
-        let myConfiguration = SCStreamConfiguration()
-        if let screenWithMouse = SCContext.getScreenWithMouse() {
-            myConfiguration.width = Int(screenWithMouse.frame.width)
-            myConfiguration.height = Int(screenWithMouse.frame.height)
+        
+        let availableContent = try await SCShareableContent.current
+        
+        guard let display = availableContent.displays.first else {
+            throw AppError.noDisplayFound
         }
-
-        if let res = try? await SCScreenshotManager.captureImage(contentFilter: myContentFilter, configuration: myConfiguration) {
-            SCContext.screenImage = res
-
-            return res
-        } else {
-            throw AppError.notDisplay
+        
+        let contentFilter = SCContentFilter(display: display,
+                                          excludingApplications: [], 
+                                          exceptingWindows: [])
+        
+        let configuration = SCStreamConfiguration()
+        if let screen = getScreenWithMouse() {
+            configuration.width = Int(screen.frame.width * screen.backingScaleFactor)
+            configuration.height = Int(screen.frame.height * screen.backingScaleFactor)
+            configuration.minimumFrameInterval = CMTime(value: 1, timescale: 60)
+            configuration.pixelFormat = kCVPixelFormatType_32BGRA
+            configuration.showsCursor = true
+        }
+        
+        do {
+            let image = try await SCScreenshotManager.captureImage(
+                contentFilter: contentFilter,
+                configuration: configuration
+            )
+            SCContext.screenImage = image
+            return image
+        } catch {
+            throw AppError.captureFailed(error.localizedDescription)
         }
     }
 
@@ -161,4 +171,7 @@ enum SCContext {
 
 enum AppError: Error {
     case notDisplay
+    case permissionDenied
+    case noDisplayFound
+    case captureFailed(String)
 }

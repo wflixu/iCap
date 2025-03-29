@@ -24,6 +24,7 @@ struct ContentView: View {
             Form {
                 Section(header: Text("iCap 设置")) {
                     KeyboardShortcuts.Recorder("截屏快捷键:", name: .startScreenShot)
+                    // KeyboardShortcuts.Recorder("立即截屏:", name: .takeScreenshot)
                     Picker("保存图片格式", selection: $imageFormat) {
                         Text("png").tag(ImageFormat.png)
                         Text("jpeg").tag(ImageFormat.jpeg)
@@ -53,6 +54,27 @@ struct ContentView: View {
                 }
             }
             Spacer()
+            HStack {
+                Button("矩形") {
+                    // 触发矩形绘制模式
+                }
+                Button("箭头") {
+                    // 触发箭头绘制模式
+                }
+                Button("文字") {
+                    // 触发文字标注模式
+                }
+            }
+            Button("截图") {
+                Task {
+                    do {
+                        try await SCContext.getScreenImage()
+                        SCContext.showAreaSelectWindow()
+                    } catch {
+                        print("截图失败: \(error)")
+                    }
+                }
+            }
         }.frame(width: 800, height: 800)
             .onAppear {
                 initSavePath()

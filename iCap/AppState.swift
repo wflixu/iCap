@@ -11,6 +11,10 @@ import AppKit
 
 @MainActor
 class AppState: ObservableObject {
+    
+    @AppLog(category: "AppState")
+    private var logger
+    
     @Published
     var isUnicornMode: Bool = false
     // overlayer is show
@@ -20,11 +24,20 @@ class AppState: ObservableObject {
     init() {
         KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
             print("------\(self.self)")
+            self.takeScreenShot()
         }
     }
     
     static var share  = AppState()
-    
+    @MainActor
+    func takeScreenShot() {
+        print("takeScreenShot")
+        Task {
+            if let _res = try? await SCContext.getScreenImage() {
+                logger.info("takeScreenShot success")
+            }
+        }
+    }
     func showOverlayer() {
         print("start show overlayer")
         self.isShow = true
