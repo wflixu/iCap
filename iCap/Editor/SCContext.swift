@@ -9,9 +9,9 @@ import AppKit
 import AVFAudio
 import AVFoundation
 import Foundation
+import OSLog
 import ScreenCaptureKit
 import UserNotifications
-import OSLog
 
 let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "SCContext")
 
@@ -36,7 +36,7 @@ class SCContext {
             w.close()
         }
     }
-    
+
     static func setOverlayWindowLevel(_ level: NSWindow.Level) {
         for w in NSApplication.shared.windows.filter({ $0.title == AppWinsInfo.overlayer.desc }) {
             w.level = level
@@ -156,7 +156,11 @@ class SCContext {
         if let rect = SCContext.screenArea, let cgimage = SCContext.screenImage {
             print("rect\(rect.height) \(rect.width) x:\(rect.minX) y: \(rect.minY)  origin:\(rect.origin.x) \(rect.origin.y)")
             print("cgimg\(cgimage.height) \(cgimage.width)")
-            let clipRect = CGRect(x: rect.minX, y: CGFloat(cgimage.height) - rect.minY - rect.height, width: rect.width, height: rect.height)
+            // 修正y轴坐标计算，确保截取区域与选择区域一致
+            let clipRect = CGRect(x: rect.minX,
+                                  y: rect.minY,
+                                  width: rect.width,
+                                  height: rect.height)
 
             let newimg = cgimage.cropping(to: clipRect)!
             let bitmap = NSBitmapImageRep(cgImage: newimg)
@@ -183,11 +187,4 @@ class SCContext {
 
         return nil
     }
-}
-
-enum AppError: Error {
-    case notDisplay
-    case permissionDenied
-    case noDisplayFound
-    case captureFailed(String)
 }

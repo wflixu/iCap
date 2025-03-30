@@ -31,8 +31,8 @@ struct ActionBarView: View {
                     self.onSaveFile()
                 }) {
                     Image(systemName: "square.and.arrow.down")
-                        .font(.system(size: 24))
-                        .foregroundColor(.gray.opacity(0.7))
+                        .font(.system(size: 20))
+                        .foregroundColor(.gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("保存到文件")
                 
@@ -41,7 +41,7 @@ struct ActionBarView: View {
                 }) {
                     Image(systemName: "clipboard")
                         .font(.system(size: 20))
-                        .foregroundColor(.gray.opacity(0.7))
+                        .foregroundColor(.gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("保存到剪贴板")
                 
@@ -50,7 +50,7 @@ struct ActionBarView: View {
                 }) {
                     Image(systemName: "clipboard")
                         .font(.system(size: 20))
-                        .foregroundColor(.gray.opacity(0.7))
+                        .foregroundColor(.gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("添加性质")
             }
@@ -68,7 +68,7 @@ struct ActionBarView: View {
 
     func onSave() {
         _ = SCContext.saveImage()
-        SCContext.closeWindows()
+        store.setIsShow(false)
     }
 
     func onSaveFile() {

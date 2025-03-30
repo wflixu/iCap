@@ -40,7 +40,7 @@ struct OverlayerView: View {
                 // 选择框层
                 if let rect = selectionRect {
                     Rectangle()
-                        .stroke(style: StrokeStyle(lineWidth: 4, dash: [4]))
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [4]))
                         .foregroundColor(.white)
                         .frame(width: rect.width, height: rect.height)
                         .position(x: rect.midX, y: rect.midY)
@@ -51,7 +51,7 @@ struct OverlayerView: View {
                             Circle()
                                 .fill(controlPointColor)
                                 .frame(width: controlPointSize, height: controlPointSize)
-                                .position(x: point.x, y: point.y)
+                                .position(x: point.x + controlPointSize/2 , y: point.y + controlPointSize/2)
                         }
                     }
                 }

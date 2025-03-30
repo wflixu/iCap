@@ -20,6 +20,13 @@ enum Keys {
 enum ImageFormat: String { case png, jpeg }
 
 
+enum AppError: Error {
+    case notDisplay
+    case permissionDenied
+    case noDisplayFound
+    case captureFailed(String)
+}
+
 
 
 enum DrawingTool: String {
