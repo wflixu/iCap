@@ -11,6 +11,9 @@ import AVFoundation
 import Foundation
 import ScreenCaptureKit
 import UserNotifications
+import OSLog
+
+let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "SCContext")
 
 class SCContext {
     static var screenImage: CGImage?
@@ -107,14 +110,17 @@ class SCContext {
     }
 
     static func getScreenImage() async throws -> CGImage {
+        logger.info("getScreenImage")
         // 检查屏幕录制权限
         guard CGPreflightScreenCaptureAccess() else {
+            logger.error("permissionDenied")
             throw AppError.permissionDenied
         }
 
         let availableContent = try await SCShareableContent.current
 
         guard let display = availableContent.displays.first else {
+            logger.error("noDisplayFound")
             throw AppError.noDisplayFound
         }
 
@@ -129,6 +135,8 @@ class SCContext {
             configuration.minimumFrameInterval = CMTime(value: 1, timescale: 60)
             configuration.pixelFormat = kCVPixelFormatType_32BGRA
             configuration.showsCursor = true
+        } else {
+            logger.error("notDisplay")
         }
 
         do {
@@ -139,6 +147,7 @@ class SCContext {
             SCContext.screenImage = image
             return image
         } catch {
+            logger.error("captureFailed: \(error.localizedDescription)")
             throw AppError.captureFailed(error.localizedDescription)
         }
     }

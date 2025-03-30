@@ -14,6 +14,13 @@ extension KeyboardShortcuts.Name {
     static let startScreenShot = Self("startScreenShot")
 }
 
+enum Keys {
+    static let savePathBookmarkStorage = "SAVE_PATH_BOOKMARK_STORAGE"
+    static let imageFormat = "IMAGE_FORMAT"
+    static let imageSavePath = "IMAGE_SAVE_PATH"
+}
+
+
 enum DrawingTool: String {
     case rectangle
     case arrow

@@ -103,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SCStreamDelegate, SCStreamOu
         KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
             self.takeScreenShot()
         }
-        
+        initAppConfig()
         requestScreenRecordingPermission()
     }
 
@@ -115,6 +115,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SCStreamDelegate, SCStreamOu
         logger.info("applicationWillTerminate")
     }
 
+    func initAppConfig() {
+        logger.info("initAppConfig")
+        Util.restoreFolderAccess(key: Keys.savePathBookmarkStorage)
+    }
     func requestScreenRecordingPermission() {}
 
     @MainActor

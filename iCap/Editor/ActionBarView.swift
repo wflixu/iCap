@@ -25,15 +25,44 @@ struct ActionBarView: View {
 
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
-            HStack(alignment: .center) {
+            HStack(alignment: .center, spacing: 12) {
                 Spacer()
-                Button("Save", systemImage: "square.and.arrow.down", action: onSaveFile)
-                Button("Save", systemImage: "clipboard", action: onSave)
-                Button("添加性质", systemImage: "clipboard", action: onSave)
+                Button(action: {
+                    self.onSaveFile()
+                }) {
+                    Image(systemName: "square.and.arrow.down")
+                        .font(.system(size: 24))
+                        .foregroundColor(.gray.opacity(0.7))
+                }.buttonStyle(PlainButtonStyle())
+                    .help("保存到文件")
+                
+                Button(action: {
+                    self.onSave()
+                }) {
+                    Image(systemName: "clipboard")
+                        .font(.system(size: 20))
+                        .foregroundColor(.gray.opacity(0.7))
+                }.buttonStyle(PlainButtonStyle())
+                    .help("保存到剪贴板")
+                
+                Button(action: {
+                    self.onSave()
+                }) {
+                    Image(systemName: "clipboard")
+                        .font(.system(size: 20))
+                        .foregroundColor(.gray.opacity(0.7))
+                }.buttonStyle(PlainButtonStyle())
+                    .help("添加性质")
             }
-
+            .padding(.horizontal, 12)
             .frame(height: 36)
-            .background(.red)
+            .background(.white)
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+            )
+            .shadow(color: .gray.opacity(0.1), radius: 2, x: 0, y: 1)
         }
     }
 

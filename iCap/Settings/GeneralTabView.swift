@@ -23,6 +23,8 @@ struct GeneralTabView: View {
     @AppStorage("imageSavePath") private var imageSavePath: String = Util.getDesktopPath()
     @State var showPathPicker: Bool = false
 
+    @EnvironmentObject var appState: AppState
+
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
@@ -49,6 +51,7 @@ struct GeneralTabView: View {
                                         if success {
                                             // 完成后释放资源
                                             logger.info("startAccessingSecurityScopedResource success")
+                                            Util.saveBookmark(for: dir, key: Keys.savePathBookmarkStorage)
                                             //                            folderURL.stopAccessingSecurityScopedResource()
                                         } else {
                                             logger.warning("fail access scope \(dir.path)")
@@ -70,17 +73,26 @@ struct GeneralTabView: View {
                 }
             }
             .padding([.top], 40)
+
             Spacer()
 
-            Button("截图") {
-                Task {
-                    do {
-                        try await SCContext.getScreenImage()
-                        openWindow(id: "overlayer")
-                    } catch {
-                        print("截图失败: \(error)")
-                    }
-                }
+            HStack {
+                Spacer()
+                Button("保存", systemImage: "square.and.arrow.down", action: takeScreenShot)
+                Spacer()
+            }
+        }
+    }
+
+    @MainActor
+    func takeScreenShot() {
+        logger.info("sart takeScreenShot")
+        Task {
+            if (try? await SCContext.getScreenImage()) != nil {
+                logger.info("getScreenImage success")
+                appState.setIsShow(true)
+            } else {
+                logger.error("getScreenImage failed")
             }
         }
     }
