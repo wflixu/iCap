@@ -10,15 +10,16 @@ import Foundation
 import AppKit
 import KeyboardShortcuts
 
-extension KeyboardShortcuts.Name {
-    static let startScreenShot = Self("startScreenShot")
-}
 
 enum Keys {
     static let savePathBookmarkStorage = "SAVE_PATH_BOOKMARK_STORAGE"
     static let imageFormat = "IMAGE_FORMAT"
     static let imageSavePath = "IMAGE_SAVE_PATH"
 }
+
+enum ImageFormat: String { case png, jpeg }
+
+
 
 
 enum DrawingTool: String {
@@ -96,5 +97,5 @@ enum AppWinsInfo: String {
     }
 }
 
-enum ImageFormat: String { case png, jpeg }
+
 

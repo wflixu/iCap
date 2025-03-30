@@ -12,13 +12,10 @@
 		5C32566E2D982527000BAE39 /* GeneralTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C32566D2D982527000BAE39 /* GeneralTabView.swift */; };
 		5C3256702D98262A000BAE39 /* AboutTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C32566F2D98262A000BAE39 /* AboutTabView.swift */; };
 		5C3256722D98354F000BAE39 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3256712D98354F000BAE39 /* Utils.swift */; };
-		5C3456592B69EB4300278BF2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456582B69EB4300278BF2 /* SettingsView.swift */; };
-		5C34565B2B69EC2900278BF2 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C34565A2B69EC2900278BF2 /* GeneralSettingsView.swift */; };
-		5C34565E2B69ECA300278BF2 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C34565D2B69ECA300278BF2 /* AdvancedSettingsView.swift */; };
 		5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3456602B69EDDB00278BF2 /* StatusMenu.swift */; };
-		5C3F2E9C2BDE2F4C00157333 /* ScreenshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */; };
 		5C6D55F72D3B5FB000DD2979 /* OverlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */; };
 		5C74BA862D97B07B005673DB /* AppLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C74BA852D97B07B005673DB /* AppLogger.swift */; };
+		5C80293F2D98F0E3007C659C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C80293E2D98F0E3007C659C /* Extensions.swift */; };
 		5C9BE1BE2BDE707800FE56BD /* ImageDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */; };
 		5C9BE1C12BDEA62800FE56BD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BE1C02BDEA62800FE56BD /* Model.swift */; };
 		5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */; };
@@ -61,15 +58,12 @@
 		5C32566D2D982527000BAE39 /* GeneralTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTabView.swift; sourceTree = "<group>"; };
 		5C32566F2D98262A000BAE39 /* AboutTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTabView.swift; sourceTree = "<group>"; };
 		5C3256712D98354F000BAE39 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		5C3456582B69EB4300278BF2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		5C34565A2B69EC2900278BF2 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
-		5C34565D2B69ECA300278BF2 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		5C3456602B69EDDB00278BF2 /* StatusMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenu.swift; sourceTree = "<group>"; };
 		5C3F2E9A2BDE11C900157333 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotView.swift; sourceTree = "<group>"; };
 		5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayerView.swift; sourceTree = "<group>"; };
 		5C72E4FA2C78820F00EAA205 /* ScreenCaptureKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenCaptureKit.framework; path = System/Library/Frameworks/ScreenCaptureKit.framework; sourceTree = SDKROOT; };
 		5C74BA852D97B07B005673DB /* AppLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogger.swift; sourceTree = "<group>"; };
+		5C80293E2D98F0E3007C659C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDrawView.swift; sourceTree = "<group>"; };
 		5C9BE1C02BDEA62800FE56BD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairView.swift; sourceTree = "<group>"; };
@@ -98,9 +92,6 @@
 		5C34565C2B69EC8200278BF2 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				5C34565A2B69EC2900278BF2 /* GeneralSettingsView.swift */,
-				5C3456582B69EB4300278BF2 /* SettingsView.swift */,
-				5C34565D2B69ECA300278BF2 /* AdvancedSettingsView.swift */,
 				5C32566D2D982527000BAE39 /* GeneralTabView.swift */,
 				5C32566F2D98262A000BAE39 /* AboutTabView.swift */,
 			);
@@ -129,6 +120,7 @@
 				5CC56DD12BDBA1F300CFEEAB /* Constants.swift */,
 				5C74BA852D97B07B005673DB /* AppLogger.swift */,
 				5C3256712D98354F000BAE39 /* Utils.swift */,
+				5C80293E2D98F0E3007C659C /* Extensions.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -140,7 +132,6 @@
 				5C3256692D9809EF000BAE39 /* ActionBarView.swift */,
 				5CA3C1A12BCCFE0800ED3A48 /* CrosshairView.swift */,
 				5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */,
-				5C3F2E9B2BDE2F4C00157333 /* ScreenshotView.swift */,
 				5C9BE1BD2BDE707800FE56BD /* ImageDrawView.swift */,
 				5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */,
 			);
@@ -263,12 +254,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C32566E2D982527000BAE39 /* GeneralTabView.swift in Sources */,
-				5C3F2E9C2BDE2F4C00157333 /* ScreenshotView.swift in Sources */,
 				5C6D55F72D3B5FB000DD2979 /* OverlayerView.swift in Sources */,
-				5C3456592B69EB4300278BF2 /* SettingsView.swift in Sources */,
 				5CC56DD42BDBA9D000CFEEAB /* SCContext.swift in Sources */,
 				5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */,
-				5C34565E2B69ECA300278BF2 /* AdvancedSettingsView.swift in Sources */,
 				5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */,
 				5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */,
 				5C9BE1C12BDEA62800FE56BD /* Model.swift in Sources */,
@@ -276,7 +264,7 @@
 				5C74BA862D97B07B005673DB /* AppLogger.swift in Sources */,
 				5C3256702D98262A000BAE39 /* AboutTabView.swift in Sources */,
 				5C9BE1BE2BDE707800FE56BD /* ImageDrawView.swift in Sources */,
-				5C34565B2B69EC2900278BF2 /* GeneralSettingsView.swift in Sources */,
+				5C80293F2D98F0E3007C659C /* Extensions.swift in Sources */,
 				5CA3C1A22BCCFE0800ED3A48 /* CrosshairView.swift in Sources */,
 				5CC56DD22BDBA1F300CFEEAB /* Constants.swift in Sources */,
 				5C3256722D98354F000BAE39 /* Utils.swift in Sources */,
