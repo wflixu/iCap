@@ -15,39 +15,33 @@ struct StatusMenu: View {
 
     @ObservedObject private var appState = AppState.share
 
-    
-    init() {
-      
-    }
-    
+    init() {}
+
     func handleNotification(_ notification: Notification) {
         print("Receiver: Notification received!")
 
         // 从 userInfo 中提取数据
         openWindow(id: "overlayer")
     }
-    
+
     var body: some View {
         VStack {
             Button("Settings", action: showSettings)
             Button("Quit", action: onQuit)
-            Button("Show", action: showWins)
-        }.task {
-            print("statusmenu i load")
         }
     }
-    
+
     func onQuit() {
         Task {
             try await Task.sleep(nanoseconds: UInt64(1.0 * 1e9))
             NSApplication.shared.terminate(self)
         }
     }
-    
+
     func showSettings() {
-        openWindow(id: "overlayer")
+        openWindow(id: "main")
     }
-    
+
     func showWins() {
         SCContext.showMainWindow()
     }

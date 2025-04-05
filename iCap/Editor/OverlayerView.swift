@@ -79,7 +79,6 @@ struct OverlayerView: View {
             if let rect = selectionRect, rect.contains(location) {
                 dragIng = true
             }
-            SCContext.closeActionbarWindow()
             return
         }
         

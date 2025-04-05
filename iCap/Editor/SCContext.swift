@@ -25,12 +25,6 @@ class SCContext {
         return screenWithMouse
     }
 
-    static func closeWindows() {
-        for w in NSApplication.shared.windows.filter({ $0.title == WindowTitle.actionbar.desc || $0.title == WindowTitle.overlay.desc }) {
-            w.close()
-        }
-    }
-
     static func closeOverlayWindow() {
         for w in NSApplication.shared.windows.filter({ $0.title == AppWinsInfo.overlayer.desc }) {
             w.close()
@@ -43,45 +37,16 @@ class SCContext {
         }
     }
 
-    static func closeActionbarWindow() {
-        for w in NSApplication.shared.windows.filter({ $0.title == WindowTitle.actionbar.desc }) {
-            w.close()
-        }
-    }
-
     static func showMainWindow() {
-        print("showMainWindow ")
         for w in NSApplication.shared.windows {
-            print("the window \(w.title)-- will show")
-
             switch w.title {
-                case "iCap":
-                    print("start show window")
-
-                case "Connection Doctor":
-//                    w.level = .floating
-                    w.makeKeyAndOrderFront(nil)
-
-//                    NotificationCenter.default.addObserver(
-//                        forName: NSWindow.didResignKeyNotification,
-//                        object: w,
-//                        queue: .main
-//                    ) { _ in
-//                        // 窗口失去焦点时，恢复为 .normal
-//                        w.level = .normal
-//                    }
-                default:
-                    print("no action at window: \(w.title) ")
+            case "iCap":
+                print("start show window")
+            case "Connection Doctor":
+                w.makeKeyAndOrderFront(nil)
+            default:
+                print("no action at window: \(w.title)")
             }
-//            if w.title == "iCap" {
-//                print("start show window")
-//
-            ////                w.windowController?.showWindow(nil)
-//
-//            } else {
-//                w.level = .floating
-//                w.makeKeyAndOrderFront(nil)
-//            }
         }
     }
 
@@ -105,17 +70,12 @@ class SCContext {
 
     static func getImageSavePath() -> String {
         // 读取 UserDefaults 中存储的路径
-        let savePath = UserDefaults.standard.string(forKey: "imageSavePath") ?? "/Users/"
+        let savePath = UserDefaults.group.string(forKey: "imageSavePath") ?? "/Users/"
         return savePath
     }
 
     static func getScreenImage() async throws -> CGImage {
         logger.info("getScreenImage")
-        // 检查屏幕录制权限
-        guard CGPreflightScreenCaptureAccess() else {
-            logger.error("permissionDenied")
-            throw AppError.permissionDenied
-        }
 
         let availableContent = try await SCShareableContent.current
 

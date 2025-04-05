@@ -37,14 +37,14 @@ class Util {
             )
 
             // 存储到 UserDefaults（或本地数据库）
-            UserDefaults.standard.set(bookmarkData, forKey: key)
+            UserDefaults.group.set(bookmarkData, forKey: key)
         } catch {
             print("保存书签失败: \(error)")
         }
     }
 
     static func restoreFolderAccess(key: String) -> URL? {
-        guard let bookmarkData = UserDefaults.standard.data(forKey: key) else {
+        guard let bookmarkData = UserDefaults.group.data(forKey: key) else {
             return nil
         }
 
@@ -59,7 +59,7 @@ class Util {
 
             if isStale {
                 // 书签过期需重新生成（如文件夹移动）
-                try? Util.saveBookmark(for: url, key: key)
+                Util.saveBookmark(for: url, key: key)
             }
 
             // 激活安全作用域权限

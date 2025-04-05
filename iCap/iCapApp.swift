@@ -9,6 +9,7 @@ import AppKit
 import AVFoundation
 import Cocoa
 import Combine
+import CoreGraphics
 import KeyboardShortcuts
 import ScreenCaptureKit
 import SwiftUI
@@ -50,6 +51,7 @@ struct iCapApp: App {
         .defaultSize(CGSize(width: 800, height: 600))
         .windowResizability(.contentSize)
         .handlesExternalEvents(matching: Set(arrayLiteral: "main"))
+        .defaultAppStorage(UserDefaults.group)
 
         WindowGroup(AppWinsInfo.overlayer.desc, id: AppWinsInfo.overlayer.id) {
             OverlayerView()
@@ -76,6 +78,7 @@ struct iCapApp: App {
                 .keyboardShortcut(.escape, modifiers: [.command]) // 绑定 ESC 键
             }
         }
+        .defaultAppStorage(UserDefaults.group)
 
         MenuBarExtra(
             "App Menu Bar Extra", image: "menubar",
@@ -83,6 +86,7 @@ struct iCapApp: App {
         {
             StatusMenu().environmentObject(appState)
         }.menuBarExtraStyle(.menu)
+            .defaultAppStorage(UserDefaults.group)
     }
 }
 
@@ -104,7 +108,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SCStreamDelegate, SCStreamOu
             self.takeScreenShot()
         }
         initAppConfig()
-        requestScreenRecordingPermission()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -117,9 +120,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, SCStreamDelegate, SCStreamOu
 
     func initAppConfig() {
         logger.info("initAppConfig")
-        Util.restoreFolderAccess(key: Keys.savePathBookmarkStorage)
+        let _ = Util.restoreFolderAccess(key: Keys.savePathBookmarkStorage)
+//        checkScreenRecordingPermission()
     }
-    func requestScreenRecordingPermission() {}
+
+    @MainActor
+    func checkScreenRecordingPermission() {
+        // 检查权限
+        let hasPermission = CGPreflightScreenCaptureAccess()
+        if !hasPermission {
+            // 请求权限（实际会跳转系统设置）
+            let requestResult = CGRequestScreenCaptureAccess()
+            if !requestResult {
+                logger.warning("用户未授权或权限获取失败")
+            }
+        }
+    }
 
     @MainActor
     func takeScreenShot() {
