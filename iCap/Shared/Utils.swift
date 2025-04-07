@@ -72,4 +72,16 @@ class Util {
 
         return nil
     }
+    
+    static func showOrCreateWindow(windowId: String, callback: () -> Void) {
+        if let window = NSApp.windows.first(where: { 
+            guard let rawValue = $0.identifier?.rawValue else { return false }
+            return rawValue == windowId
+        }) {
+            window.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+        } else {
+            callback()
+        }
+    }
 }

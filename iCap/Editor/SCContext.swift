@@ -12,6 +12,10 @@ import Foundation
 import OSLog
 import ScreenCaptureKit
 import UserNotifications
+import CoreImage
+import CoreGraphics
+import CoreImage.CIFilterBuiltins
+
 
 let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "SCContext")
 
@@ -111,6 +115,83 @@ class SCContext {
             throw AppError.captureFailed(error.localizedDescription)
         }
     }
+    
+    
+    static func processImageWithEffects(
+        inputImage: CGImage,
+        cornerRadius: CGFloat = 10,
+        shadowColor: NSColor = .black,
+        shadowOffset: CGSize = .init(width: 0 , height: 10),
+        shadowRadius: CGFloat = 15,
+        shadowOpacity: CGFloat = 0.3
+    ) -> CGImage? {
+        // 创建透明画布
+        let imageSize = CGSize(width: inputImage.width, height: inputImage.height)
+        let effectiveRect = CGRect(
+            x: abs(shadowOffset.width) + shadowRadius,
+            y: abs(shadowOffset.height) + shadowRadius,
+            width: imageSize.width,
+            height: imageSize.height
+        )
+        
+        let canvasSize = CGSize(
+            width: effectiveRect.width + shadowRadius * 2,
+            height: effectiveRect.height + shadowRadius * 2
+        )
+        
+        guard let context = CGContext(
+            data: nil,
+            width: Int(canvasSize.width),
+            height: Int(canvasSize.height),
+            bitsPerComponent: 8,
+            bytesPerRow: 0,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return nil }
+        
+        // 绘制阴影
+        let shadowRect = CGRect(
+            x: effectiveRect.origin.x + shadowOffset.width,
+            y: effectiveRect.origin.y + shadowOffset.height,
+            width: effectiveRect.width,
+            height: effectiveRect.height
+        )
+        
+        context.setShadow(
+            offset: shadowOffset,
+            blur: shadowRadius,
+            color: shadowColor.withAlphaComponent(shadowOpacity).cgColor
+        )
+        
+        // 创建圆角路径
+        let path = NSBezierPath(
+            roundedRect: shadowRect,
+            xRadius: cornerRadius,
+            yRadius: cornerRadius
+        ).cgPath
+        
+        context.addPath(path)
+        context.fillPath()
+        
+        // 裁剪圆角区域
+        context.addPath(path)
+        context.clip()
+        
+        // 绘制原图
+        let drawRect = CGRect(
+            x: effectiveRect.origin.x,
+            y: effectiveRect.origin.y,
+            width: imageSize.width,
+            height: imageSize.height
+        )
+        
+        context.draw(inputImage, in: drawRect)
+        
+        // 生成最终图像
+        return context.makeImage()
+    }
+    
+    
 
     static func saveImage(_ to: ImageSaveTo = .pasteboard) -> Data? {
         if let rect = SCContext.screenArea, let cgimage = SCContext.screenImage {
@@ -122,8 +203,9 @@ class SCContext {
                                   width: rect.width,
                                   height: rect.height)
 
-            let newimg = cgimage.cropping(to: clipRect)!
-            let bitmap = NSBitmapImageRep(cgImage: newimg)
+            let cropimg = cgimage.cropping(to: clipRect)!
+            let effectimg = SCContext.processImageWithEffects(inputImage: cropimg)!
+            let bitmap = NSBitmapImageRep(cgImage: effectimg)
             let pngData = bitmap.representation(using: .png, properties: [:])
 //            let filePath = SCContext.getImageSavePath() + "/" + Util.getDatetimeFileName()
 

@@ -101,8 +101,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, SCStreamDelegate, SCStreamOu
     // private var cancellables = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let shortcut = KeyboardShortcuts.Shortcut(KeyboardShortcuts.Key.x, modifiers: [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.shift])
-        KeyboardShortcuts.setShortcut(shortcut, for: .startScreenShot)
+        if let shortcut = KeyboardShortcuts.getShortcut(for: .startScreenShot) {
+            logger.info("当前设置快捷键是：\(shortcut.description)")
+        } else {
+            logger.warning("没有设置快捷键，使用默认值")
+            let shortcut = KeyboardShortcuts.Shortcut(KeyboardShortcuts.Key.x, modifiers: [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.shift])
+            KeyboardShortcuts.setShortcut(shortcut, for: .startScreenShot)
+        }
 
         KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
             self.takeScreenShot()
