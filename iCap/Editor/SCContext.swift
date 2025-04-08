@@ -121,7 +121,7 @@ class SCContext {
         inputImage: CGImage,
         cornerRadius: CGFloat = 10,
         shadowColor: NSColor = .black,
-        shadowOffset: CGSize = .init(width: 0 , height: 10),
+        shadowOffset: CGSize = .init(width: 0 , height: 0),
         shadowRadius: CGFloat = 15,
         shadowOpacity: CGFloat = 0.3
     ) -> CGImage? {
