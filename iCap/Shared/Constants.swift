@@ -15,6 +15,7 @@ enum Keys {
     static let savePathBookmarkStorage = "SAVE_PATH_BOOKMARK_STORAGE"
     static let imageFormat = "IMAGE_FORMAT"
     static let imageSavePath = "IMAGE_SAVE_PATH"
+    static let coordinate = "OVERLAYER"
 }
 
 enum ImageFormat: String { case png, jpeg }
@@ -67,23 +68,10 @@ enum ImageSaveTo: String {
     case file, pasteboard
 }
 
-enum WindowTitle: String {
-    case overlay, actionbar, overlayer
 
-    var desc: String {
-        switch self {
-            case .overlay:
-                "Area Selector"
-            case .overlayer:
-                "Overlayer"
-            case .actionbar:
-                "Action Bar"
-        }
-    }
-}
 
 enum AppWinsInfo: String {
-    case overlayer, main
+    case overlayer, main, editor
 
     var desc: String {
         switch self {
@@ -91,6 +79,8 @@ enum AppWinsInfo: String {
                 "Overlayer"
             case .main:
                 "iCap"
+            case .editor:
+                "Editor"
         }
     }
 
@@ -100,6 +90,8 @@ enum AppWinsInfo: String {
                 "overlayer"
             case .main:
                 "main"
+            case .editor:
+                "editor"
         }
     }
 }

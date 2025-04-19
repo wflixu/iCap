@@ -11,12 +11,46 @@ import SwiftUI
 struct OverlayerView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openWindow) private var openWindow
+    
     @State private var selectionRect: CGRect?
+    @State private var selected = false
     @State private var initialLocation: CGPoint?
     @State private var dragIng = false
     @State private var activeHandle: ResizeHandle = .none
     @State private var lastMouseLocation: CGPoint?
     @State private var isShowActionbar = false
+    
+    // 激活矩形
+    @State private var isDragging = false
+    @State private var dragStart = CGPoint.zero
+    @State private var dragOffset = CGSize.zero
+    
+    // 用于存储所有可拖动形状的数据
+    @State private var annotations: [Annotation] = []
+    @State private var annotationType: AnnotationType = .rect
+    
+    // 修改为计算属性
+    var showActiveFrame: Bool {
+        return dragStart != .zero && dragOffset != .zero
+    }
+
+    var activeAnnotation: Annotation? {
+        if showActiveFrame {
+            return Annotation(
+                type: annotationType,
+                frame: CGRect(
+                    x: dragStart.x,
+                    y: dragStart.y,
+                    width: abs(dragOffset.width),
+                    height: abs(dragOffset.height)
+                ),
+                start: dragStart,
+                offset: dragOffset
+            )
+        } else {
+            return annotations.first { $0.active } ?? annotations.last
+        }
+    }
     
     let controlPointSize: CGFloat = 10.0
     let controlPointColor: Color = .yellow
@@ -28,45 +62,81 @@ struct OverlayerView: View {
                 Color.clear
                     .contentShape(Rectangle())
                     .gesture(
-                        DragGesture(minimumDistance: 0)
+                        DragGesture(minimumDistance: 4, coordinateSpace: .named(Keys.coordinate))
                             .onChanged { value in
-                                handleDrag(value: value, in: geometry)
+                                handleDragGestureChanged(value)
                             }
-                            .onEnded { _ in
-                                handleDragEnd()
+                            .onEnded { value in
+                                handleDragGestureEnded(value)
                             }
                     )
                 
                 // 选择框层
-                if let rect = selectionRect {
-                    Rectangle()
-                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [4]))
-                        .foregroundColor(.white)
-                        .frame(width: rect.width, height: rect.height)
-                        .position(x: rect.midX, y: rect.midY)
-                        
-                    // 控制点
-                    ForEach(ResizeHandle.allCases, id: \.self) { handle in
-                        if let point = controlPointForHandle(handle, inRect: rect) {
-                            Circle()
-                                .fill(controlPointColor)
-                                .frame(width: controlPointSize, height: controlPointSize)
-                                .position(x: point.x + controlPointSize/2 , y: point.y + controlPointSize/2)
+//                if let rect = selectionRect {
+//                    Rectangle()
+//                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [4]))
+//                        .foregroundColor(.white)
+//                        .frame(width: rect.width, height: rect.height)
+//                        .position(x: rect.midX, y: rect.midY)
+//
+//                    // 控制点
+//                    ForEach(ResizeHandle.allCases, id: \.self) { handle in
+//                        if let point = controlPointForHandle(handle, inRect: rect) {
+//                            Circle()
+//                                .fill(controlPointColor)
+//                                .frame(width: controlPointSize, height: controlPointSize)
+//                                .position(x: point.x + controlPointSize/2 , y: point.y + controlPointSize/2)
+//                        }
+//                    }
+//                }
+                if let ann = activeAnnotation {
+                    SelectionAreaView(annotation: ann, onUpdateFrame: { offset, size in
+                        if let index = annotations.firstIndex(where: { $0.id == ann.id }) {
+                            annotations[index].frame.origin.x += offset.width
+                            annotations[index].frame.origin.y += offset.height
+                            annotations[index].frame.size.width += size.width
+                            annotations[index].frame.size.height += size.height
                         }
-                    }
-                }
-                // isShowActionbar
-                if isShowActionbar {
-                    if let rect = selectionRect {
-                        ActionBarView()
-                            .frame(width: 500, height: 36)
-                            .position(x: rect.maxX - 250, y: rect.maxY + 36)
-                    }
+                    })
+                    .position(x: ann.frame.midX, y: ann.frame.midY)
+                    
+                    ActionBarView()
+                        .frame(width: 500, height: 36)
+                        .position(x: ann.frame.maxX - 250, y: ann.frame.maxY + 36)
                 }
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
             .background(Color.gray.opacity(0.5))
+            .coordinateSpace(.named(Keys.coordinate))
         }
+    }
+    
+    private func handleDragGestureChanged(_ value: DragGesture.Value) {
+        if !isDragging {
+            dragStart = value.startLocation
+            dragOffset = .zero
+            isDragging = true
+        }
+
+        // 实时更新位置
+        dragOffset = value.translation
+    }
+    
+    private func handleDragGestureEnded(_ event: DragGesture.Value) {
+        annotations.append(Annotation(
+            type: annotationType,
+            frame: CGRect(
+                x: dragStart.x,
+                y: dragStart.y,
+                width: dragOffset.width,
+                height: dragOffset.height
+            ),
+            start: dragStart,
+            offset: dragOffset
+        ))
+        dragStart = .zero
+        dragOffset = .zero
+        isDragging = false
     }
     
     private func handleDrag(value: DragGesture.Value, in geometry: GeometryProxy) {

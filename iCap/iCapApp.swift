@@ -79,6 +79,17 @@ struct iCapApp: App {
             }
         }
         .defaultAppStorage(UserDefaults.group)
+        
+        WindowGroup(AppWinsInfo.editor.desc, id: AppWinsInfo.editor.id) {
+            EditorView()
+                .environmentObject(appState)
+                .onAppear {
+                     
+                    
+                }
+        }
+        
+        .defaultAppStorage(UserDefaults.group)
 
         MenuBarExtra(
             "App Menu Bar Extra", image: "menubar",

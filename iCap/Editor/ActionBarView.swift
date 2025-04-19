@@ -46,13 +46,31 @@ struct ActionBarView: View {
                     .help("保存到剪贴板")
                 
                 Button(action: {
-                    self.onSave()
+                    store.drawingMode = .rectangle
                 }) {
-                    Image(systemName: "clipboard")
+                    Image(systemName: "rectangle")
                         .font(.system(size: 20))
-                        .foregroundColor(.gray)
+                        .foregroundColor(store.drawingMode == .rectangle ? .accentColor : .gray)
                 }.buttonStyle(PlainButtonStyle())
-                    .help("添加性质")
+                    .help("矩形框")
+                
+                Button(action: {
+                    store.drawingMode = .arrow
+                }) {
+                    Image(systemName: "arrow.right")
+                        .font(.system(size: 20))
+                        .foregroundColor(store.drawingMode == .arrow ? .accentColor : .gray)
+                }.buttonStyle(PlainButtonStyle())
+                    .help("箭头")
+                
+                Button(action: {
+                    store.drawingMode = .text
+                }) {
+                    Image(systemName: "character")
+                        .font(.system(size: 20))
+                        .foregroundColor(store.drawingMode == .text ? .accentColor : .gray)
+                }.buttonStyle(PlainButtonStyle())
+                    .help("文字")
             }
             .padding(.horizontal, 12)
             .frame(height: 36)

@@ -25,13 +25,17 @@
         }
       }
     },
+    "ann offset: %lf, %lf ; size: %lf, %lf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "ann offset: %1$lf, %2$lf ; size: %3$lf, %4$lf"
+          }
+        }
+      }
+    },
     "App Menu Bar Extra" : {
-
-    },
-    "Change Message" : {
-
-    },
-    "Child View: %@" : {
 
     },
     "General" : {
@@ -65,12 +69,6 @@
     "jpeg" : {
 
     },
-    "load image" : {
-
-    },
-    "Parent View: %@" : {
-
-    },
     "png" : {
 
     },
@@ -84,12 +82,6 @@
           }
         }
       }
-    },
-    "Start" : {
-
-    },
-    "start message" : {
-
     },
     "保存" : {
 
@@ -133,7 +125,19 @@
     "操作" : {
 
     },
-    "添加性质" : {
+    "文字" : {
+
+    },
+    "矩形" : {
+
+    },
+    "矩形框" : {
+
+    },
+    "箭头" : {
+
+    },
+    "设置" : {
 
     },
     "退出" : {

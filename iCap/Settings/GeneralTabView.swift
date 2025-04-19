@@ -79,6 +79,9 @@ struct GeneralTabView: View {
             HStack {
                 Spacer()
                 Button("保存", systemImage: "square.and.arrow.down", action: takeScreenShot)
+                Button("设置", action: {
+                    openWindow(id: AppWinsInfo.editor.id)
+                })
                 Spacer()
             }
         }

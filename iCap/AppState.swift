@@ -20,6 +20,9 @@ class AppState: ObservableObject {
     @Published
     var isShow: Bool = false
     
+    @Published
+    var drawingMode: DrawingMode = .none
+    
     init() {
 //        KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
 //            print("------\(self.self)")
