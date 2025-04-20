@@ -78,10 +78,6 @@ struct StatusMenu: View {
         }
     }
 
-    func showWins() {
-        SCContext.showMainWindow()
-    }
-    
     func openSavedDirectory() {
         let url = URL(fileURLWithPath: imageSavePath)
         NSWorkspace.shared.open(url)

@@ -89,13 +89,13 @@ struct GeneralTabView: View {
 
     @MainActor
     func takeScreenShot() {
-        logger.info("sart takeScreenShot")
+        logger.info("Start taking screenshot")
         Task {
-            if (try? await SCContext.getScreenImage()) != nil {
-                logger.info("getScreenImage success")
+            if await appState.getScreenImage() {
+                logger.info("Screenshot captured successfully")
                 appState.setIsShow(true)
             } else {
-                logger.error("getScreenImage failed")
+                logger.error("Failed to capture screenshot: No image returned")
             }
         }
     }

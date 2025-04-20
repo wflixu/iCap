@@ -8,48 +8,222 @@
 import AppKit
 import Combine
 import KeyboardShortcuts
+import ScreenCaptureKit
 
 @MainActor
 class AppState: ObservableObject {
     @AppLog(category: "AppState")
     private var logger
-    
+
     @Published
     var isUnicornMode: Bool = false
     // overlayer is show
     @Published
     var isShow: Bool = false
-    
+
     @Published
     var drawingMode: DrawingMode = .none
-    
-    init() {
-//        KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
-//            print("------\(self.self)")
-//            self.takeScreenShot()
-//        }
-    }
-    
+
+    @Published
+    var screenImage: CGImage?
+
+    @Published
+    var cropRect: CGRect = .zero
+
+
     static var share = AppState()
-    
+
     @MainActor
     func takeScreenShot() {
         print("takeScreenShot")
         Task {
-            if (try? await SCContext.getScreenImage()) != nil {
-                self.logger.info("takeScreenShot success")
+            do {
+                let success = try await self.getScreenImage()
+                if success {
+                    self.logger.info("takeScreenShot success")
+                } else {
+                    self.logger.error("takeScreenShot failed")
+                }
+            } catch {
+                logger.error("takeScreenShot error: \(error.localizedDescription)")
             }
         }
     }
 
+    func getScreenWithMouse() -> NSScreen? {
+        let mouseLocation = NSEvent.mouseLocation
+        let screenWithMouse = NSScreen.screens.first(where: { NSMouseInRect(mouseLocation, $0.frame, false) })
+        return screenWithMouse
+    }
+
+    // 获取当前鼠标所在屏幕的截图
+    func getScreenImage() async -> Bool {
+        logger.info("getScreenImage")
+
+        do {
+            let availableContent = try await SCShareableContent.current
+
+            guard let display = availableContent.displays.first else {
+                logger.error("noDisplayFound")
+                return false
+            }
+
+            let contentFilter = SCContentFilter(display: display,
+                                                excludingApplications: [],
+                                                exceptingWindows: [])
+
+            let configuration = SCStreamConfiguration()
+            if let screen = getScreenWithMouse() {
+                configuration.width = Int(screen.frame.width * screen.backingScaleFactor)
+                configuration.height = Int(screen.frame.height * screen.backingScaleFactor)
+                configuration.minimumFrameInterval = CMTime(value: 1, timescale: 60)
+                configuration.pixelFormat = kCVPixelFormatType_32BGRA
+                configuration.showsCursor = true
+            } else {
+                logger.error("notDisplay")
+                return false
+            }
+
+            let image = try await SCScreenshotManager.captureImage(
+                contentFilter: contentFilter,
+                configuration: configuration
+            )
+            screenImage = image
+            return true
+        } catch {
+            logger.error("captureFailed: \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    func saveImage(_ to: ImageSaveTo = .pasteboard) -> Data? {
+        guard cropRect != .zero else {
+            logger.warning("cropRect is zero")
+            return nil
+        }
+        
+        if cropRect != .zero, let cgimage = screenImage {
+            logger.info("cgimg\(cgimage.height) \(cgimage.width)")
+            // 修正y轴坐标计算，确保截取区域与选择区域一致
+            let clipRect = CGRect(x: cropRect.minX,
+                                  y: cropRect.minY,
+                                  width: cropRect.width,
+                                  height: cropRect.height)
+
+            let cropimg = cgimage.cropping(to: clipRect)!
+            let effectimg = processImageWithEffects(inputImage: cropimg)!
+            let bitmap = NSBitmapImageRep(cgImage: effectimg)
+            let pngData = bitmap.representation(using: .png, properties: [:])
+
+            if let data = pngData {
+                if to == .file {
+                    // 获取应用沙盒的 Documents 目录
+
+                    return data
+                } else {
+                    let pb = NSPasteboard.general
+                    pb.clearContents()
+
+                    let saveRes = pb.setData(data, forType: .png)
+                    logger.info("save data in pastboard is \(saveRes)")
+                }
+//
+            }
+        } else {
+            print("screenArea,cgimage  not ")
+        }
+
+        return nil
+    }
+
+    func getImageSavePath() -> String {
+        // 读取 UserDefaults 中存储的路径
+        let savePath = UserDefaults.group.string(forKey: "imageSavePath") ?? "/Users/"
+        return savePath
+    }
+
+    func processImageWithEffects(
+        inputImage: CGImage,
+        cornerRadius: CGFloat = 10,
+        shadowColor: NSColor = .black,
+        shadowOffset: CGSize = .init(width: 0, height: 0),
+        shadowRadius: CGFloat = 15,
+        shadowOpacity: CGFloat = 0.3
+    ) -> CGImage? {
+        // 创建透明画布
+        let imageSize = CGSize(width: inputImage.width, height: inputImage.height)
+        let effectiveRect = CGRect(
+            x: abs(shadowOffset.width) + shadowRadius,
+            y: abs(shadowOffset.height) + shadowRadius,
+            width: imageSize.width,
+            height: imageSize.height
+        )
+
+        let canvasSize = CGSize(
+            width: effectiveRect.width + shadowRadius * 2,
+            height: effectiveRect.height + shadowRadius * 2
+        )
+
+        guard let context = CGContext(
+            data: nil,
+            width: Int(canvasSize.width),
+            height: Int(canvasSize.height),
+            bitsPerComponent: 8,
+            bytesPerRow: 0,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return nil }
+
+        // 绘制阴影
+        let shadowRect = CGRect(
+            x: effectiveRect.origin.x + shadowOffset.width,
+            y: effectiveRect.origin.y + shadowOffset.height,
+            width: effectiveRect.width,
+            height: effectiveRect.height
+        )
+
+        context.setShadow(
+            offset: shadowOffset,
+            blur: shadowRadius,
+            color: shadowColor.withAlphaComponent(shadowOpacity).cgColor
+        )
+
+        // 创建圆角路径
+        let path = NSBezierPath(
+            roundedRect: shadowRect,
+            xRadius: cornerRadius,
+            yRadius: cornerRadius
+        ).cgPath
+
+        context.addPath(path)
+        context.fillPath()
+
+        // 裁剪圆角区域
+        context.addPath(path)
+        context.clip()
+
+        // 绘制原图
+        let drawRect = CGRect(
+            x: effectiveRect.origin.x,
+            y: effectiveRect.origin.y,
+            width: imageSize.width,
+            height: imageSize.height
+        )
+
+        context.draw(inputImage, in: drawRect)
+
+        // 生成最终图像
+        return context.makeImage()
+    }
+
     func setIsShow(_ isShow: Bool) {
-        self.logger.info("start show overlayer")
+        logger.info("start show overlayer")
         self.isShow = isShow
     }
-    
+
     func hideOverlayerWin() {
         print("start hide overlayer")
-        self.isShow = false
+        isShow = false
         if let window = NSApplication.shared.windows.first(where: { $0.title == "Item-0" }) {
             window.close()
         } else {

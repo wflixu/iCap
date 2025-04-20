@@ -72,9 +72,9 @@ class Util {
 
         return nil
     }
-    
+
     static func showOrCreateWindow(windowId: String, callback: () -> Void) {
-        if let window = NSApp.windows.first(where: { 
+        if let window = NSApp.windows.first(where: {
             guard let rawValue = $0.identifier?.rawValue else { return false }
             return rawValue == windowId
         }) {
@@ -82,6 +82,12 @@ class Util {
             NSApp.activate(ignoringOtherApps: true)
         } else {
             callback()
+        }
+    }
+
+    static func setOverlayWindowLevel(_ level: NSWindow.Level) {
+        for w in NSApplication.shared.windows.filter({ $0.title == AppWinsInfo.overlayer.desc }) {
+            w.level = level
         }
     }
 }

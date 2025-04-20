@@ -20,7 +20,6 @@
 		5C9BE1C12BDEA62800FE56BD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BE1C02BDEA62800FE56BD /* Model.swift */; };
 		5CA3C1A22BCCFE0800ED3A48 /* SelectionAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA3C1A12BCCFE0800ED3A48 /* SelectionAreaView.swift */; };
 		5CC56DD22BDBA1F300CFEEAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC56DD12BDBA1F300CFEEAB /* Constants.swift */; };
-		5CC56DD42BDBA9D000CFEEAB /* SCContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */; };
 		5CC92F7B2D3A015300214098 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 5CC92F7A2D3A015300214098 /* KeyboardShortcuts */; };
 		5CC92F7D2D3A06B900214098 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC92F7C2D3A06B000214098 /* AppState.swift */; };
 		5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9842B63B25C00753013 /* iCapApp.swift */; };
@@ -68,7 +67,6 @@
 		5C9BE1C02BDEA62800FE56BD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		5CA3C1A12BCCFE0800ED3A48 /* SelectionAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionAreaView.swift; sourceTree = "<group>"; };
 		5CC56DD12BDBA1F300CFEEAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCContext.swift; sourceTree = "<group>"; };
 		5CC92F7C2D3A06B000214098 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		5CF3D9812B63B25B00753013 /* iCap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF3D9842B63B25C00753013 /* iCapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCapApp.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				5C9BE1C02BDEA62800FE56BD /* Model.swift */,
 				5C3256692D9809EF000BAE39 /* ActionBarView.swift */,
 				5CA3C1A12BCCFE0800ED3A48 /* SelectionAreaView.swift */,
-				5CC56DD32BDBA9D000CFEEAB /* SCContext.swift */,
 				5C9BE1BD2BDE707800FE56BD /* EditorView.swift */,
 				5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */,
 			);
@@ -255,7 +252,6 @@
 			files = (
 				5C32566E2D982527000BAE39 /* GeneralTabView.swift in Sources */,
 				5C6D55F72D3B5FB000DD2979 /* OverlayerView.swift in Sources */,
-				5CC56DD42BDBA9D000CFEEAB /* SCContext.swift in Sources */,
 				5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */,
 				5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */,
 				5C3456612B69EDDB00278BF2 /* StatusMenu.swift in Sources */,

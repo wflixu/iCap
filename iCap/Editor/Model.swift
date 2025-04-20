@@ -19,6 +19,7 @@ enum DrawingMode {
 
 // 标注类型枚举
 enum AnnotationType {
+    case none
     case rect
     case text
     case arrow
@@ -30,6 +31,8 @@ enum AnnotationType {
                 return "文本"
             case .arrow:
                 return "箭头"
+            case .none:
+                return "无"
         }
     }
 }

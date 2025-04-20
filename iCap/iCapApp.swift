@@ -14,6 +14,9 @@ import KeyboardShortcuts
 import ScreenCaptureKit
 import SwiftUI
 import UserNotifications
+import OSLog
+
+let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "iCapApp")
 
 @main
 struct iCapApp: App {
@@ -28,8 +31,6 @@ struct iCapApp: App {
 
     private var cancellables = Set<AnyCancellable>()
 
-    @AppLog(category: "iCapApp")
-    private var logger
 
     var body: some Scene {
         WindowGroup(AppWinsInfo.main.desc, id: AppWinsInfo.main.id) {
@@ -157,7 +158,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SCStreamDelegate, SCStreamOu
     func takeScreenShot() {
         logger.info("takeScreenShot")
         Task {
-            if (try? await SCContext.getScreenImage()) != nil {
+            if await appState.getScreenImage() {
                 logger.info("getScreenImage success")
                 appState.setIsShow(true)
             }

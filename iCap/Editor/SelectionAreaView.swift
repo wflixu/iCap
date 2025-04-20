@@ -12,7 +12,9 @@ struct SelectionAreaView: View {
     @State var offset: CGSize = .zero
     @State var changeSize: CGSize = .zero
 
-    var annotation: Annotation
+    let editable: Bool
+
+    var frame: CGRect
     var onUpdateFrame: (CGSize, CGSize) -> Void
 
     // 计算矩形 8 个控制点的位置
@@ -21,7 +23,7 @@ struct SelectionAreaView: View {
     }
 
     var livingSize: CGSize {
-        let originSize = annotation.frame.size
+        let originSize = frame.size
         return CGSize(width: originSize.width + changeSize.width, height: originSize.height + changeSize.height)
     }
 
@@ -33,6 +35,10 @@ struct SelectionAreaView: View {
             .highPriorityGesture(
                 DragGesture(minimumDistance: 5.0, coordinateSpace: .named(Keys.coordinate))
                     .onChanged { event in
+
+                        guard editable else {
+                            return
+                        }
                         // 记录拖动起始位置
                         if sartPoint == .zero {
                             sartPoint = event.startLocation
@@ -43,6 +49,10 @@ struct SelectionAreaView: View {
                         logger.info("拖动中 - 坐标: (\(event.location.x), \(event.location.y)) , 偏移: \(event.translation.width), \(event.translation.height)")
                     }
                     .onEnded { _ in
+                        guard editable else {
+                            return
+                        }
+
                         // 重置起始位置和偏移
                         movingAnnotation(offset)
                         sartPoint = .zero
@@ -50,46 +60,55 @@ struct SelectionAreaView: View {
                     }
             )
             .frame(width: livingSize.width, height: livingSize.height)
-            //  绘制 8 个控制点圆环
+            // 绘制 8 个控制点圆环，仅在可编辑状态下显示
             .overlay(
-                ForEach(controlPoints, id: \.self) { cpoint in
-                    Circle()
-                        .fill(Color.blue)
-                        .frame(width: 12, height: 12)
-                        .onHover(perform: { hovering in
-                            if hovering {
-                                setCursorbyIndex(cpoint)
-                            } else {
-                                NSCursor.pop()
-                            }
-                        }
-                        )
-                        .position(cpoint.position(self.livingSize))
-                        .offset(offset)
-                        .gesture(
-                            DragGesture(minimumDistance: 3, coordinateSpace: .named(Keys.coordinate))
-                                .onChanged { event in
-                                    logger.info("拖动中 - 坐标: (\(event.location.x), \(event.location.y)) , 偏移: \(event.translation.width), \(event.translation.height) 起点：\(event.startLocation.x), \(event.startLocation.y)")
+                Group {
+                    if editable {
+                        ForEach(controlPoints, id: \.self) { cpoint in
 
-                                    // 计算新的宽高
-                                    changeSize = cpoint.getTargetChangedSize(event.translation)
-                                    offset = cpoint.getViewOffset(event.translation)
+                            Circle()
+                                .fill(Color.blue)
+                                .frame(width: 12, height: 12)
+                                .onHover(perform: { hovering in
+                                    guard editable else {
+                                        return
+                                    }
+                                    if hovering {
+                                        setCursorbyIndex(cpoint)
+                                    } else {
+                                        NSCursor.pop()
+                                    }
                                 }
-                                .onEnded { event in
-                                    let size: CGSize = cpoint.getTargetChangedSize(event.translation)
-                                    let trans: CGSize = cpoint.getOriginTrans(event.translation)
-                                    // 计算新的宽高
-                                    onUpdateFrame(trans, size)
-                                    changeSize = .zero
-                                    offset = .zero
-                                }
-                        )
+                                )
+                                .position(cpoint.position(self.livingSize))
+                                .offset(offset)
+                                .gesture(
+                                    DragGesture(minimumDistance: 3, coordinateSpace: .named(Keys.coordinate))
+                                        .onChanged { event in
+
+                                            logger.info("拖动中 - 坐标: (\(event.location.x), \(event.location.y)) , 偏移: \(event.translation.width), \(event.translation.height) 起点：\(event.startLocation.x), \(event.startLocation.y)")
+
+                                            // 计算新的宽高
+                                            changeSize = cpoint.getTargetChangedSize(event.translation)
+                                            offset = cpoint.getViewOffset(event.translation)
+                                        }
+                                        .onEnded { event in
+
+                                            let size: CGSize = cpoint.getTargetChangedSize(event.translation)
+                                            let trans: CGSize = cpoint.getOriginTrans(event.translation)
+                                            // 计算新的宽高
+                                            onUpdateFrame(trans, size)
+                                            changeSize = .zero
+                                            offset = .zero
+                                        }
+                                )
+                        }
+                    }
                 }
             )
             .overlay(
                 Text("ann offset: \(offset.width), \(offset.height) ; size: \(changeSize.width), \(changeSize.height)")
             )
-
     }
 
     func getArrowStartPoint(_ offset: CGSize) -> CGPoint {

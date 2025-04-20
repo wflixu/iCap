@@ -14,6 +14,7 @@ struct ActionBarView: View {
     @AppLog(category: "ActionBarView")
     private var logger
     
+    
     @State private var showSelectPath = false
 
     @State private var isShowingFileExporter = false
@@ -85,14 +86,14 @@ struct ActionBarView: View {
     }
 
     func onSave() {
-        _ = SCContext.saveImage()
+        _ = store.saveImage()
         store.setIsShow(false)
     }
 
     func onSaveFile() {
-        SCContext.setOverlayWindowLevel(.normal)
+        Util.setOverlayWindowLevel(.normal)
 
-        if let imageData = SCContext.saveImage(.file) {
+        if let imageData = store.saveImage(.file) {
             
             let url = URL(fileURLWithPath: imageSavePath).appendingPathComponent(Util.getDatetimeFileName()).appendingPathExtension(imageFormat.rawValue)
             logger.info("Saving image to: \(url.path)")

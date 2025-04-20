@@ -23,12 +23,14 @@ struct AnnotationView: View {
                 // 绘制所有标注
                 for annotation in annotations {
                     switch annotation.type {
-                    case .rect:
-                        drawRect(context: context, annotation: annotation, size: size)
-                    case .text:
-                        drawText(context: context, annotation: annotation, size: size)
-                    case .arrow:
-                        drawArrow(context: context, annotation: annotation, size: size)
+                        case .none:
+                            continue
+                        case .rect:
+                            drawRect(context: context, annotation: annotation, size: size)
+                        case .text:
+                            drawText(context: context, annotation: annotation, size: size)
+                        case .arrow:
+                            drawArrow(context: context, annotation: annotation, size: size)
                     }
                 }
             }
