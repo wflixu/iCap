@@ -21,11 +21,16 @@ class AppState: ObservableObject {
     @Published
     var isShow: Bool = false
 
+    
     @Published
-    var drawingMode: DrawingMode = .none
+    var annotationType: AnnotationType = .none
+    
 
     @Published
     var screenImage: CGImage?
+    
+    @Published
+    var annotationImage: CGImage?
 
     @Published
     var cropRect: CGRect = .zero
@@ -101,39 +106,80 @@ class AppState: ObservableObject {
             logger.warning("cropRect is zero")
             return nil
         }
-        
-        if cropRect != .zero, let cgimage = screenImage {
-            logger.info("cgimg\(cgimage.height) \(cgimage.width)")
-            // 修正y轴坐标计算，确保截取区域与选择区域一致
+
+        if cropRect != .zero, let screenImage = screenImage {
+            logger.info("screenImage size: \(screenImage.height) x \(screenImage.width)")
+
+            // 合并 screenImage 和 annotationImage
+            let combinedImage: CGImage
+            if let annotationImage = annotationImage {
+                combinedImage = mergeImages(baseImage: screenImage, overlayImage: annotationImage)
+            } else {
+                combinedImage = screenImage
+            }
+
+            // 修正 y 轴坐标计算，确保截取区域与选择区域一致
             let clipRect = CGRect(x: cropRect.minX,
                                   y: cropRect.minY,
                                   width: cropRect.width,
                                   height: cropRect.height)
 
-            let cropimg = cgimage.cropping(to: clipRect)!
-            let effectimg = processImageWithEffects(inputImage: cropimg)!
-            let bitmap = NSBitmapImageRep(cgImage: effectimg)
+            guard let croppedImage = combinedImage.cropping(to: clipRect) else {
+                logger.error("Failed to crop image")
+                return nil
+            }
+
+            guard let effectImage = processImageWithEffects(inputImage: croppedImage) else {
+                logger.error("Failed to apply effects to image")
+                return nil
+            }
+
+            let bitmap = NSBitmapImageRep(cgImage: effectImage)
             let pngData = bitmap.representation(using: .png, properties: [:])
 
             if let data = pngData {
                 if to == .file {
                     // 获取应用沙盒的 Documents 目录
-
                     return data
                 } else {
                     let pb = NSPasteboard.general
                     pb.clearContents()
 
                     let saveRes = pb.setData(data, forType: .png)
-                    logger.info("save data in pastboard is \(saveRes)")
+                    logger.info("save data in pasteboard is \(saveRes)")
                 }
-//
             }
         } else {
-            print("screenArea,cgimage  not ")
+            logger.warning("screenImage or cropRect is invalid")
         }
 
         return nil
+    }
+
+    private func mergeImages(baseImage: CGImage, overlayImage: CGImage) -> CGImage {
+        let width = max(baseImage.width, overlayImage.width)
+        let height = max(baseImage.height, overlayImage.height)
+
+        guard let context = CGContext(
+            data: nil,
+            width: width,
+            height: height,
+            bitsPerComponent: baseImage.bitsPerComponent,
+            bytesPerRow: 0,
+            space: baseImage.colorSpace ?? CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: baseImage.bitmapInfo.rawValue
+        ) else {
+            logger.error("Failed to create CGContext for merging images")
+            return baseImage
+        }
+
+        // 绘制底层图像
+        context.draw(baseImage, in: CGRect(x: 0, y: 0, width: baseImage.width, height: baseImage.height))
+
+        // 绘制叠加图像
+        context.draw(overlayImage, in: CGRect(x: 0, y: 0, width: overlayImage.width, height: overlayImage.height))
+
+        return context.makeImage() ?? baseImage
     }
 
     func getImageSavePath() -> String {

@@ -8,6 +8,8 @@ import Foundation
 import SwiftUI
 
 struct SelectionAreaView: View {
+    @EnvironmentObject var appState: AppState
+    
     @State var sartPoint: CGPoint = .zero
     @State var offset: CGSize = .zero
     @State var changeSize: CGSize = .zero

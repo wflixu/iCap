@@ -45,7 +45,7 @@ struct IRectangle {
 }
 
 // 标注数据结构
-struct Annotation: Identifiable {
+struct Annotation: Identifiable, Equatable {
     let id = UUID()
     let type: AnnotationType
     var frame: CGRect
@@ -55,6 +55,10 @@ struct Annotation: Identifiable {
     var active: Bool = false
     var start: CGPoint = .zero
     var offset: CGSize = .zero
+
+    static func == (lhs: Annotation, rhs: Annotation) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 // 可编辑形状的控制点

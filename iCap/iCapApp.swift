@@ -75,6 +75,8 @@ struct iCapApp: App {
                     // 这里关闭该窗口
                     dismissWindow(id: "overlayer")
                     appState.isShow = false
+                    appState.cropRect = .zero
+                    appState.annotationType = .none
                 }
                 .keyboardShortcut(.escape, modifiers: [.command]) // 绑定 ESC 键
             }

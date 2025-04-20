@@ -47,29 +47,29 @@ struct ActionBarView: View {
                     .help("保存到剪贴板")
                 
                 Button(action: {
-                    store.drawingMode = .rectangle
+                    store.annotationType = .rect
                 }) {
                     Image(systemName: "rectangle")
                         .font(.system(size: 20))
-                        .foregroundColor(store.drawingMode == .rectangle ? .accentColor : .gray)
+                        .foregroundColor(store.annotationType == .rect ? .accentColor : .gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("矩形框")
                 
                 Button(action: {
-                    store.drawingMode = .arrow
+                    store.annotationType = .arrow
                 }) {
                     Image(systemName: "arrow.right")
                         .font(.system(size: 20))
-                        .foregroundColor(store.drawingMode == .arrow ? .accentColor : .gray)
+                        .foregroundColor(store.annotationType == .arrow ? .accentColor : .gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("箭头")
                 
                 Button(action: {
-                    store.drawingMode = .text
+                    store.annotationType = .text
                 }) {
                     Image(systemName: "character")
                         .font(.system(size: 20))
-                        .foregroundColor(store.drawingMode == .text ? .accentColor : .gray)
+                        .foregroundColor(store.annotationType == .text ? .accentColor : .gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("文字")
             }
