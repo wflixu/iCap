@@ -13,8 +13,7 @@ import UniformTypeIdentifiers
 struct ActionBarView: View {
     @AppLog(category: "ActionBarView")
     private var logger
-    
-    
+
     @State private var showSelectPath = false
 
     @State private var isShowingFileExporter = false
@@ -22,63 +21,69 @@ struct ActionBarView: View {
     @AppStorage("imageFormat") private var imageFormat: ImageFormat = .png
     @AppStorage("imageSavePath") private var imageSavePath: String = "/Users/"
 
-    @EnvironmentObject var store: AppState
+    @EnvironmentObject var appState: AppState
 
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
-            HStack(alignment: .center, spacing: 12) {
+            HStack(alignment: .center, spacing: 8) {
                 Spacer()
                 Button(action: {
                     self.onSaveFile()
                 }) {
                     Image(systemName: "square.and.arrow.down")
-                        .font(.system(size: 20))
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
                         .foregroundColor(.gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("保存到文件")
-                
+
                 Button(action: {
                     self.onSave()
                 }) {
                     Image(systemName: "clipboard")
-                        .font(.system(size: 20))
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
                         .foregroundColor(.gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("保存到剪贴板")
-                
+
                 Button(action: {
-                    store.annotationType = .rect
+                    appState.toggleAnnotationType(.rect)
                 }) {
                     Image(systemName: "rectangle")
-                        .font(.system(size: 20))
-                        .foregroundColor(store.annotationType == .rect ? .accentColor : .gray)
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(appState.annotationType == .rect ? .accentColor : .gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("矩形框")
-                
+
                 Button(action: {
-                    store.annotationType = .arrow
+                    appState.toggleAnnotationType(.arrow)
                 }) {
                     Image(systemName: "arrow.right")
-                        .font(.system(size: 20))
-                        .foregroundColor(store.annotationType == .arrow ? .accentColor : .gray)
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(appState.annotationType == .arrow ? .accentColor : .gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("箭头")
-                
+
                 Button(action: {
-                    store.annotationType = .text
+                    appState.annotationType = .text
+                    appState.savingDrawing = !appState.savingDrawing
                 }) {
                     Image(systemName: "character")
-                        .font(.system(size: 20))
-                        .foregroundColor(store.annotationType == .text ? .accentColor : .gray)
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(appState.annotationType == .text ? .accentColor : .gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("文字")
             }
             .padding(.horizontal, 12)
-            .frame(height: 36)
+            .frame(height: 40)
             .background(.white)
-            .cornerRadius(8)
+            .cornerRadius(4)
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 4)
                     .stroke(Color.gray.opacity(0.2), lineWidth: 1)
             )
             .shadow(color: .gray.opacity(0.1), radius: 2, x: 0, y: 1)
@@ -86,15 +91,13 @@ struct ActionBarView: View {
     }
 
     func onSave() {
-        _ = store.saveImage()
-        store.setIsShow(false)
+        EventBus.shared.post(event: "save", data: "save")
     }
 
     func onSaveFile() {
         Util.setOverlayWindowLevel(.normal)
 
-        if let imageData = store.saveImage(.file) {
-            
+        if let imageData = appState.saveImage(.file) {
             let url = URL(fileURLWithPath: imageSavePath).appendingPathComponent(Util.getDatetimeFileName()).appendingPathExtension(imageFormat.rawValue)
             logger.info("Saving image to: \(url.path)")
             do {
@@ -103,7 +106,7 @@ struct ActionBarView: View {
             } catch {
                 print("Error saving image: \(error.localizedDescription)")
             }
-            store.setIsShow(false)
+            appState.setIsShow(false)
         }
     }
 }

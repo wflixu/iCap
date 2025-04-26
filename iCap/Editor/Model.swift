@@ -10,11 +10,9 @@ import CoreGraphics
 import Foundation
 import SwiftUI
 
-enum DrawingMode {
-    case none
-    case rectangle
-    case arrow
-    case text
+enum StepStatus: String {
+    case selecting
+    case drawing
 }
 
 // 标注类型枚举

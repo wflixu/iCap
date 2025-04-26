@@ -21,20 +21,20 @@ class AppState: ObservableObject {
     @Published
     var isShow: Bool = false
 
-    
     @Published
     var annotationType: AnnotationType = .none
-    
 
     @Published
     var screenImage: CGImage?
-    
+
     @Published
     var annotationImage: CGImage?
+    
+    @Published
+    var savingDrawing: Bool = false
 
     @Published
     var cropRect: CGRect = .zero
-
 
     static var share = AppState()
 
@@ -52,6 +52,14 @@ class AppState: ObservableObject {
             } catch {
                 logger.error("takeScreenShot error: \(error.localizedDescription)")
             }
+        }
+    }
+
+    func toggleAnnotationType(_ type: AnnotationType) {
+        if annotationType == type {
+            annotationType = .none
+        } else {
+            annotationType = type
         }
     }
 
@@ -115,6 +123,7 @@ class AppState: ObservableObject {
             if let annotationImage = annotationImage {
                 combinedImage = mergeImages(baseImage: screenImage, overlayImage: annotationImage)
             } else {
+                logger.warning("no annotationImage")
                 combinedImage = screenImage
             }
 

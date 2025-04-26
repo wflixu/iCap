@@ -31,7 +31,7 @@ struct ActiveAnnotationView: View {
         if annotation.type == .rect {
             Rectangle()
                 .stroke(Color.black, lineWidth: 6)
-                .fill(Color.black.opacity(0.01))
+                .fill(Color.blue.opacity(0.01))
                 .offset(offset)
                 .highPriorityGesture(
                     DragGesture(minimumDistance: 5.0, coordinateSpace: .named(Keys.coordinate))
@@ -90,7 +90,10 @@ struct ActiveAnnotationView: View {
                     }
                 )
                 .overlay(
-                    Text("ann offset: \(offset.width), \(offset.height) ; size: \(changeSize.width), \(changeSize.height)")
+//                    Text("ann offset: \(annotation.start.x), \(offset.height) ; size: \(changeSize.width), \(changeSize.height)")
+                    Text("ann offset: \(annotation.start.x), \(annotation.start.y) ; size: \(annotation.offset.width), \(annotation.offset.height)")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .padding(4)
                 )
         } else if annotation.type == .arrow {
             Path { path in

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C18BE302DBCD7B0000AE934 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C18BE2F2DBCD7B0000AE934 /* CanvasView.swift */; };
+		5C18BE322DBD208D000AE934 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C18BE312DBD208D000AE934 /* AnnotationView.swift */; };
+		5C18BE342DBD308F000AE934 /* EventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C18BE332DBD308F000AE934 /* EventBus.swift */; };
 		5C32566A2D9809EF000BAE39 /* ActionBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3256692D9809EF000BAE39 /* ActionBarView.swift */; };
 		5C32566C2D9822FD000BAE39 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5C32566B2D9822FD000BAE39 /* Localizable.xcstrings */; };
 		5C32566E2D982527000BAE39 /* GeneralTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C32566D2D982527000BAE39 /* GeneralTabView.swift */; };
@@ -53,6 +56,9 @@
 
 /* Begin PBXFileReference section */
 		5C159EA82BCD367900EF2F06 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5C18BE2F2DBCD7B0000AE934 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		5C18BE312DBD208D000AE934 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
+		5C18BE332DBD308F000AE934 /* EventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBus.swift; sourceTree = "<group>"; };
 		5C3256692D9809EF000BAE39 /* ActionBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionBarView.swift; sourceTree = "<group>"; };
 		5C32566B2D9822FD000BAE39 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		5C32566D2D982527000BAE39 /* GeneralTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTabView.swift; sourceTree = "<group>"; };
@@ -121,6 +127,7 @@
 				5C74BA852D97B07B005673DB /* AppLogger.swift */,
 				5C3256712D98354F000BAE39 /* Utils.swift */,
 				5C80293E2D98F0E3007C659C /* Extensions.swift */,
+				5C18BE332DBD308F000AE934 /* EventBus.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -134,6 +141,8 @@
 				5C9BE1BD2BDE707800FE56BD /* EditorView.swift */,
 				5C6D55F62D3B5FA200DD2979 /* OverlayerView.swift */,
 				5C760DBB2DB52F2D00359832 /* ActiveAnnotationView.swift */,
+				5C18BE2F2DBCD7B0000AE934 /* CanvasView.swift */,
+				5C18BE312DBD208D000AE934 /* AnnotationView.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -254,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C32566E2D982527000BAE39 /* GeneralTabView.swift in Sources */,
+				5C18BE322DBD208D000AE934 /* AnnotationView.swift in Sources */,
 				5C6D55F72D3B5FB000DD2979 /* OverlayerView.swift in Sources */,
 				5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */,
 				5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */,
@@ -262,6 +272,7 @@
 				5C9BE1C12BDEA62800FE56BD /* Model.swift in Sources */,
 				5CC92F7D2D3A06B900214098 /* AppState.swift in Sources */,
 				5C74BA862D97B07B005673DB /* AppLogger.swift in Sources */,
+				5C18BE342DBD308F000AE934 /* EventBus.swift in Sources */,
 				5C3256702D98262A000BAE39 /* AboutTabView.swift in Sources */,
 				5C9BE1BE2BDE707800FE56BD /* EditorView.swift in Sources */,
 				5C80293F2D98F0E3007C659C /* Extensions.swift in Sources */,
@@ -269,6 +280,7 @@
 				5CC56DD22BDBA1F300CFEEAB /* Constants.swift in Sources */,
 				5C3256722D98354F000BAE39 /* Utils.swift in Sources */,
 				5C32566A2D9809EF000BAE39 /* ActionBarView.swift in Sources */,
+				5C18BE302DBCD7B0000AE934 /* CanvasView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

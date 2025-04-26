@@ -9,10 +9,15 @@ import SwiftUI
 
 struct SelectionAreaView: View {
     @EnvironmentObject var appState: AppState
-    
+
     @State var sartPoint: CGPoint = .zero
     @State var offset: CGSize = .zero
     @State var changeSize: CGSize = .zero
+
+    // 用于存储所有可拖动形状的数据
+    @State private var annotations: [Annotation] = []
+
+ 
 
     let editable: Bool
 
@@ -27,6 +32,10 @@ struct SelectionAreaView: View {
     var livingSize: CGSize {
         let originSize = frame.size
         return CGSize(width: originSize.width + changeSize.width, height: originSize.height + changeSize.height)
+    }
+
+    var annotationType: AnnotationType {
+        appState.annotationType
     }
 
     var body: some View {
@@ -111,7 +120,12 @@ struct SelectionAreaView: View {
             .overlay(
                 Text("ann offset: \(offset.width), \(offset.height) ; size: \(changeSize.width), \(changeSize.height)")
             )
+        if !editable {
+           
+        }
     }
+
+    
 
     func getArrowStartPoint(_ offset: CGSize) -> CGPoint {
         return CGPoint(
@@ -133,4 +147,5 @@ struct SelectionAreaView: View {
     func setCursorbyIndex(_ cp: CPoint) {
         NSCursor.frameResize(position: cp.frameResizePosition, directions: .all).push()
     }
+
 }

@@ -9,7 +9,7 @@ import CoreGraphics
 import SwiftUI
 
 // 标注视图实现
-struct AnnotationView: View {
+struct AnnotationViewBak: View {
 //    let cgImage: CGImage
     var annotations: [Annotation] = []
     
@@ -109,7 +109,7 @@ class AnnotationController: ObservableObject {
     @MainActor
     func renderAnnotationView(size: CGSize) -> CGImage? {
         let renderer = ImageRenderer(
-            content: AnnotationView(annotations: annotations)
+            content: AnnotationViewBak(annotations: annotations)
                 .frame(width: size.width, height: size.height)
         )
          
@@ -125,7 +125,7 @@ struct EditorView: View {
     var body: some View {
         VStack {
             ZStack {
-                AnnotationView(annotations: controller.annotations)
+                AnnotationViewBak(annotations: controller.annotations)
                     .frame(width: 600, height: 400)
                     .gesture(DragGesture().onEnded { value in
                         let frame = CGRect(

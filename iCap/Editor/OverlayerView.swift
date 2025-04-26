@@ -36,6 +36,15 @@ struct OverlayerView: View {
         return selectionRect != .zero && appState.annotationType == .none && annotations.isEmpty
     }
 
+    var step: StepStatus {
+        if appState.annotationType != .none || !annotations.isEmpty {
+            return .drawing
+
+        } else {
+            return .selecting
+        }
+    }
+
     var activeAnnotation: Annotation? {
         if showActiveFrame {
             return Annotation(
@@ -64,23 +73,8 @@ struct OverlayerView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Canvas { context, size in
-
-                    // 绘制所有未标注
-                    for annotation in annotations {
-                        switch annotation.type {
-                        case .rect:
-                            drawRect(context: context, annotation: annotation, size: size)
-                        case .text:
-                            drawText(context: context, annotation: annotation, size: size)
-                        case .arrow:
-                            drawArrow(context: context, annotation: annotation, size: size)
-                        case .none:
-                            continue
-                        }
-                    }
-                }
                 // 背景层
+
                 Color.clear
                     .contentShape(Rectangle())
                     .gesture(
@@ -110,25 +104,36 @@ struct OverlayerView: View {
                     }
                 }
 
-                if let ann = activeAnnotation {
-                    ActiveAnnotationView(annotation: ann, onUpdateFrame: { offset, size in
-                        if let index = annotations.firstIndex(where: { $0.id == ann.id }) {
-                            annotations[index].frame.origin.x += offset.width
-                            annotations[index].frame.origin.y += offset.height
-                            annotations[index].frame.size.width += size.width
-                            annotations[index].frame.size.height += size.height
-                        }
-                    })
-                    .position(x: ann.frame.midX, y: ann.frame.midY)
+                if step == .drawing {
+                    CanvasView(frame: selectionRect)
+                        .frame(width: selectionRect.width, height: selectionRect.height)
+                        .position(x: selectionRect.midX, y: selectionRect.midY)
+                        .zIndex(100)
                 }
+
+//
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
             .background(Color.gray.opacity(0.5))
             .coordinateSpace(.named(Keys.coordinate))
+            .onReceive(EventBus.shared.publisher(for: "savedAnno")) { data in
+                if let id = data as? String {
+                    saveImage(id);
+                }
+            }
         }
     }
 
+    private func saveImage(_ key: String) {
+        logger.info("保存图片,,, \(key)")
+        appState.saveImage()
+    }
+
     private func handleDragGestureChanged(_ value: DragGesture.Value) {
+        if step == .drawing {
+            return
+        }
+
         if !isDragging {
             dragStart = value.startLocation
             dragOffset = .zero
@@ -144,6 +149,10 @@ struct OverlayerView: View {
     }
 
     private func handleDragGestureEnded(_ event: DragGesture.Value) {
+        if step == .drawing {
+            return
+        }
+
         if stepSelect {
             selectionRect.origin = dragStart
             selectionRect.size = dragOffset
@@ -164,67 +173,5 @@ struct OverlayerView: View {
         dragStart = .zero
         dragOffset = .zero
         isDragging = false
-    }
-
-    // 绘制矩形
-    private func drawRect(context: GraphicsContext, annotation: Annotation, size: CGSize) {
-        let path = Path(roundedRect: annotation.frame, cornerRadius: 0)
-        context.stroke(path, with: .color(annotation.color), lineWidth: annotation.lineWidth)
-    }
-
-    // 绘制文字
-    private func drawText(context: GraphicsContext, annotation: Annotation, size: CGSize) {
-        let text = Text(annotation.text)
-            .font(.system(size: 16))
-            .foregroundColor(annotation.color)
-
-        context.draw(text, at: CGPoint(
-            x: annotation.frame.midX,
-            y: annotation.frame.midY
-        ), anchor: .center)
-    }
-
-    // 绘制箭头
-    private func drawArrow(context: GraphicsContext, annotation: Annotation, size: CGSize) {
-        let start = annotation.start
-        let end = CGPoint(x: start.x + annotation.offset.width, y: start.y + annotation.offset.height)
-
-        // 绘制主线
-        var path = Path()
-        path.move(to: start)
-        path.addLine(to: end)
-        context.stroke(path, with: .color(annotation.color), lineWidth: annotation.lineWidth)
-
-        // 绘制箭头头部
-        let angle = atan2(end.y - start.y, end.x - start.x)
-        let arrowLength: CGFloat = 10
-
-        let arrowPath = Path { path in
-            path.move(to: end)
-            path.addLine(to: CGPoint(
-                x: end.x - arrowLength * cos(angle - .pi/6),
-                y: end.y - arrowLength * sin(angle - .pi/6)
-            ))
-
-            path.addLine(to: CGPoint(
-                x: end.x - arrowLength * cos(angle + .pi/6),
-                y: end.y - arrowLength * sin(angle + .pi/6)
-            ))
-
-            path.closeSubpath()
-        }
-
-        context.fill(arrowPath, with: .color(annotation.color))
-    }
-  
-    private func saveCanvas() {
-         let renderer = ImageRenderer(content: self)
-        if let cgImage = renderer.cgImage {
-            appState.annotationImage = cgImage
-            // 保存
-            logger.info("保存图片成功")
-        } else {
-            logger.error("保存图片失败")
-        }
     }
 }
