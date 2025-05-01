@@ -11,193 +11,208 @@ import SwiftUI
 struct OverlayerView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openWindow) private var openWindow
-    @State private var selectionRect: CGRect?
-    @State private var initialLocation: CGPoint?
-    @State private var dragIng = false
+    @EnvironmentObject private var appState: AppState
+
+    @State private var selectionRect: CGRect = .zero
+    @State private var selected = false
     @State private var activeHandle: ResizeHandle = .none
     @State private var lastMouseLocation: CGPoint?
     @State private var isShowActionbar = false
-    
+
+    // 激活矩形
+    @State private var isDragging = false
+    @State private var dragStart = CGPoint.zero
+    @State private var dragOffset = CGSize.zero
+
+    // 用于存储所有可拖动形状的数据
+    @State private var annotations: [Annotation] = []
+    // 修改为计算属性
+    var showActiveFrame: Bool {
+        return dragStart != .zero && dragOffset != .zero && appState.annotationType != .none && appState.cropRect != .zero
+    }
+
+    //
+    var selectionAreaEditable: Bool {
+        return selectionRect != .zero && appState.annotationType == .none && appState.annotations.isEmpty
+    }
+
+    var step: StepStatus {
+        if appState.annotationType != .none || !appState.annotations.isEmpty {
+            return .drawing
+        } else {
+            return .selecting
+        }
+    }
+
+    var activeAnnotation: Annotation? {
+        if showActiveFrame {
+            return Annotation(
+                type: appState.annotationType,
+                frame: CGRect(
+                    x: dragStart.x,
+                    y: dragStart.y,
+                    width: abs(dragOffset.width),
+                    height: abs(dragOffset.height)
+                ),
+                start: dragStart,
+                offset: dragOffset
+            )
+        } else {
+            return appState.annotations.first { $0.active } ?? appState.annotations.last
+        }
+    }
+
+    var stepSelect: Bool {
+        return appState.annotationType == .none && appState.annotations.isEmpty
+    }
+
     let controlPointSize: CGFloat = 10.0
     let controlPointColor: Color = .yellow
-    
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
+                // 显示截图
+                if let cgImage = appState.screenImage {
+                    Image(decorative: cgImage, scale: 1.0)
+                        .resizable()
+                        .scaledToFit()
+                }
                 // 背景层
-                Color.clear
+               
+                Color(.sRGB, red: 0.8, green: 0.8, blue: 0.8, opacity: 0.5)
                     .contentShape(Rectangle())
                     .gesture(
-                        DragGesture(minimumDistance: 0)
+                        DragGesture(minimumDistance: 4, coordinateSpace: .named(Keys.coordinate))
                             .onChanged { value in
-                                handleDrag(value: value, in: geometry)
+                                handleDragGestureChanged(value)
                             }
-                            .onEnded { _ in
-                                handleDragEnd()
+                            .onEnded { value in
+                                handleDragGestureEnded(value)
                             }
                     )
-                
+
                 // 选择框层
-                if let rect = selectionRect {
-                    Rectangle()
-                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [4]))
-                        .foregroundColor(.white)
-                        .frame(width: rect.width, height: rect.height)
-                        .position(x: rect.midX, y: rect.midY)
-                        
-                    // 控制点
-                    ForEach(ResizeHandle.allCases, id: \.self) { handle in
-                        if let point = controlPointForHandle(handle, inRect: rect) {
-                            Circle()
-                                .fill(controlPointColor)
-                                .frame(width: controlPointSize, height: controlPointSize)
-                                .position(x: point.x + controlPointSize/2 , y: point.y + controlPointSize/2)
-                        }
-                    }
-                }
-                // isShowActionbar
-                if isShowActionbar {
-                    if let rect = selectionRect {
+                if selectionRect != .zero {
+                    SelectionAreaView(editable: selectionAreaEditable, frame: selectionRect, onUpdateFrame: { offset, size in
+                        selectionRect.origin.x += offset.width
+                        selectionRect.origin.y += offset.height
+                        selectionRect.size.width += size.width
+                        selectionRect.size.height += size.height
+                        appState.cropRect = selectionRect
+                    }).position(x: selectionRect.midX, y: selectionRect.midY)
+
+                    if !isDragging {
                         ActionBarView()
                             .frame(width: 500, height: 36)
-                            .position(x: rect.maxX - 250, y: rect.maxY + 36)
+                            .position(x: selectionRect.maxX - 250, y: selectionRect.maxY + 36)
                     }
                 }
+
+                if step == .drawing  {
+                    CanvasView(frame: selectionRect, annotations: appState.annotations)
+                        .border(Color.blue, width: 2)
+                        .frame(width: selectionRect.width, height: selectionRect.height)
+                        .position(x: selectionRect.midX, y: selectionRect.midY)
+                        .zIndex(100)
+                }
+
+//
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
             .background(Color.gray.opacity(0.5))
+            .coordinateSpace(.named(Keys.coordinate))
+            .onReceive(EventBus.shared.publisher(for: "savedAnno")) { data in
+                if let id = data as? String {
+                    saveImage(id);
+                }
+            }.onReceive(EventBus.shared.publisher(for: "saveAll")) { data in
+                if let id = data as? String {
+                    saveImageAll(id);
+                }
+            }
+            .onReceive(EventBus.shared.publisher(for: "saveDrawing")) { _ in
+                saveCanvas()
+            }
         }
     }
     
-    private func handleDrag(value: DragGesture.Value, in geometry: GeometryProxy) {
-        let location = value.location
-        
-        if initialLocation == nil {
-            initialLocation = location
-            lastMouseLocation = location
-            activeHandle = handleForPoint(location)
-            if let rect = selectionRect, rect.contains(location) {
-                dragIng = true
-            }
+    private func saveCanvas() {
+        logger.info("保存画布")
+        if appState.annotations.isEmpty {
+            logger.warning("没有标注数据")
+            EventBus.shared.post(event: "savedAnno", data: "savedAnno")
             return
         }
-        
-        guard let initialLocation = initialLocation else { return }
-        
-        if activeHandle != .none {
-            var newRect = selectionRect ?? .zero
-            let lastLocation = lastMouseLocation ?? location
-            
-            let deltaX = location.x - lastLocation.x
-            let deltaY = location.y - lastLocation.y
-            
-            switch activeHandle {
-            case .topLeft:
-                newRect.origin.x = min(newRect.origin.x + newRect.width - 20, newRect.origin.x + deltaX)
-                newRect.size.width = max(20, newRect.width - deltaX)
-                newRect.size.height = max(20, newRect.height + deltaY)
-            case .top:
-                newRect.size.height = max(20, newRect.height + deltaY)
-            case .topRight:
-                newRect.size.width = max(20, newRect.width + deltaX)
-                newRect.size.height = max(20, newRect.height + deltaY)
-            case .right:
-                newRect.size.width = max(20, newRect.width + deltaX)
-            case .bottomRight:
-                newRect.origin.y = min(newRect.origin.y + newRect.height - 20, newRect.origin.y + deltaY)
-                newRect.size.width = max(20, newRect.width + deltaX)
-                newRect.size.height = max(20, newRect.height - deltaY)
-            case .bottom:
-                newRect.origin.y = min(newRect.origin.y + newRect.height - 20, newRect.origin.y + deltaY)
-                newRect.size.height = max(20, newRect.height - deltaY)
-            case .bottomLeft:
-                newRect.origin.y = min(newRect.origin.y + newRect.height - 20, newRect.origin.y + deltaY)
-                newRect.origin.x = min(newRect.origin.x + newRect.width - 20, newRect.origin.x + deltaX)
-                newRect.size.width = max(20, newRect.width - deltaX)
-                newRect.size.height = max(20, newRect.height - deltaY)
-            case .left:
-                newRect.origin.x = min(newRect.origin.x + newRect.width - 20, newRect.origin.x + deltaX)
-                newRect.size.width = max(20, newRect.width - deltaX)
-            default:
-                break
-            }
-            
-            selectionRect = newRect
-            lastMouseLocation = location
+        // ImageRenderer用于将SwiftUI视图渲染为图像
+        // 需要设置具体的尺寸，否则会使用视图的理想尺寸，可能导致比例失调
+        let renderer = ImageRenderer(content: CanvasView(frame: selectionRect, annotations: appState.annotations).frame(width: selectionRect.width, height: selectionRect.height))
+        // 设置明确的渲染尺寸，使用frame的大小
+        renderer.proposedSize = ProposedViewSize(width: selectionRect.width, height: selectionRect.height)
+
+        if let cgImage = renderer.cgImage {
+            logger.info("渲染图像尺寸: 宽度 - \(cgImage.width), 高度 - \(cgImage.height)")
+            appState.annotationImage = cgImage
+            // 保存
+            logger.info("保存图片成功")
+            EventBus.shared.post(event: "savedAnno", data: "savedAnno")
         } else {
-            if dragIng {
-                let deltaX = location.x - initialLocation.x
-                let deltaY = location.y - initialLocation.y
-                
-                if var rect = selectionRect {
-                    rect.origin.x = min(max(0, rect.origin.x + deltaX), geometry.size.width - rect.width)
-                    rect.origin.y = min(max(0, rect.origin.y + deltaY), geometry.size.height - rect.height)
-                    selectionRect = rect
-                }
-            } else {
-                let origin = CGPoint(x: min(initialLocation.x, location.x),
-                                     y: min(initialLocation.y, location.y))
-                let size = CGSize(width: abs(location.x - initialLocation.x),
-                                  height: abs(location.y - initialLocation.y))
-                selectionRect = CGRect(origin: origin, size: size)
-            }
+            logger.error("保存图片失败")
         }
     }
-    
-    private func handleDragEnd() {
-        initialLocation = nil
-        activeHandle = .none
-        dragIng = false
-        
-        if let rect = selectionRect {
-            SCContext.screenArea = rect
-            
-            Task {
-                try await Task.sleep(nanoseconds: UInt64(1.0 * 1e8))
-                showActionBar(rect)
-            }
+
+    private func saveImage(_ key: String) {
+        logger.info("保存图片,,, \(key)")
+        appState.saveImageAll()
+    }
+    private func saveImageAll(_ key: String) {
+        logger.info("保存图片复合,,, \(key)")
+        appState.saveImageAll()
+    }
+
+    private func handleDragGestureChanged(_ value: DragGesture.Value) {
+        if step == .drawing {
+            return
+        }
+
+        if !isDragging {
+            dragStart = value.startLocation
+            dragOffset = .zero
+            isDragging = true
+        }
+
+        // 实时更新位置
+        dragOffset = value.translation
+        if stepSelect {
+            selectionRect.origin = dragStart
+            selectionRect.size = dragOffset
         }
     }
-    
-    private func showActionBar(_ rect: CGRect) {
-        // 实现显示操作栏的逻辑
-        isShowActionbar = true
-    }
-    
-    private func handleForPoint(_ point: CGPoint) -> ResizeHandle {
-        guard let rect = selectionRect else { return .none }
-        
-        for handle in ResizeHandle.allCases {
-            if let controlPoint = controlPointForHandle(handle, inRect: rect),
-               CGRect(origin: controlPoint,
-                      size: CGSize(width: controlPointSize, height: controlPointSize)).contains(point)
-            {
-                return handle
-            }
+
+    private func handleDragGestureEnded(_ event: DragGesture.Value) {
+        if step == .drawing {
+            return
         }
-        return .none
-    }
-    
-    private func controlPointForHandle(_ handle: ResizeHandle, inRect rect: CGRect) -> CGPoint? {
-        switch handle {
-        case .topLeft:
-            return CGPoint(x: rect.minX - controlPointSize / 2 - 1, y: rect.maxY - controlPointSize / 2 + 1)
-        case .top:
-            return CGPoint(x: rect.midX - controlPointSize / 2, y: rect.maxY - controlPointSize / 2 + 1)
-        case .topRight:
-            return CGPoint(x: rect.maxX - controlPointSize / 2 + 1, y: rect.maxY - controlPointSize / 2 + 1)
-        case .right:
-            return CGPoint(x: rect.maxX - controlPointSize / 2 + 1, y: rect.midY - controlPointSize / 2)
-        case .bottomRight:
-            return CGPoint(x: rect.maxX - controlPointSize / 2 + 1, y: rect.minY - controlPointSize / 2 - 1)
-        case .bottom:
-            return CGPoint(x: rect.midX - controlPointSize / 2, y: rect.minY - controlPointSize / 2 - 1)
-        case .bottomLeft:
-            return CGPoint(x: rect.minX - controlPointSize / 2 - 1, y: rect.minY - controlPointSize / 2 - 1)
-        case .left:
-            return CGPoint(x: rect.minX - controlPointSize / 2 - 1, y: rect.midY - controlPointSize / 2)
-        case .none:
-            return nil
+
+        if stepSelect {
+            selectionRect.origin = dragStart
+            selectionRect.size = dragOffset
+            appState.cropRect = selectionRect
+        } else {
+            annotations.append(Annotation(
+                type: appState.annotationType,
+                frame: CGRect(
+                    x: dragStart.x,
+                    y: dragStart.y,
+                    width: abs(dragOffset.width),
+                    height: abs(dragOffset.height)
+                ),
+                start: dragStart,
+                offset: dragOffset
+            ))
         }
+        dragStart = .zero
+        dragOffset = .zero
+        isDragging = false
     }
 }

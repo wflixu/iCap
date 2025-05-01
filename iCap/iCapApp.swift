@@ -11,9 +11,12 @@ import Cocoa
 import Combine
 import CoreGraphics
 import KeyboardShortcuts
+import OSLog
 import ScreenCaptureKit
 import SwiftUI
 import UserNotifications
+
+let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "iCapApp")
 
 @main
 struct iCapApp: App {
@@ -27,9 +30,6 @@ struct iCapApp: App {
     @Environment(\.openWindow) private var openWindow
 
     private var cancellables = Set<AnyCancellable>()
-
-    @AppLog(category: "iCapApp")
-    private var logger
 
     var body: some Scene {
         WindowGroup(AppWinsInfo.main.desc, id: AppWinsInfo.main.id) {
@@ -73,7 +73,8 @@ struct iCapApp: App {
                 Button("取消") {
                     // 这里关闭该窗口
                     dismissWindow(id: "overlayer")
-                    appState.isShow = false
+                   
+                    appState.resetState();
                 }
                 .keyboardShortcut(.escape, modifiers: [.command]) // 绑定 ESC 键
             }
@@ -101,8 +102,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, SCStreamDelegate, SCStreamOu
     // private var cancellables = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let shortcut = KeyboardShortcuts.Shortcut(KeyboardShortcuts.Key.x, modifiers: [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.shift])
-        KeyboardShortcuts.setShortcut(shortcut, for: .startScreenShot)
+        if let shortcut = KeyboardShortcuts.getShortcut(for: .startScreenShot) {
+            logger.info("当前设置快捷键是：\(shortcut.description)")
+        } else {
+            logger.warning("没有设置快捷键，使用默认值")
+            let shortcut = KeyboardShortcuts.Shortcut(KeyboardShortcuts.Key.x, modifiers: [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.shift])
+            KeyboardShortcuts.setShortcut(shortcut, for: .startScreenShot)
+        }
 
         KeyboardShortcuts.onKeyUp(for: .startScreenShot) { [self] in
             self.takeScreenShot()
@@ -141,7 +147,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SCStreamDelegate, SCStreamOu
     func takeScreenShot() {
         logger.info("takeScreenShot")
         Task {
-            if (try? await SCContext.getScreenImage()) != nil {
+            if await appState.getScreenImage() {
                 logger.info("getScreenImage success")
                 appState.setIsShow(true)
             }

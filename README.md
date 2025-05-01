@@ -16,14 +16,14 @@ A modern macOS screenshot application built with Swift 5.10, SwiftUI and ScreenC
   - [x] Screen area selection
   - [ ] Window selection
 - [x] Image editing
-  - [ ] Basic annotations
-  - [ ] Crop and resize
+  - [x] Basic annotations
+  - [x] Crop and resize
 - [x] Saving options
   - [x] Save to local
-  - [s] Copy to clipboard
+  - [x] Copy to clipboard
   - [x] Custom save locations
 - [x] UI Enhancements
-  - [ ] Border shadow effects
+  - [x] Border shadow effects
   - [ ] Customizable UI themes
 
 ## Requirements
@@ -35,9 +35,10 @@ A modern macOS screenshot application built with Swift 5.10, SwiftUI and ScreenC
 ## Installation
 
 1. Download the latest release from [Releases](https://github.com/wflixu/iCap/releases)
-2. Clone this repository
-3. Open in Xcode
-4. Build and run
+
+## preview
+![](public/images/preview.png)
+
 
 ## Contributing
 Contributions are welcome! Please submit a pull request or open an issue for any bugs or feature requests.
@@ -47,6 +48,5 @@ If you encounter any issues or have suggestions, please open an [issue](https://
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 
 

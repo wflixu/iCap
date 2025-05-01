@@ -5,6 +5,19 @@
 		<key>NSScreenCaptureUsageDescription</key>
 		<string>您的应用需要访问屏幕录制才能截取屏幕</string>
 		<key>CFBundleVersion</key>
-		<string>20250405002</string>
+		<string>20250501002</string>
+        <key>NSApplicationSupportsIndirectInputEvents</key>
+        <true/>
+        <key>NSAppTransportSecurity</key>
+        <dict>
+             <key>NSAllowsArbitraryLoads</key>
+              <true/>
+        </dict>
+        <key>ITSAppUsesNonExemptEncryption</key>
+        <false/>
+          <key>NSServices</key>
+          <array>
+              <dict/>
+          </array>
 	</dict>
 </plist>

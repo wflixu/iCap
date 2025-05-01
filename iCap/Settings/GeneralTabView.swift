@@ -19,8 +19,8 @@ struct GeneralTabView: View {
     @AppLog(category: "iCapApp")
     private var logger
 
-    @AppStorage("imageFormat") private var imageFormat: ImageFormat = .png
-    @AppStorage("imageSavePath") private var imageSavePath: String = Util.getDesktopPath()
+    @AppStorage(Keys.imageFormat) private var imageFormat: ImageFormat = .png
+    @AppStorage(Keys.imageSaveDir) private var imageSavePath: String = Util.getDesktopPath()
     @State var showPathPicker: Bool = false
 
     @EnvironmentObject var appState: AppState
@@ -78,21 +78,10 @@ struct GeneralTabView: View {
 
             HStack {
                 Spacer()
-                Button("保存", systemImage: "square.and.arrow.down", action: takeScreenShot)
+                Button("设置", action: {
+                    openWindow(id: AppWinsInfo.editor.id)
+                })
                 Spacer()
-            }
-        }
-    }
-
-    @MainActor
-    func takeScreenShot() {
-        logger.info("sart takeScreenShot")
-        Task {
-            if (try? await SCContext.getScreenImage()) != nil {
-                logger.info("getScreenImage success")
-                appState.setIsShow(true)
-            } else {
-                logger.error("getScreenImage failed")
             }
         }
     }
