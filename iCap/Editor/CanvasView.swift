@@ -9,8 +9,6 @@ import SwiftUI
 
 struct CanvasView: View {
     @EnvironmentObject var appState: AppState
-    // 用于存储所有可拖动形状的数据
-    @State private var annotations: [Annotation] = []
 
     // 激活矩形
     @State private var isDragging = false
@@ -19,6 +17,7 @@ struct CanvasView: View {
     @State private var activeAnnotation: Annotation?
 
     var frame: CGRect
+    var annotations: [Annotation] = [];
 
     var annotationType: AnnotationType {
         appState.annotationType
@@ -26,11 +25,12 @@ struct CanvasView: View {
 
     var body: some View {
         ZStack {
-            ForEach(annotations) { annotation in
-                AnnotationView(annotation: annotation)
-                    .position(x: annotation.frame.midX - frame.minX, y: annotation.frame.midY - frame.minY)
-            }
            
+                ForEach(annotations) { annotation in
+                    AnnotationView(annotation: annotation)
+                        .position(x: annotation.frame.midX - frame.minX, y: annotation.frame.midY - frame.minY)
+                }
+            
 
             Color.clear
                 .contentShape(Rectangle())
@@ -38,11 +38,11 @@ struct CanvasView: View {
 
             if let ann = activeAnnotation {
                 ActiveAnnotationView(annotation: ann, onUpdateFrame: { offset, size in
-                    if let index = annotations.firstIndex(where: { $0.id == ann.id }) {
-                        annotations[index].frame.origin.x += offset.width
-                        annotations[index].frame.origin.y += offset.height
-                        annotations[index].frame.size.width += size.width
-                        annotations[index].frame.size.height += size.height
+                    if var curAnno = annotations.first(where: { $0.id == ann.id }) {
+                        curAnno.frame.origin.x += offset.width
+                        curAnno.frame.origin.y += offset.height
+                        curAnno.frame.size.width += size.width
+                        curAnno.frame.size.height += size.height
                     }
                     logger.info("更新标注位置: \(offset.width) - 大小: \(size.width)")
                     self.updateActiveAnnotation(offset, size)
@@ -51,9 +51,7 @@ struct CanvasView: View {
                 .position(x: ann.frame.midX - frame.minX, y: ann.frame.midY - frame.minY)
             }
         }
-         .onReceive(EventBus.shared.publisher(for: "saveDrawing")) { _ in
-                saveCanvas()
-            }
+       
     }
 
     // 更新激活标注
@@ -108,7 +106,7 @@ struct CanvasView: View {
             }
             .onEnded { _ in
 
-                self.annotations.append(activeAnnotation!)
+                appState.annotations.append(activeAnnotation!)
                 dragStart = .zero
                 dragOffset = .zero
                 isDragging = false
@@ -124,27 +122,5 @@ struct CanvasView: View {
         )
     }
 
-    private func saveCanvas() {
-        logger.info("保存画布")
-        if annotations.isEmpty {
-            logger.warning("没有标注数据")
-             EventBus.shared.post(event: "savedAnno", data: "savedAnno")
-            return
-        }
-        // ImageRenderer用于将SwiftUI视图渲染为图像
-        // 需要设置具体的尺寸，否则会使用视图的理想尺寸，可能导致比例失调
-        let renderer = ImageRenderer(content: self)
-        // 设置明确的渲染尺寸，使用frame的大小
-        renderer.proposedSize = ProposedViewSize(width: frame.width, height: frame.height)
-
-        if let cgImage = renderer.cgImage {
-            logger.info("渲染图像尺寸: 宽度 - \(cgImage.width), 高度 - \(cgImage.height)")
-            appState.annotationImage = cgImage
-            // 保存
-            logger.info("保存图片成功")
-           EventBus.shared.post(event: "savedAnno", data: "savedAnno")
-        } else {
-            logger.error("保存图片失败")
-        }
-    }
+    
 }

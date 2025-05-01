@@ -14,12 +14,6 @@ struct ActionBarView: View {
     @AppLog(category: "ActionBarView")
     private var logger
 
-    @State private var showSelectPath = false
-
-    @State private var isShowingFileExporter = false
-
-    @AppStorage("imageFormat") private var imageFormat: ImageFormat = .png
-    @AppStorage("imageSavePath") private var imageSavePath: String = "/Users/"
 
     @EnvironmentObject var appState: AppState
 
@@ -27,45 +21,6 @@ struct ActionBarView: View {
         ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
             HStack(alignment: .center, spacing: 8) {
                 Spacer()
-//                Button(action: {
-//                    self.onSaveDrawing()
-//                }) {
-//                    Image(systemName: "square.and.arrow.down.on.square")
-//                        .font(.system(size: 20, weight: .medium))
-//                        .frame(width: 28, height: 28)
-//                        .foregroundColor(.gray)
-//                }.buttonStyle(PlainButtonStyle())
-//                    .help("保存绘图")
-//                
-//                Button(action: {
-//                    self.onSaveAll()
-//                }) {
-//                    Image(systemName: "photo.on.rectangle.angled.fill")
-//                        .font(.system(size: 20, weight: .medium))
-//                        .frame(width: 28, height: 28)
-//                        .foregroundColor(.gray)
-//                }.buttonStyle(PlainButtonStyle())
-//                    .help("所有")
-                
-                Button(action: {
-                    self.onSaveFile()
-                }) {
-                    Image(systemName: "square.and.arrow.down")
-                        .font(.system(size: 20, weight: .medium))
-                        .frame(width: 28, height: 28)
-                        .foregroundColor(.gray)
-                }.buttonStyle(PlainButtonStyle())
-                    .help("保存到文件")
-
-                Button(action: {
-                    self.onSave()
-                }) {
-                    Image(systemName: "clipboard")
-                        .font(.system(size: 20, weight: .medium))
-                        .frame(width: 28, height: 28)
-                        .foregroundColor(.gray)
-                }.buttonStyle(PlainButtonStyle())
-                    .help("保存到剪贴板")
 
                 Button(action: {
                     appState.toggleAnnotationType(.rect)
@@ -97,6 +52,26 @@ struct ActionBarView: View {
                         .foregroundColor(appState.annotationType == .text ? .accentColor : .gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("文字")
+
+                Button(action: {
+                    self.onSaveFile()
+                }) {
+                    Image(systemName: "square.and.arrow.down")
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(.gray)
+                }.buttonStyle(PlainButtonStyle())
+                    .help("保存到文件")
+
+                Button(action: {
+                    self.onSave()
+                }) {
+                    Image(systemName: "clipboard")
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(.gray)
+                }.buttonStyle(PlainButtonStyle())
+                    .help("保存到剪贴板")
             }
             .padding(.horizontal, 12)
             .frame(height: 40)
@@ -111,20 +86,31 @@ struct ActionBarView: View {
     }
 
     func onSave() {
-        appState.setImageSaveTo(.pasteboard);
-        appState.annotationType = .none;
-        EventBus.shared.post(event: "saveDrawing", data: "save")
+        appState.setImageSaveTo(.pasteboard)
+        if appState.annotationType == .none {
+            EventBus.shared.post(event: "saveAll", data: "save")
+        } else {
+            EventBus.shared.post(event: "saveDrawing", data: "save")
+        }
+        appState.annotationType = .none
     }
+
     func onSaveDrawing() {
         EventBus.shared.post(event: "saveDrawing", data: "save")
     }
+
     func onSaveAll() {
         EventBus.shared.post(event: "saveAll", data: "save")
     }
 
     func onSaveFile() {
-        appState.setImageSaveTo(.file);
-        EventBus.shared.post(event: "saveDrawing", data: "save")
+        appState.setImageSaveTo(.file)
+        if appState.annotationType == .none {
+            EventBus.shared.post(event: "saveAll", data: "save")
+
+        } else {
+            EventBus.shared.post(event: "saveDrawing", data: "save")
+        }
         Util.setOverlayWindowLevel(.normal)
     }
 }

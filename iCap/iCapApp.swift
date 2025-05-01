@@ -11,10 +11,10 @@ import Cocoa
 import Combine
 import CoreGraphics
 import KeyboardShortcuts
+import OSLog
 import ScreenCaptureKit
 import SwiftUI
 import UserNotifications
-import OSLog
 
 let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "iCapApp")
 
@@ -30,7 +30,6 @@ struct iCapApp: App {
     @Environment(\.openWindow) private var openWindow
 
     private var cancellables = Set<AnyCancellable>()
-
 
     var body: some Scene {
         WindowGroup(AppWinsInfo.main.desc, id: AppWinsInfo.main.id) {
@@ -74,15 +73,13 @@ struct iCapApp: App {
                 Button("取消") {
                     // 这里关闭该窗口
                     dismissWindow(id: "overlayer")
-                    appState.isShow = false
-                    appState.cropRect = .zero
-                    appState.annotationType = .none
+                   
+                    appState.resetState();
                 }
                 .keyboardShortcut(.escape, modifiers: [.command]) // 绑定 ESC 键
             }
         }
         .defaultAppStorage(UserDefaults.group)
-        
 
         MenuBarExtra(
             "App Menu Bar Extra", image: "menubar",

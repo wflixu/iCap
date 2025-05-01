@@ -9,14 +9,17 @@ import AppKit
 import Foundation
 
 class Util {
-    static func getDatetimeFileName(_ type: NSBitmapImageRep.FileType = .png) -> String {
+    static func getDatetimeFileName() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
 
         let now = Date()
+        // 获取时间戳字符串
         let timestampAndDateString = formatter.string(from: now)
+        let format = ImageFormat.fromUserDefaults() ?? .png
 
-        return timestampAndDateString + type.desc
+        logger.debug("使用图片格式: \(format.rawValue)")
+        return timestampAndDateString + format.ext
     }
 
     static func getHomePath() -> String {
@@ -25,6 +28,12 @@ class Util {
 
     static func getDesktopPath() -> String {
         return Util.getHomePath() + "/Desktop/"
+    }
+
+    static func getImageSavePath() -> URL {
+        // 读取 UserDefaults 中存储的路径
+        let saveDir = UserDefaults.group.string(forKey: Keys.imageSaveDir) ?? "/Users/"
+        return URL(fileURLWithPath: saveDir).appendingPathComponent(Util.getDatetimeFileName())
     }
 
     static func saveBookmark(for url: URL, key: String) {

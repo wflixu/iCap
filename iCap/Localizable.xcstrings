@@ -25,16 +25,6 @@
         }
       }
     },
-    "ann offset: %lf, %lf ; size: %lf, %lf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "ann offset: %1$lf, %2$lf ; size: %3$lf, %4$lf"
-          }
-        }
-      }
-    },
     "App Menu Bar Extra" : {
 
     },

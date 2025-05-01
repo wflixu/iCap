@@ -19,8 +19,8 @@ struct GeneralTabView: View {
     @AppLog(category: "iCapApp")
     private var logger
 
-    @AppStorage("imageFormat") private var imageFormat: ImageFormat = .png
-    @AppStorage("imageSavePath") private var imageSavePath: String = Util.getDesktopPath()
+    @AppStorage(Keys.imageFormat) private var imageFormat: ImageFormat = .png
+    @AppStorage(Keys.imageSaveDir) private var imageSavePath: String = Util.getDesktopPath()
     @State var showPathPicker: Bool = false
 
     @EnvironmentObject var appState: AppState

@@ -17,8 +17,6 @@ struct SelectionAreaView: View {
     // 用于存储所有可拖动形状的数据
     @State private var annotations: [Annotation] = []
 
- 
-
     let editable: Bool
 
     var frame: CGRect
@@ -117,15 +115,7 @@ struct SelectionAreaView: View {
                     }
                 }
             )
-            .overlay(
-                Text("ann offset: \(offset.width), \(offset.height) ; size: \(changeSize.width), \(changeSize.height)")
-            )
-        if !editable {
-           
-        }
     }
-
-    
 
     func getArrowStartPoint(_ offset: CGSize) -> CGPoint {
         return CGPoint(
@@ -147,5 +137,4 @@ struct SelectionAreaView: View {
     func setCursorbyIndex(_ cp: CPoint) {
         NSCursor.frameResize(position: cp.frameResizePosition, directions: .all).push()
     }
-
 }

@@ -18,12 +18,6 @@ class AppState: ObservableObject {
     @Published
     var isUnicornMode: Bool = false
 
-    @Published
-    private var imageFormat: ImageFormat = .png
-
-    @Published
-    private var imageSaveDir: String = "/Users/"
-
     // overlayer is show
     @Published
     var isShow: Bool = false
@@ -33,6 +27,9 @@ class AppState: ObservableObject {
 
     @Published
     var annotationType: AnnotationType = .none
+
+    @Published
+    var annotations: [Annotation] = []
 
     @Published
     var screenImage: CGImage?
@@ -47,8 +44,6 @@ class AppState: ObservableObject {
     var cropRect: CGRect = .zero
 
     static var share = AppState()
-
-  
 
     func setImageSaveTo(_ saveTo: ImageSaveTo) {
         imageSaveTo = saveTo
@@ -156,11 +151,12 @@ class AppState: ObservableObject {
 
         let saveRes = pb.setData(data, forType: .png)
         logger.info("save data in pasteboard is \(saveRes)")
+        annotations.removeAll()
+        annotationType = .none
     }
 
     func saveImageDataToFile(_ data: Data) {
-        let basedir = getImageSavePath()
-        let url = URL(fileURLWithPath: basedir).appendingPathComponent(Util.getDatetimeFileName()).appendingPathExtension(imageFormat.rawValue)
+        let url = Util.getImageSavePath()
         logger.info("Saving image to: \(url.path)")
         do {
             try data.write(to: url)
@@ -169,6 +165,8 @@ class AppState: ObservableObject {
             logger.error("Error saving image: \(error.localizedDescription)")
         }
         logger.info("save data in file is \(url.path)")
+        annotations.removeAll()
+        annotationType = .none
     }
 
     func saveImageAll() {
@@ -217,7 +215,7 @@ class AppState: ObservableObject {
                 // totdo
                 saveImageDataToFile(data)
             } else {
-               saveImageDataToPasteboard(data)
+                saveImageDataToPasteboard(data)
             }
             setIsShow(false)
         }
@@ -247,12 +245,6 @@ class AppState: ObservableObject {
         context.draw(overlayImage, in: CGRect(x: 0, y: 0, width: overlayImage.width, height: overlayImage.height))
 
         return context.makeImage() ?? baseImage
-    }
-
-    func getImageSavePath() -> String {
-        // 读取 UserDefaults 中存储的路径
-        let savePath = UserDefaults.group.string(forKey: "imageSavePath") ?? "/Users/"
-        return savePath
     }
 
     func processImageWithEffects(
@@ -342,5 +334,14 @@ class AppState: ObservableObject {
         } else {
             print("hide overlayer failed - window not found")
         }
+    }
+
+    func resetState() {
+        isShow = false
+        cropRect = .zero
+        annotationType = .none
+        annotations = []
+        screenImage = nil
+        annotationImage = nil
     }
 }

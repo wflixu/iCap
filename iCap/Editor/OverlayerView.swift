@@ -33,13 +33,12 @@ struct OverlayerView: View {
 
     //
     var selectionAreaEditable: Bool {
-        return selectionRect != .zero && appState.annotationType == .none && annotations.isEmpty
+        return selectionRect != .zero && appState.annotationType == .none && appState.annotations.isEmpty
     }
 
     var step: StepStatus {
-        if appState.annotationType != .none || !annotations.isEmpty {
+        if appState.annotationType != .none || !appState.annotations.isEmpty {
             return .drawing
-
         } else {
             return .selecting
         }
@@ -59,12 +58,12 @@ struct OverlayerView: View {
                 offset: dragOffset
             )
         } else {
-            return annotations.first { $0.active } ?? annotations.last
+            return appState.annotations.first { $0.active } ?? appState.annotations.last
         }
     }
 
     var stepSelect: Bool {
-        return appState.annotationType == .none && annotations.isEmpty
+        return appState.annotationType == .none && appState.annotations.isEmpty
     }
 
     let controlPointSize: CGFloat = 10.0
@@ -73,9 +72,15 @@ struct OverlayerView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
+                // 显示截图
+                if let cgImage = appState.screenImage {
+                    Image(decorative: cgImage, scale: 1.0)
+                        .resizable()
+                        .scaledToFit()
+                }
                 // 背景层
-
-                Color.clear
+               
+                Color(.sRGB, red: 0.8, green: 0.8, blue: 0.8, opacity: 0.5)
                     .contentShape(Rectangle())
                     .gesture(
                         DragGesture(minimumDistance: 4, coordinateSpace: .named(Keys.coordinate))
@@ -104,8 +109,8 @@ struct OverlayerView: View {
                     }
                 }
 
-                if step == .drawing {
-                    CanvasView(frame: selectionRect)
+                if step == .drawing  {
+                    CanvasView(frame: selectionRect, annotations: appState.annotations)
                         .border(Color.blue, width: 2)
                         .frame(width: selectionRect.width, height: selectionRect.height)
                         .position(x: selectionRect.midX, y: selectionRect.midY)
@@ -126,6 +131,33 @@ struct OverlayerView: View {
                     saveImageAll(id);
                 }
             }
+            .onReceive(EventBus.shared.publisher(for: "saveDrawing")) { _ in
+                saveCanvas()
+            }
+        }
+    }
+    
+    private func saveCanvas() {
+        logger.info("保存画布")
+        if appState.annotations.isEmpty {
+            logger.warning("没有标注数据")
+            EventBus.shared.post(event: "savedAnno", data: "savedAnno")
+            return
+        }
+        // ImageRenderer用于将SwiftUI视图渲染为图像
+        // 需要设置具体的尺寸，否则会使用视图的理想尺寸，可能导致比例失调
+        let renderer = ImageRenderer(content: CanvasView(frame: selectionRect, annotations: appState.annotations).frame(width: selectionRect.width, height: selectionRect.height))
+        // 设置明确的渲染尺寸，使用frame的大小
+        renderer.proposedSize = ProposedViewSize(width: selectionRect.width, height: selectionRect.height)
+
+        if let cgImage = renderer.cgImage {
+            logger.info("渲染图像尺寸: 宽度 - \(cgImage.width), 高度 - \(cgImage.height)")
+            appState.annotationImage = cgImage
+            // 保存
+            logger.info("保存图片成功")
+            EventBus.shared.post(event: "savedAnno", data: "savedAnno")
+        } else {
+            logger.error("保存图片失败")
         }
     }
 

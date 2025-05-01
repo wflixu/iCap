@@ -5,96 +5,70 @@
 //  Created by 李旭 on 2024/4/26.
 //
 
-import Foundation
-
 import AppKit
+import Foundation
 import KeyboardShortcuts
-
 
 enum Keys {
     static let savePathBookmarkStorage = "SAVE_PATH_BOOKMARK_STORAGE"
     static let imageFormat = "IMAGE_FORMAT"
+    // 保存路径
+    static let imageSaveDir = "IMAGE_SAVE_DIR"
     static let imageSavePath = "IMAGE_SAVE_PATH"
     static let coordinate = "OVERLAYER"
 }
 
-enum ImageFormat: String { case png, jpeg }
+enum ImageFormat: String {
+    case png, jpeg
+   var ext: String {
+        return "." + self.rawValue
+    }
 
+    static func fromUserDefaults() -> ImageFormat? {
+        guard let raw = UserDefaults.group.string(forKey: Keys.imageFormat) else {
+            logger.warning("未找到图片格式设置，使用默认格式（png）")
+            return .png
+        }
 
-enum AppError: Error {
-    case notDisplay
-    case permissionDenied
-    case noDisplayFound
-    case captureFailed(String)
-}
-
-
-
-enum DrawingTool: String {
-    case rectangle
-    case arrow
-    case text
-    case freehand
-}
-
-enum LineWidth: CGFloat {
-    case thin = 1.0
-    case medium = 3.0
-    case thick = 5.0
-}
-
-enum ColorPreset {
-    static let red = NSColor(red: 1, green: 0, blue: 0, alpha: 1)
-    static let green = NSColor(red: 0, green: 1, blue: 0, alpha: 1)
-    static let blue = NSColor(red: 0, green: 0, blue: 1, alpha: 1)
-    static let black = NSColor(red: 0, green: 0, blue: 0, alpha: 1)
-    static let white = NSColor(red: 1, green: 1, blue: 1, alpha: 1)
+        if let format = ImageFormat(rawValue: raw.lowercased()) {
+            return format
+        } else {
+            logger.warning("无效的图片格式设置: \(raw)，使用默认格式（png）")
+            return .png
+        }
+    }
 }
 
 extension NSBitmapImageRep.FileType {
     var desc: String {
         switch self {
-            case .png:
-                ".png"
-            case .jpeg:
-                ".jpeg"
-            default:
-                ""
+            case .png: ".png"
+            case .jpeg: ".jpeg"
+            default: ""
         }
     }
 }
 
 enum ImageSaveTo: String {
-    case file, pasteboard,all
+    case file, pasteboard, all
 }
-
-
 
 enum AppWinsInfo: String {
     case overlayer, main, editor
 
     var desc: String {
         switch self {
-            case .overlayer:
-                "Overlayer"
-            case .main:
-                "iCap"
-            case .editor:
-                "Editor"
+            case .overlayer: "Overlayer"
+            case .main: "iCap"
+            case .editor: "Editor"
         }
     }
 
     var id: String {
         switch self {
-            case .overlayer:
-                "overlayer"
-            case .main:
-                "main"
-            case .editor:
-                "editor"
+            case .overlayer: "overlayer"
+            case .main: "main"
+            case .editor: "editor"
         }
     }
 }
-
-
-

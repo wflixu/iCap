@@ -5,9 +5,8 @@
 //  Created by 李旭 on 2025/4/20.
 //
 
-import SwiftUI
 import CoreGraphics
-
+import SwiftUI
 
 struct ActiveAnnotationView: View {
     @State var sartPoint: CGPoint = .zero
@@ -89,17 +88,17 @@ struct ActiveAnnotationView: View {
                             )
                     }
                 )
-                .overlay(
+//                .overlay(
 //                    Text("ann offset: \(annotation.start.x), \(offset.height) ; size: \(changeSize.width), \(changeSize.height)")
-                    Text("ann offset: \(annotation.start.x), \(annotation.start.y) ; size: \(annotation.offset.width), \(annotation.offset.height)")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                        .padding(4)
-                )
+//                    Text("ann offset: \(annotation.start.x), \(annotation.start.y) ; size: \(annotation.offset.width), \(annotation.offset.height)")
+//                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+//                        .padding(4)
+//                )
         } else if annotation.type == .arrow {
             Path { path in
-                let start =  CGPoint(
-                    x:offset.width > 0 ? 0 : -offset.width,
-                    y:offset.height > 0 ? 0 : -offset.height
+                let start = CGPoint(
+                    x: offset.width > 0 ? 0 : -offset.width,
+                    y: offset.height > 0 ? 0 : -offset.height
                 )
                 let end = CGPoint(x: start.x + annotation.offset.width, y: start.y + annotation.offset.height)
                 path.move(to: start)
@@ -148,12 +147,11 @@ struct ActiveAnnotationView: View {
 //
     }
 
-    func getArrowStartPoint( _ offset: CGSize) -> CGPoint {
+    func getArrowStartPoint(_ offset: CGSize) -> CGPoint {
         return CGPoint(
-            x:offset.width > 0 ? 0 : -offset.width,
-            y:offset.height > 0 ? 0 : -offset.height
+            x: offset.width > 0 ? 0 : -offset.width,
+            y: offset.height > 0 ? 0 : -offset.height
         )
-        
     }
 
     func movingAnnotation(_ offset: CGSize) {
