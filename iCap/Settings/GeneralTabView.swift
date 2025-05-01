@@ -78,24 +78,10 @@ struct GeneralTabView: View {
 
             HStack {
                 Spacer()
-                Button("保存", systemImage: "square.and.arrow.down", action: takeScreenShot)
                 Button("设置", action: {
                     openWindow(id: AppWinsInfo.editor.id)
                 })
                 Spacer()
-            }
-        }
-    }
-
-    @MainActor
-    func takeScreenShot() {
-        logger.info("Start taking screenshot")
-        Task {
-            if await appState.getScreenImage() {
-                logger.info("Screenshot captured successfully")
-                appState.setIsShow(true)
-            } else {
-                logger.error("Failed to capture screenshot: No image returned")
             }
         }
     }

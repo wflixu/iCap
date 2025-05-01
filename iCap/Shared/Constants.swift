@@ -65,7 +65,7 @@ extension NSBitmapImageRep.FileType {
 }
 
 enum ImageSaveTo: String {
-    case file, pasteboard
+    case file, pasteboard,all
 }
 
 

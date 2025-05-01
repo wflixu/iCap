@@ -27,6 +27,26 @@ struct ActionBarView: View {
         ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
             HStack(alignment: .center, spacing: 8) {
                 Spacer()
+//                Button(action: {
+//                    self.onSaveDrawing()
+//                }) {
+//                    Image(systemName: "square.and.arrow.down.on.square")
+//                        .font(.system(size: 20, weight: .medium))
+//                        .frame(width: 28, height: 28)
+//                        .foregroundColor(.gray)
+//                }.buttonStyle(PlainButtonStyle())
+//                    .help("保存绘图")
+//                
+//                Button(action: {
+//                    self.onSaveAll()
+//                }) {
+//                    Image(systemName: "photo.on.rectangle.angled.fill")
+//                        .font(.system(size: 20, weight: .medium))
+//                        .frame(width: 28, height: 28)
+//                        .foregroundColor(.gray)
+//                }.buttonStyle(PlainButtonStyle())
+//                    .help("所有")
+                
                 Button(action: {
                     self.onSaveFile()
                 }) {
@@ -91,23 +111,21 @@ struct ActionBarView: View {
     }
 
     func onSave() {
-        EventBus.shared.post(event: "save", data: "save")
+        appState.setImageSaveTo(.pasteboard);
+        appState.annotationType = .none;
+        EventBus.shared.post(event: "saveDrawing", data: "save")
+    }
+    func onSaveDrawing() {
+        EventBus.shared.post(event: "saveDrawing", data: "save")
+    }
+    func onSaveAll() {
+        EventBus.shared.post(event: "saveAll", data: "save")
     }
 
     func onSaveFile() {
+        appState.setImageSaveTo(.file);
+        EventBus.shared.post(event: "saveDrawing", data: "save")
         Util.setOverlayWindowLevel(.normal)
-
-        if let imageData = appState.saveImage(.file) {
-            let url = URL(fileURLWithPath: imageSavePath).appendingPathComponent(Util.getDatetimeFileName()).appendingPathExtension(imageFormat.rawValue)
-            logger.info("Saving image to: \(url.path)")
-            do {
-                try imageData.write(to: url)
-                print("Image saved successfully at: \(url.path)")
-            } catch {
-                print("Error saving image: \(error.localizedDescription)")
-            }
-            appState.setIsShow(false)
-        }
     }
 }
 

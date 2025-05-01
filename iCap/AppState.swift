@@ -17,9 +17,19 @@ class AppState: ObservableObject {
 
     @Published
     var isUnicornMode: Bool = false
+
+    @Published
+    private var imageFormat: ImageFormat = .png
+
+    @Published
+    private var imageSaveDir: String = "/Users/"
+
     // overlayer is show
     @Published
     var isShow: Bool = false
+
+    @Published
+    var imageSaveTo: ImageSaveTo = .pasteboard
 
     @Published
     var annotationType: AnnotationType = .none
@@ -29,7 +39,7 @@ class AppState: ObservableObject {
 
     @Published
     var annotationImage: CGImage?
-    
+
     @Published
     var savingDrawing: Bool = false
 
@@ -38,21 +48,10 @@ class AppState: ObservableObject {
 
     static var share = AppState()
 
-    @MainActor
-    func takeScreenShot() {
-        print("takeScreenShot")
-        Task {
-            do {
-                let success = try await self.getScreenImage()
-                if success {
-                    self.logger.info("takeScreenShot success")
-                } else {
-                    self.logger.error("takeScreenShot failed")
-                }
-            } catch {
-                logger.error("takeScreenShot error: \(error.localizedDescription)")
-            }
-        }
+  
+
+    func setImageSaveTo(_ saveTo: ImageSaveTo) {
+        imageSaveTo = saveTo
     }
 
     func toggleAnnotationType(_ type: AnnotationType) {
@@ -109,60 +108,119 @@ class AppState: ObservableObject {
         }
     }
 
-    func saveImage(_ to: ImageSaveTo = .pasteboard) -> Data? {
+    func saveImage() {
         guard cropRect != .zero else {
             logger.warning("cropRect is zero")
-            return nil
+            return
+        }
+        guard let screenImage = screenImage else {
+            logger.warning("screenImage is nil")
+            return
         }
 
-        if cropRect != .zero, let screenImage = screenImage {
-            logger.info("screenImage size: \(screenImage.height) x \(screenImage.width)")
+        logger.info("screenImage size: \(screenImage.height) x \(screenImage.width)")
 
-            // 合并 screenImage 和 annotationImage
-            let combinedImage: CGImage
-            if let annotationImage = annotationImage {
-                combinedImage = mergeImages(baseImage: screenImage, overlayImage: annotationImage)
+        // 修正 y 轴坐标计算，确保截取区域与选择区域一致
+        let clipRect = CGRect(x: cropRect.minX,
+                              y: cropRect.minY,
+                              width: cropRect.width,
+                              height: cropRect.height)
+
+        guard let croppedImage = screenImage.cropping(to: clipRect) else {
+            logger.error("Failed to crop image")
+            return
+        }
+
+        guard let effectImage = processImageWithEffects(inputImage: croppedImage) else {
+            logger.error("Failed to apply effects to image")
+            return
+        }
+
+        let bitmap = NSBitmapImageRep(cgImage: effectImage)
+        let pngData = bitmap.representation(using: .png, properties: [:])
+
+        if let data = pngData {
+            if imageSaveTo == .file {
+                // totdo
+                saveImageDataToFile(data)
             } else {
-                logger.warning("no annotationImage")
-                combinedImage = screenImage
+                saveImageDataToPasteboard(data)
             }
+            setIsShow(false)
+        }
+    }
 
-            // 修正 y 轴坐标计算，确保截取区域与选择区域一致
-            let clipRect = CGRect(x: cropRect.minX,
-                                  y: cropRect.minY,
-                                  width: cropRect.width,
-                                  height: cropRect.height)
+    func saveImageDataToPasteboard(_ data: Data) {
+        let pb = NSPasteboard.general
+        pb.clearContents()
 
-            guard let croppedImage = combinedImage.cropping(to: clipRect) else {
-                logger.error("Failed to crop image")
-                return nil
-            }
+        let saveRes = pb.setData(data, forType: .png)
+        logger.info("save data in pasteboard is \(saveRes)")
+    }
 
-            guard let effectImage = processImageWithEffects(inputImage: croppedImage) else {
-                logger.error("Failed to apply effects to image")
-                return nil
-            }
+    func saveImageDataToFile(_ data: Data) {
+        let basedir = getImageSavePath()
+        let url = URL(fileURLWithPath: basedir).appendingPathComponent(Util.getDatetimeFileName()).appendingPathExtension(imageFormat.rawValue)
+        logger.info("Saving image to: \(url.path)")
+        do {
+            try data.write(to: url)
+            logger.info("Image saved successfully at: \(url.path)")
+        } catch {
+            logger.error("Error saving image: \(error.localizedDescription)")
+        }
+        logger.info("save data in file is \(url.path)")
+    }
 
-            let bitmap = NSBitmapImageRep(cgImage: effectImage)
-            let pngData = bitmap.representation(using: .png, properties: [:])
-
-            if let data = pngData {
-                if to == .file {
-                    // 获取应用沙盒的 Documents 目录
-                    return data
-                } else {
-                    let pb = NSPasteboard.general
-                    pb.clearContents()
-
-                    let saveRes = pb.setData(data, forType: .png)
-                    logger.info("save data in pasteboard is \(saveRes)")
-                }
-            }
-        } else {
-            logger.warning("screenImage or cropRect is invalid")
+    func saveImageAll() {
+        guard cropRect != .zero else {
+            logger.warning("cropRect is zero")
+            return
+        }
+        guard let screenImage = screenImage else {
+            logger.warning("screenImage is nil")
+            return
         }
 
-        return nil
+        logger.info("screenImage size: \(screenImage.width) x \(screenImage.height)")
+        // 修正 y 轴坐标计算，确保截取区域与选择区域一致
+        let clipRect = CGRect(x: cropRect.minX,
+                              y: cropRect.minY,
+                              width: cropRect.width,
+                              height: cropRect.height)
+        logger.info("clipRect size: \(clipRect.width) x \(clipRect.height)")
+
+        guard let croppedImage = screenImage.cropping(to: clipRect) else {
+            logger.error("Failed to crop image")
+            return
+        }
+
+        // 合并 screenImage 和 annotationImage
+        let combinedImage: CGImage
+        if let annotationImage = annotationImage {
+            logger.info("annotationImage size: \(annotationImage.width) x \(annotationImage.height)")
+            combinedImage = mergeImages(baseImage: croppedImage, overlayImage: annotationImage)
+        } else {
+            logger.warning("no annotationImage")
+            combinedImage = croppedImage
+        }
+
+        guard let effectImage = processImageWithEffects(inputImage: combinedImage) else {
+            logger.error("Failed to apply effects to image")
+            return
+        }
+
+        let bitmap = NSBitmapImageRep(cgImage: effectImage)
+        let pngData = bitmap.representation(using: .png, properties: [:])
+
+        if let data = pngData {
+            if imageSaveTo == .file {
+                // totdo
+                saveImageDataToFile(data)
+            } else {
+               saveImageDataToPasteboard(data)
+            }
+            setIsShow(false)
+        }
     }
 
     private func mergeImages(baseImage: CGImage, overlayImage: CGImage) -> CGImage {

@@ -25,32 +25,35 @@ struct CanvasView: View {
     }
 
     var body: some View {
-        ForEach(annotations) { annotation in
-            AnnotationView(annotation: annotation)
-                .position(x: annotation.frame.midX - frame.minX, y: annotation.frame.midY - frame.minY)
-        }
-        .onReceive(EventBus.shared.publisher(for: "save")) { _ in
-            saveCanvas()
-        }
+        ZStack {
+            ForEach(annotations) { annotation in
+                AnnotationView(annotation: annotation)
+                    .position(x: annotation.frame.midX - frame.minX, y: annotation.frame.midY - frame.minY)
+            }
+           
 
-        Color.clear
-            .contentShape(Rectangle())
-            .gesture(canvasDragGesture)
+            Color.clear
+                .contentShape(Rectangle())
+                .gesture(canvasDragGesture)
 
-        if let ann = activeAnnotation {
-            ActiveAnnotationView(annotation: ann, onUpdateFrame: { offset, size in
-                if let index = annotations.firstIndex(where: { $0.id == ann.id }) {
-                    annotations[index].frame.origin.x += offset.width
-                    annotations[index].frame.origin.y += offset.height
-                    annotations[index].frame.size.width += size.width
-                    annotations[index].frame.size.height += size.height
-                }
-                logger.info("更新标注位置: \(offset.width) - 大小: \(size.width)")
-                self.updateActiveAnnotation(offset, size)
+            if let ann = activeAnnotation {
+                ActiveAnnotationView(annotation: ann, onUpdateFrame: { offset, size in
+                    if let index = annotations.firstIndex(where: { $0.id == ann.id }) {
+                        annotations[index].frame.origin.x += offset.width
+                        annotations[index].frame.origin.y += offset.height
+                        annotations[index].frame.size.width += size.width
+                        annotations[index].frame.size.height += size.height
+                    }
+                    logger.info("更新标注位置: \(offset.width) - 大小: \(size.width)")
+                    self.updateActiveAnnotation(offset, size)
 
-            })
-            .position(x: ann.frame.midX - frame.minX, y: ann.frame.midY - frame.minY)
+                })
+                .position(x: ann.frame.midX - frame.minX, y: ann.frame.midY - frame.minY)
+            }
         }
+         .onReceive(EventBus.shared.publisher(for: "saveDrawing")) { _ in
+                saveCanvas()
+            }
     }
 
     // 更新激活标注
@@ -125,25 +128,21 @@ struct CanvasView: View {
         logger.info("保存画布")
         if annotations.isEmpty {
             logger.warning("没有标注数据")
+             EventBus.shared.post(event: "savedAnno", data: "savedAnno")
             return
         }
-        logger.info("保存画布")
+        // ImageRenderer用于将SwiftUI视图渲染为图像
+        // 需要设置具体的尺寸，否则会使用视图的理想尺寸，可能导致比例失调
         let renderer = ImageRenderer(content: self)
+        // 设置明确的渲染尺寸，使用frame的大小
+        renderer.proposedSize = ProposedViewSize(width: frame.width, height: frame.height)
+
         if let cgImage = renderer.cgImage {
+            logger.info("渲染图像尺寸: 宽度 - \(cgImage.width), 高度 - \(cgImage.height)")
             appState.annotationImage = cgImage
-//
-//            let bitmap = NSBitmapImageRep(cgImage: cgImage)
-//            let pngData = bitmap.representation(using: .png, properties: [:])
-//            if let data = pngData {
-//                let pb = NSPasteboard.general
-//                pb.clearContents()
-//
-//                let saveRes = pb.setData(data, forType: .png)
-//                logger.info("save data in pasteboard is \(saveRes)")
-//            }
             // 保存
             logger.info("保存图片成功")
-            EventBus.shared.post(event: "savedAnno", data: "savedAnno")
+           EventBus.shared.post(event: "savedAnno", data: "savedAnno")
         } else {
             logger.error("保存图片失败")
         }

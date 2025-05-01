@@ -106,6 +106,7 @@ struct OverlayerView: View {
 
                 if step == .drawing {
                     CanvasView(frame: selectionRect)
+                        .border(Color.blue, width: 2)
                         .frame(width: selectionRect.width, height: selectionRect.height)
                         .position(x: selectionRect.midX, y: selectionRect.midY)
                         .zIndex(100)
@@ -120,13 +121,21 @@ struct OverlayerView: View {
                 if let id = data as? String {
                     saveImage(id);
                 }
+            }.onReceive(EventBus.shared.publisher(for: "saveAll")) { data in
+                if let id = data as? String {
+                    saveImageAll(id);
+                }
             }
         }
     }
 
     private func saveImage(_ key: String) {
         logger.info("保存图片,,, \(key)")
-        appState.saveImage()
+        appState.saveImageAll()
+    }
+    private func saveImageAll(_ key: String) {
+        logger.info("保存图片复合,,, \(key)")
+        appState.saveImageAll()
     }
 
     private func handleDragGestureChanged(_ value: DragGesture.Value) {
