@@ -7,33 +7,36 @@
 
 import Foundation
 import Combine
+// 系统总线事件
+protocol Event {}
 
+struct SaveAll: Event {
+    let data: String
+}
+struct SaveDrawing: Event {
+    let data: String
+}
+struct SavedAnno: Event {
+    let data: String
+}
 
 final class EventBus {
     static let shared = EventBus()
-    
+
     private init() {}
+
+    private let subject = PassthroughSubject<Event, Never>()
     
-    private var subjects = [String: PassthroughSubject<Any, Never>]()
-    
-    func post(event name: String, data: Any) {
-        if let subject = subjects[name] {
-            subject.send(data)
-        } else {
-            let subject = PassthroughSubject<Any, Never>()
-            subjects[name] = subject
-            subject.send(data)
-        }
+    /// 发送一个事件
+    func post<T: Event>(_ event: T) {
+        subject.send(event)
     }
     
-    func publisher(for event: String) -> AnyPublisher<Any, Never> {
-        if let subject = subjects[event] {
-            return subject.eraseToAnyPublisher()
-        } else {
-            let subject = PassthroughSubject<Any, Never>()
-            subjects[event] = subject
-            return subject.eraseToAnyPublisher()
-        }
+    /// 监听某个特定事件类型
+    func observe<T: Event>(_ eventType: T.Type) -> AnyPublisher<T, Never> {
+        subject
+            .compactMap { $0 as? T }
+            .eraseToAnyPublisher()
     }
 }
 

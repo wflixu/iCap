@@ -43,18 +43,24 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView {
-            self.sidebar
+            self.sidebar.onAppear {
+                print("Sidebar appeared!") // 检查控制台输出
+            }
         } detail: {
             self.detailView
         }
-        .navigationTitle(LocalizedStringKey(selectedTab.title))
-            
+        .navigationTitle(LocalizedStringKey(self.selectedTab.title))
+        .navigationSplitViewStyle(.balanced)
     }
 
     @ViewBuilder
     private var sidebar: some View {
         Section {
+            HStack {
+                Text("test")
+            }
             Divider()
+            
             List(selection: self.$selectedTab) {
                 ForEach(Tabs.allCases, id: \.self) { tab in
                     HStack {

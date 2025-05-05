@@ -88,28 +88,27 @@ struct ActionBarView: View {
     func onSave() {
         appState.setImageSaveTo(.pasteboard)
         if appState.annotationType == .none {
-            EventBus.shared.post(event: "saveAll", data: "save")
+            EventBus.shared.post(SaveAll(data: "save"))
         } else {
-            EventBus.shared.post(event: "saveDrawing", data: "save")
+            EventBus.shared.post(SaveDrawing(data: "save"))
         }
         appState.annotationType = .none
     }
 
     func onSaveDrawing() {
-        EventBus.shared.post(event: "saveDrawing", data: "save")
+        EventBus.shared.post(SaveDrawing(data: "save"))
     }
 
     func onSaveAll() {
-        EventBus.shared.post(event: "saveAll", data: "save")
+        EventBus.shared.post(SaveAll(data: "save"))
     }
 
     func onSaveFile() {
         appState.setImageSaveTo(.file)
         if appState.annotationType == .none {
-            EventBus.shared.post(event: "saveAll", data: "save")
-
+            EventBus.shared.post(SaveAll(data: "save"))
         } else {
-            EventBus.shared.post(event: "saveDrawing", data: "save")
+            EventBus.shared.post(SaveDrawing(data: "save"))
         }
         Util.setOverlayWindowLevel(.normal)
     }

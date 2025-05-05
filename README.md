@@ -49,4 +49,23 @@ If you encounter any issues or have suggestions, please open an [issue](https://
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+发布事件
+```swift
+CombineEventBus.shared.post(SaveAll(data: "123456"))
+```
+订阅事件
+
+```swift
+import Combine
+
+var cancellables = Set<AnyCancellable>()
+
+CombineEventBus.shared
+    .observe(SaveAll(data: "123456").self)
+    .receive(on: RunLoop.main)
+    .sink { event in
+        print("用户登录: \(event.data)")
+    }
+    .store(in: &cancellables)
+```
 

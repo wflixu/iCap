@@ -62,16 +62,8 @@
     "png" : {
 
     },
-    "Settings" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "配置"
-          }
-        }
-      }
+    "test" : {
+
     },
     "保存到剪贴板" : {
 
