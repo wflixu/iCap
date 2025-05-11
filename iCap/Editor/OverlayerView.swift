@@ -122,26 +122,23 @@ struct OverlayerView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
             .background(Color.gray.opacity(0.5))
             .coordinateSpace(.named(Keys.coordinate))
-            .onReceive(EventBus.shared.publisher(for: "savedAnno")) { data in
-                if let id = data as? String {
-                    saveImage(id);
-                }
-            }.onReceive(EventBus.shared.publisher(for: "saveAll")) { data in
-                if let id = data as? String {
-                    saveImageAll(id);
-                }
+            .onReceive(EventBus.shared.observe(SavedAnno.self)) { event in
+                saveImage(event.data)
             }
-            .onReceive(EventBus.shared.publisher(for: "saveDrawing")) { _ in
-                saveCanvas()
+            .onReceive(EventBus.shared.observe(SaveAll.self)) { event in
+                saveImageAll(event.data)
+            }
+            .onReceive(EventBus.shared.observe(SaveDrawing.self)) { event in
+                saveCanvas(event.data)
             }
         }
     }
     
-    private func saveCanvas() {
+    private func saveCanvas(_ key:String) {
         logger.info("保存画布")
         if appState.annotations.isEmpty {
             logger.warning("没有标注数据")
-            EventBus.shared.post(event: "savedAnno", data: "savedAnno")
+            EventBus.shared.post(SavedAnno(data: "savedAnno"))
             return
         }
         // ImageRenderer用于将SwiftUI视图渲染为图像
@@ -155,7 +152,7 @@ struct OverlayerView: View {
             appState.annotationImage = cgImage
             // 保存
             logger.info("保存图片成功")
-            EventBus.shared.post(event: "savedAnno", data: "savedAnno")
+            EventBus.shared.post(SavedAnno(data:key))
         } else {
             logger.error("保存图片失败")
         }

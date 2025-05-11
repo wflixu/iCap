@@ -62,16 +62,11 @@
     "png" : {
 
     },
-    "Settings" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "配置"
-          }
-        }
-      }
+    "test" : {
+
+    },
+    "保存" : {
+
     },
     "保存到剪贴板" : {
 
@@ -85,7 +80,13 @@
     "偏好设置" : {
 
     },
+    "关闭" : {
+
+    },
     "取消" : {
+
+    },
+    "固定" : {
 
     },
     "图片保存路径" : {
