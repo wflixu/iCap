@@ -17,7 +17,7 @@
     "About" : {
       "extractionState" : "manual",
       "localizations" : {
-        "zh-Hans" : {
+        "zh" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "关于"
@@ -31,7 +31,7 @@
     "General" : {
       "extractionState" : "manual",
       "localizations" : {
-        "zh-Hans" : {
+        "zh" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "通用"
@@ -42,7 +42,7 @@
     "General Settings" : {
       "extractionState" : "manual",
       "localizations" : {
-        "zh-Hans" : {
+        "zh" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "通用配置"
