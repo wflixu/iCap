@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,8 +22,9 @@
 		5C80293F2D98F0E3007C659C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C80293E2D98F0E3007C659C /* Extensions.swift */; };
 		5C9BE1C12BDEA62800FE56BD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BE1C02BDEA62800FE56BD /* Model.swift */; };
 		5CA3C1A22BCCFE0800ED3A48 /* SelectionAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA3C1A12BCCFE0800ED3A48 /* SelectionAreaView.swift */; };
+		5CABC2852DC8C1B100E4C662 /* PinImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CABC2842DC8C1B100E4C662 /* PinImageView.swift */; };
+		5CABC28C2DD054A800E4C662 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 5CABC28B2DD054A800E4C662 /* KeyboardShortcuts */; };
 		5CC56DD22BDBA1F300CFEEAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC56DD12BDBA1F300CFEEAB /* Constants.swift */; };
-		5CC92F7B2D3A015300214098 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 5CC92F7A2D3A015300214098 /* KeyboardShortcuts */; };
 		5CC92F7D2D3A06B900214098 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC92F7C2D3A06B000214098 /* AppState.swift */; };
 		5CF3D9852B63B25C00753013 /* iCapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9842B63B25C00753013 /* iCapApp.swift */; };
 		5CF3D9872B63B25C00753013 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF3D9862B63B25C00753013 /* ContentView.swift */; };
@@ -72,6 +73,7 @@
 		5C80293E2D98F0E3007C659C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5C9BE1C02BDEA62800FE56BD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		5CA3C1A12BCCFE0800ED3A48 /* SelectionAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionAreaView.swift; sourceTree = "<group>"; };
+		5CABC2842DC8C1B100E4C662 /* PinImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinImageView.swift; sourceTree = "<group>"; };
 		5CC56DD12BDBA1F300CFEEAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5CC92F7C2D3A06B000214098 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		5CF3D9812B63B25B00753013 /* iCap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,7 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CC92F7B2D3A015300214098 /* KeyboardShortcuts in Frameworks */,
+				5CABC28C2DD054A800E4C662 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +142,7 @@
 				5C760DBB2DB52F2D00359832 /* ActiveAnnotationView.swift */,
 				5C18BE2F2DBCD7B0000AE934 /* CanvasView.swift */,
 				5C18BE312DBD208D000AE934 /* AnnotationView.swift */,
+				5CABC2842DC8C1B100E4C662 /* PinImageView.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -199,7 +202,7 @@
 			);
 			name = iCap;
 			packageProductDependencies = (
-				5CC92F7A2D3A015300214098 /* KeyboardShortcuts */,
+				5CABC28B2DD054A800E4C662 /* KeyboardShortcuts */,
 			);
 			productName = iCap;
 			productReference = 5CF3D9812B63B25B00753013 /* iCap.app */;
@@ -213,7 +216,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1520;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					5CF3D9802B63B25B00753013 = {
 						CreatedOnToolsVersion = 15.2;
@@ -231,7 +234,7 @@
 			);
 			mainGroup = 5CF3D9782B63B25B00753013;
 			packageReferences = (
-				5CC92F792D3A015300214098 /* XCLocalSwiftPackageReference "../../repos/KeyboardShortcuts-main" */,
+				5CABC28A2DD054A800E4C662 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			productRefGroup = 5CF3D9822B63B25B00753013 /* Products */;
 			projectDirPath = "";
@@ -274,6 +277,7 @@
 				5C80293F2D98F0E3007C659C /* Extensions.swift in Sources */,
 				5CA3C1A22BCCFE0800ED3A48 /* SelectionAreaView.swift in Sources */,
 				5CC56DD22BDBA1F300CFEEAB /* Constants.swift in Sources */,
+				5CABC2852DC8C1B100E4C662 /* PinImageView.swift in Sources */,
 				5C3256722D98354F000BAE39 /* Utils.swift in Sources */,
 				5C32566A2D9809EF000BAE39 /* ActionBarView.swift in Sources */,
 				5C18BE302DBCD7B0000AE934 /* CanvasView.swift in Sources */,
@@ -439,6 +443,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.icap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -478,6 +483,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = icap_distr_store;
+				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -506,16 +512,21 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		5CC92F792D3A015300214098 /* XCLocalSwiftPackageReference "../../repos/KeyboardShortcuts-main" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../repos/KeyboardShortcuts-main";
+/* Begin XCRemoteSwiftPackageReference section */
+		5CABC28A2DD054A800E4C662 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.0;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5CC92F7A2D3A015300214098 /* KeyboardShortcuts */ = {
+		5CABC28B2DD054A800E4C662 /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 5CABC28A2DD054A800E4C662 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
 		};
 /* End XCSwiftPackageProductDependency section */

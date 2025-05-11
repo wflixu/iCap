@@ -50,17 +50,18 @@ extension NSBitmapImageRep.FileType {
 }
 
 enum ImageSaveTo: String {
-    case file, pasteboard, all
+    case file, pasteboard, all, pin
 }
 
 enum AppWinsInfo: String {
-    case overlayer, main, editor
+    case overlayer, main, editor, pinboard
 
     var desc: String {
         switch self {
             case .overlayer: "Overlayer"
             case .main: "iCap"
             case .editor: "Editor"
+            case .pinboard: "Pinboard"
         }
     }
 
@@ -69,6 +70,7 @@ enum AppWinsInfo: String {
             case .overlayer: "overlayer"
             case .main: "main"
             case .editor: "editor"
+            case .pinboard: "pinboard"
         }
     }
 }

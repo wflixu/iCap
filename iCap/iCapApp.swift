@@ -46,6 +46,17 @@ struct iCapApp: App {
                         dismissWindow(id: AppWinsInfo.overlayer.id)
                     }
                 }
+                .onReceive(appState.$showPin) { showPin in
+//                  在这里处理isShow状态变化
+                    logger.info("showPin状态变化: \(showPin)")
+                    if showPin {
+                        logger.info("open wind \(AppWinsInfo.pinboard.desc)")
+                        // 显示窗口
+                        openWindow(id: AppWinsInfo.pinboard.id)
+                    } else {
+                        dismissWindow(id: AppWinsInfo.pinboard.id)
+                    }
+                }
         }
         .windowResizability(.contentSize)
         .defaultSize(CGSize(width: 800, height: 600))
@@ -68,6 +79,7 @@ struct iCapApp: App {
                 }
         }
         .windowStyle(.plain)
+        .windowLevel(.floating)
         .commands {
             CommandMenu("操作") {
                 Button("取消") {
@@ -78,6 +90,43 @@ struct iCapApp: App {
                 }
                 .keyboardShortcut(.escape, modifiers: [.command]) // 绑定 ESC 键
             }
+        }
+        .defaultAppStorage(UserDefaults.group)
+        
+        // 固定图片
+        WindowGroup(AppWinsInfo.pinboard.desc, id: AppWinsInfo.pinboard.id) {
+            PinImageView()
+                .environmentObject(appState)
+                .onAppear {
+//                    if let window = NSApplication.shared.windows.first(where: { $0.title == AppWinsInfo.pinboard.desc }) {
+//                        // 设置窗口位置和尺寸
+//                        // if appState.cropRect != .zero {
+//                        //     window.setFrame(appState.cropRect, display: true)
+//                        // }
+//                        // 保持窗口在最前
+//                        window.level = .floating
+//                        // 隐藏标题栏
+//                        window.titleVisibility = .hidden
+//                        window.styleMask.remove(.titled)
+//                        // 禁止调整窗口大小
+//                        window.styleMask.remove(.resizable)
+//                        // 禁止拖放操作
+//                        window.isMovableByWindowBackground = false
+//                    }
+                }
+        }
+        .windowStyle(.plain)
+        .windowLevel(.floating)
+        .commands {
+//            CommandMenu("操作") {
+//                Button("取消") {
+//                    // 这里关闭该窗口
+//                    dismissWindow(id: "overlayer")
+//                   
+//                    appState.resetState();
+//                }
+//                .keyboardShortcut(.escape, modifiers: [.command]) // 绑定 ESC 键
+//            }
         }
         .defaultAppStorage(UserDefaults.group)
 

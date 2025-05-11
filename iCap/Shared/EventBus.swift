@@ -10,6 +10,16 @@ import Combine
 // 系统总线事件
 protocol Event {}
 
+struct StartSaveDrawing :Event {
+  let data: String
+    
+}
+struct StartComposeImage : Event {
+    let data: String
+}
+struct StartSaveImage : Event {
+    let data: String
+}
 struct SaveAll: Event {
     let data: String
 }

@@ -54,6 +54,16 @@ struct ActionBarView: View {
                     .help("文字")
 
                 Button(action: {
+                    self.onPinImage()
+                }) {
+                    Image(systemName: "pin.square")
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(.gray)
+                }.buttonStyle(PlainButtonStyle())
+                    .help("固定")
+                
+                Button(action: {
                     self.onSaveFile()
                 }) {
                     Image(systemName: "square.and.arrow.down")
@@ -63,6 +73,7 @@ struct ActionBarView: View {
                 }.buttonStyle(PlainButtonStyle())
                     .help("保存到文件")
 
+                
                 Button(action: {
                     self.onSave()
                 }) {
@@ -84,7 +95,16 @@ struct ActionBarView: View {
             .shadow(color: .gray.opacity(0.1), radius: 2, x: 0, y: 1)
         }
     }
-
+   
+    func onPinImage () {
+        appState.setImageSaveTo(.pin)
+        if appState.annotationType == .none {
+            EventBus.shared.post(SaveAll(data: "pin"))
+        } else {
+            EventBus.shared.post(SaveDrawing(data: "pin"))
+        }
+        appState.annotationType = .none
+    }
     func onSave() {
         appState.setImageSaveTo(.pasteboard)
         if appState.annotationType == .none {

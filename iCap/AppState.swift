@@ -36,6 +36,13 @@ class AppState: ObservableObject {
 
     @Published
     var annotationImage: CGImage?
+    // 如果点击的固定，需要保存裁减后的状态
+
+    @Published
+    var showPin: Bool = false
+
+    @Published
+    var resultImage: CGImage?
 
     @Published
     var savingDrawing: Bool = false
@@ -131,6 +138,8 @@ class AppState: ObservableObject {
             return
         }
 
+        resultImage = effectImage
+
         let bitmap = NSBitmapImageRep(cgImage: effectImage)
         let pngData = bitmap.representation(using: .png, properties: [:])
 
@@ -167,6 +176,20 @@ class AppState: ObservableObject {
         logger.info("save data in file is \(url.path)")
         annotations.removeAll()
         annotationType = .none
+    }
+
+    func savePinImage() {
+        guard let resultImage = resultImage else {
+            logger.info("resultImage is not nil")
+            return
+        }
+        let bitmap = NSBitmapImageRep(cgImage: resultImage)
+        let pngData = bitmap.representation(using: .png, properties: [:])
+
+        if let data = pngData {
+            saveImageDataToFile(data)
+            logger.info("save data in file ")
+        }
     }
 
     func saveImageAll() {
@@ -206,7 +229,7 @@ class AppState: ObservableObject {
             logger.error("Failed to apply effects to image")
             return
         }
-
+        resultImage = effectImage
         let bitmap = NSBitmapImageRep(cgImage: effectImage)
         let pngData = bitmap.representation(using: .png, properties: [:])
 
@@ -214,8 +237,10 @@ class AppState: ObservableObject {
             if imageSaveTo == .file {
                 // totdo
                 saveImageDataToFile(data)
-            } else {
+            } else if imageSaveTo == .pasteboard {
                 saveImageDataToPasteboard(data)
+            } else if imageSaveTo == .pin {
+                showPin = true
             }
             setIsShow(false)
         }

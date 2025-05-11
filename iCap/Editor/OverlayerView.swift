@@ -128,13 +128,13 @@ struct OverlayerView: View {
             .onReceive(EventBus.shared.observe(SaveAll.self)) { event in
                 saveImageAll(event.data)
             }
-            .onReceive(EventBus.shared.observe(SaveDrawing.self)) { _ in
-                saveCanvas()
+            .onReceive(EventBus.shared.observe(SaveDrawing.self)) { event in
+                saveCanvas(event.data)
             }
         }
     }
     
-    private func saveCanvas() {
+    private func saveCanvas(_ key:String) {
         logger.info("保存画布")
         if appState.annotations.isEmpty {
             logger.warning("没有标注数据")
@@ -152,7 +152,7 @@ struct OverlayerView: View {
             appState.annotationImage = cgImage
             // 保存
             logger.info("保存图片成功")
-            EventBus.shared.post(SavedAnno(data: "savedAnno"))
+            EventBus.shared.post(SavedAnno(data:key))
         } else {
             logger.error("保存图片失败")
         }
