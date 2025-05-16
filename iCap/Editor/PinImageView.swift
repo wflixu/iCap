@@ -31,7 +31,7 @@ struct PinImageView: View {
                     }
             }
         }.frame(width: appState.cropRect.width, height: appState.cropRect.height)
-            .background(Color.gray,in: RoundedRectangle(cornerRadius: 8))
+            .background(Color.white ,in: RoundedRectangle(cornerRadius: 8))
             
             .gesture(WindowDragGesture())
     }
