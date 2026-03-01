@@ -21,6 +21,10 @@ enum AnnotationType {
     case rect
     case text
     case arrow
+    case number     // 序号标注
+    case blur       // 马赛克/模糊
+    case highlight  // 高亮标记
+
     var desc: String {
         switch self {
         case .rect:
@@ -29,10 +33,22 @@ enum AnnotationType {
             return "文本"
         case .arrow:
             return "箭头"
+        case .number:
+            return "序号"
+        case .blur:
+            return "马赛克"
+        case .highlight:
+            return "高亮"
         case .none:
             return "无"
         }
     }
+}
+
+// 箭头样式枚举
+enum ArrowStyle {
+    case standard    // 标准箭头（空心三角形）
+    case filled      // 实心箭头
 }
 
 struct IRectangle {
@@ -53,6 +69,23 @@ struct Annotation: Identifiable, Equatable {
     var active: Bool = false
     var start: CGPoint = .zero
     var offset: CGSize = .zero
+    var zIndex: Int = 0           // For layer management
+    var isSelected: Bool = false  // For selection
+    var isLocked: Bool = false    // To prevent accidental changes
+    var opacity: Double = 1.0     // For visibility control
+    var groupId: UUID? = nil      // For grouping annotations
+
+    // Additional properties for text annotations
+    var fontSize: CGFloat = 16
+    var fontName: String = ".SF Pro"
+
+    // New properties for enhanced features
+    var isFilled: Bool = false                  // 矩形填充
+    var dashPattern: [CGFloat]? = nil           // 虚线模式
+    var number: Int = 1                         // 序号值
+    var blurRadius: CGFloat = 10                // 模糊半径
+    var arrowHeadSize: CGFloat = 10             // 箭头大小
+    var arrowStyle: ArrowStyle = .standard      // 箭头样式
 
     static func == (lhs: Annotation, rhs: Annotation) -> Bool {
         return lhs.id == rhs.id

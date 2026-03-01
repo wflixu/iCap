@@ -25,6 +25,7 @@ struct iCapApp: App {
     @AppStorage("showMenuBarExtra") private var showMenuBarExtra = true
 
     @StateObject private var appState = AppState.share
+    @StateObject private var annotationManager = AnnotationManager()
 
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.openWindow) private var openWindow
@@ -36,6 +37,7 @@ struct iCapApp: App {
             // 设置主窗口大小和属性
             ContentView()
                 .environmentObject(appState)
+                .environmentObject(annotationManager)
                 .onReceive(appState.$isShow) { isShow in
 //                  在这里处理isShow状态变化
                     logger.info("isShow状态变化: \(isShow)")
@@ -67,6 +69,7 @@ struct iCapApp: App {
         WindowGroup(AppWinsInfo.overlayer.desc, id: AppWinsInfo.overlayer.id) {
             OverlayerView()
                 .environmentObject(appState)
+                .environmentObject(annotationManager)
                 .onAppear {
                     // 查找 title 为 Overlayer 的窗口
                     if let window = NSApplication.shared.windows.first(where: { $0.title == AppWinsInfo.overlayer.desc }) {
@@ -97,6 +100,7 @@ struct iCapApp: App {
         WindowGroup(AppWinsInfo.pinboard.desc, id: AppWinsInfo.pinboard.id) {
             PinImageView()
                 .environmentObject(appState)
+                .environmentObject(annotationManager)
                 .onAppear {
                     if let window = NSApplication.shared.windows.first(where: { $0.title == AppWinsInfo.pinboard.desc }) {
                         // 设置视图显示在所有桌面空间
@@ -108,7 +112,7 @@ struct iCapApp: App {
         }
         .windowStyle(.plain)
         .windowLevel(.floating)
-        
+
         .commands {
 //            CommandMenu("操作") {
 //                Button("取消") {
@@ -126,7 +130,9 @@ struct iCapApp: App {
             "App Menu Bar Extra", image: "menubar",
             isInserted: $showMenuBarExtra)
         {
-            StatusMenu().environmentObject(appState)
+            StatusMenu()
+                .environmentObject(appState)
+                .environmentObject(annotationManager)
         }.menuBarExtraStyle(.menu)
             .defaultAppStorage(UserDefaults.group)
     }

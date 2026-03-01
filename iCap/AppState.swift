@@ -31,6 +31,19 @@ class AppState: ObservableObject {
     @Published
     var annotations: [Annotation] = []
 
+    // Computed property to sync with annotation manager
+    var currentAnnotations: [Annotation] {
+        // This property should be used when interacting with the annotation manager
+        get {
+            // Return annotations from annotation manager if available
+            // For now, return the local annotations array for compatibility
+            return annotations
+        }
+        set {
+            annotations = newValue
+        }
+    }
+
     @Published
     var screenImage: CGImage?
 
@@ -160,6 +173,8 @@ class AppState: ObservableObject {
 
         let saveRes = pb.setData(data, forType: .png)
         logger.info("save data in pasteboard is \(saveRes)")
+        // Clear annotations from annotation manager if available
+        // For now, clear the local array for compatibility
         annotations.removeAll()
         annotationType = .none
     }
@@ -174,6 +189,8 @@ class AppState: ObservableObject {
             logger.error("Error saving image: \(error.localizedDescription)")
         }
         logger.info("save data in file is \(url.path)")
+        // Clear annotations from annotation manager if available
+        // For now, clear the local array for compatibility
         annotations.removeAll()
         annotationType = .none
     }
@@ -358,6 +375,8 @@ class AppState: ObservableObject {
         isShow = false
         cropRect = .zero
         annotationType = .none
+        // Clear annotations from annotation manager if available
+        // For now, clear the local array for compatibility
         annotations = []
         screenImage = nil
         annotationImage = nil
