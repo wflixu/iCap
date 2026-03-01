@@ -11,15 +11,37 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct ActionBarView: View {
-    @AppLog(category: "ActionBarView")
-    private var logger
-
-
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject var annotationManager: AnnotationManager
 
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
             HStack(alignment: .center, spacing: 8) {
+                // Undo/Redo buttons
+                Button(action: {
+                    annotationManager.undo()
+                }) {
+                    Image(systemName: "arrow.uturn.backward")
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(annotationManager.undoStack.isEmpty ? .gray : .blue)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .help("Undo")
+                .disabled(annotationManager.undoStack.isEmpty)
+
+                Button(action: {
+                    annotationManager.redo()
+                }) {
+                    Image(systemName: "arrow.uturn.forward")
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(annotationManager.redoStack.isEmpty ? .gray : .blue)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .help("Redo")
+                .disabled(annotationManager.redoStack.isEmpty)
+
                 Spacer()
 
                 Button(action: {
@@ -53,6 +75,54 @@ struct ActionBarView: View {
                 }.buttonStyle(PlainButtonStyle())
                     .help("文字")
 
+                // 序号标注按钮
+                Button(action: {
+                    appState.toggleAnnotationType(.number)
+                }) {
+                    Image(systemName: "list.number")
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(appState.annotationType == .number ? .accentColor : .gray)
+                }.buttonStyle(PlainButtonStyle())
+                    .help("序号")
+
+                // 马赛克按钮
+                Button(action: {
+                    appState.toggleAnnotationType(.blur)
+                }) {
+                    Image(systemName: "eye.slash")
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(appState.annotationType == .blur ? .accentColor : .gray)
+                }.buttonStyle(PlainButtonStyle())
+                    .help("马赛克")
+
+                // 高亮按钮
+                Button(action: {
+                    appState.toggleAnnotationType(.highlight)
+                }) {
+                    Image(systemName: "highlighter")
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(appState.annotationType == .highlight ? .accentColor : .gray)
+                }.buttonStyle(PlainButtonStyle())
+                    .help("高亮")
+
+                // Delete selected annotation button
+                Button(action: {
+                    if let selectedId = annotationManager.selectedAnnotationId {
+                        annotationManager.delete(selectedId)
+                    }
+                }) {
+                    Image(systemName: "trash")
+                        .font(.system(size: 20, weight: .medium))
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(annotationManager.selectedAnnotationId != nil ? .red : .gray)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .help("Delete selected annotation")
+                .disabled(annotationManager.selectedAnnotationId == nil)
+
                 Button(action: {
                     self.onPinImage()
                 }) {
@@ -62,7 +132,7 @@ struct ActionBarView: View {
                         .foregroundColor(.gray)
                 }.buttonStyle(PlainButtonStyle())
                     .help("固定")
-                
+
                 Button(action: {
                     self.onSaveFile()
                 }) {
@@ -73,7 +143,7 @@ struct ActionBarView: View {
                 }.buttonStyle(PlainButtonStyle())
                     .help("保存到文件")
 
-                
+
                 Button(action: {
                     self.onSave()
                 }) {
@@ -95,7 +165,7 @@ struct ActionBarView: View {
             .shadow(color: .gray.opacity(0.1), radius: 2, x: 0, y: 1)
         }
     }
-   
+
     func onPinImage () {
         appState.setImageSaveTo(.pin)
         if appState.annotationType == .none {

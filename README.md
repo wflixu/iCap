@@ -1,71 +1,164 @@
+<div align="center">
 
 ![](iCap/Assets.xcassets/AppIcon.appiconset/icon_128x128.png)
 
-# iCap - macOS Screenshot Tool
+# iCap
 
-[![Swift 5.9](https://img.shields.io/badge/Swift-5.10-ED523F.svg?style=flat)](https://swift.org/) [![SwiftUI](https://img.shields.io/badge/SwiftUI-✓-orange)](https://developer.apple.com/xcode/swiftui/) [![macOS 15](https://img.shields.io/badge/macOS15-Compatible-green)](https://www.apple.com/macos/monterey/)
+**A modern macOS screenshot tool built with pure Swift**
 
-[中文版](README_CN.md)
+[![Swift Version](https://img.shields.io/badge/Swift-5.10-ED523F.svg?style=flat&logo=swift)](https://swift.org/)
+[![SwiftUI](https://img.shields.io/badge/SwiftUI-✓-orange.svg?style=flat)](https://developer.apple.com/xcode/swiftui/)
+[![macOS](https://img.shields.io/badge/macOS-15.0%2B-blue.svg?style=flat&logo=apple)](https://www.apple.com/macos/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat)](LICENSE)
 
-A modern macOS screenshot application built with Swift 5.10, SwiftUI and ScreenCaptureKit.
+[English](README.md) | [中文文档](README_CN.md)
 
-## Features
+</div>
 
-- [x] Screenshot capture
-  - [x] Keyboard shortcut support
-  - [x] Screen area selection
-  - [ ] Window selection
-- [x] Image editing
-  - [x] Basic annotations
-  - [x] Crop and resize
-- [x] Saving options
-  - [x] Save to local
-  - [x] Copy to clipboard
-  - [x] Custom save locations
-- [x] UI Enhancements
-  - [x] Border shadow effects
-  - [ ] Customizable UI themes
+## ✨ Features
 
-## Requirements
+- **📸 Screen Capture**
+  - Full screen and custom area selection
+  - Global keyboard shortcut support
+  - High-quality screenshot capture using ScreenCaptureKit
 
-- macOS 15 or later
-- Xcode 15+
-- Swift 5.10
+- **✏️ Image Editing**
+  - Multiple annotation tools (text, shapes, arrows, blur, etc.)
+  - Crop and resize functionality
+  - Border and shadow effects
 
-## Installation
+- **💾 Flexible Saving**
+  - Save to local disk with custom paths
+  - Copy to clipboard
+  - Pin screenshots to floating windows
 
-1. Download the latest release from [Releases](https://github.com/wflixu/iCap/releases)
+- **🎨 Modern UI**
+  - Native SwiftUI interface
+  - Smooth animations and transitions
+  - Dark mode support
 
-## preview
-![](public/images/preview.png)
+## 📋 Requirements
 
+- **OS:** macOS 15.0 (Sequoia) or later
+- **Xcode:** 15.0 or later
+- **Swift:** 5.10 or later
 
-## Contributing
-Contributions are welcome! Please submit a pull request or open an issue for any bugs or feature requests.
+## 🚀 Installation
 
-## Feedback & Support
-If you encounter any issues or have suggestions, please open an [issue](https://github.com/wflixu/iCap/issues) on GitHub.
+### Download Release
 
-## License
+1. Visit the [Releases](https://github.com/wflixu/iCap/releases) page
+2. Download the latest `.dmg` file
+3. Open the file and drag iCap to your Applications folder
+4. Grant screen recording permission when prompted
+
+### Build from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/wflixu/iCap.git
+cd iCap
+
+# Open in Xcode
+open iCap.xcodeproj
+
+# Build and run (⌘R)
+```
+
+## 📖 Usage
+
+### Quick Start
+
+1. **Launch iCap** - Grant screen recording permission when prompted
+2. **Take a screenshot** - Use the global shortcut (default: `⌘⇧X`)
+3. **Select area** - Drag to select the screen region
+4. **Annotate** - Use tools from the left panel to annotate
+5. **Save** - Choose your preferred save option
+
+### Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `⌘⇧X` | Take screenshot |
+| `Esc` | Cancel selection |
+| `⌘Z` | Undo annotation |
+| `⌘⇧Z` | Redo annotation |
+
+### Screenshots
+
+<div align="center">
+  <img src="public/images/preview.png" alt="iCap Preview" width="800">
+</div>
+
+## 🛠️ Development
+
+### Build Commands
+
+```bash
+# Debug build
+xcodebuild -project iCap.xcodeproj -scheme iCap -configuration Debug build
+
+# Release build
+xcodebuild -project iCap.xcodeproj -scheme iCap -configuration Release build
+
+# Run tests
+xcodebuild test -project iCap.xcodeproj -scheme iCap -destination 'platform=macOS'
+```
+
+### Project Structure
+
+```
+iCap/
+├── iCapApp.swift          # Main app entry point
+├── AppState.swift         # Global state management
+├── Editor/                # Image editing components
+│   ├── CanvasView.swift
+│   ├── AnnotationManager.swift
+│   └── EditorView.swift
+├── Shared/                # Shared utilities
+│   ├── EventBus.swift     # Event system
+│   ├── Constants.swift
+│   └── Utils.swift
+└── Assets.xcassets        # App assets
+```
+
+### Key Technologies
+
+- **SwiftUI** - Modern UI framework
+- **ScreenCaptureKit** - Screen capture API
+- **Combine** - Reactive programming
+- **KeyboardShortcuts** - Global hotkeys
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please read our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## 📝 License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-发布事件
-```swift
-CombineEventBus.shared.post(SaveAll(data: "123456"))
-```
-订阅事件
+## 🙏 Acknowledgments
 
-```swift
-import Combine
+- Built with [SwiftUI](https://developer.apple.com/xcode/swiftui/)
+- Uses [ScreenCaptureKit](https://developer.apple.com/documentation/screencapturekit) for screen capture
+- Icons from [SF Symbols](https://developer.apple.com/sf-symbols/)
+- Keyboard shortcuts managed by [KeyboardShortcuts](https://github.com/soffes/KeyboardShortcuts)
 
-var cancellables = Set<AnyCancellable>()
+## 📮 Contact & Support
 
-CombineEventBus.shared
-    .observe(SaveAll(data: "123456").self)
-    .receive(on: RunLoop.main)
-    .sink { event in
-        print("用户登录: \(event.data)")
-    }
-    .store(in: &cancellables)
-```
+- **Issues:** [GitHub Issues](https://github.com/wflixu/iCap/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/wflixu/iCap/discussions)
 
+---
+
+<div align="center">
+  <sub>Built with ❤️ by <a href="https://github.com/wflixu">@wflixu</a></sub>
+</div>

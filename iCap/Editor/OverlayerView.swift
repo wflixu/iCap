@@ -12,6 +12,7 @@ struct OverlayerView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openWindow) private var openWindow
     @EnvironmentObject private var appState: AppState
+    @EnvironmentObject private var annotationManager: AnnotationManager
 
     @State private var selectionRect: CGRect = .zero
     @State private var selected = false
@@ -24,20 +25,17 @@ struct OverlayerView: View {
     @State private var dragStart = CGPoint.zero
     @State private var dragOffset = CGSize.zero
 
-    // 用于存储所有可拖动形状的数据
-    @State private var annotations: [Annotation] = []
     // 修改为计算属性
     var showActiveFrame: Bool {
         return dragStart != .zero && dragOffset != .zero && appState.annotationType != .none && appState.cropRect != .zero
     }
 
-    //
     var selectionAreaEditable: Bool {
-        return selectionRect != .zero && appState.annotationType == .none && appState.annotations.isEmpty
+        return selectionRect != .zero && appState.annotationType == .none && annotationManager.annotations.isEmpty
     }
 
     var step: StepStatus {
-        if appState.annotationType != .none || !appState.annotations.isEmpty {
+        if appState.annotationType != .none || !annotationManager.annotations.isEmpty {
             return .drawing
         } else {
             return .selecting
@@ -58,12 +56,12 @@ struct OverlayerView: View {
                 offset: dragOffset
             )
         } else {
-            return appState.annotations.first { $0.active } ?? appState.annotations.last
+            return annotationManager.annotations.first { $0.active } ?? annotationManager.annotations.last
         }
     }
 
     var stepSelect: Bool {
-        return appState.annotationType == .none && appState.annotations.isEmpty
+        return appState.annotationType == .none && annotationManager.annotations.isEmpty
     }
 
     let controlPointSize: CGFloat = 10.0
@@ -79,7 +77,7 @@ struct OverlayerView: View {
                         .scaledToFit()
                 }
                 // 背景层
-               
+
                 Color(.sRGB, red: 0.8, green: 0.8, blue: 0.8, opacity: 0.5)
                     .contentShape(Rectangle())
                     .gesture(
@@ -110,7 +108,7 @@ struct OverlayerView: View {
                 }
 
                 if step == .drawing  {
-                    CanvasView(frame: selectionRect, annotations: appState.annotations)
+                    CanvasView(frame: selectionRect)
                         .border(Color.blue, width: 2)
                         .frame(width: selectionRect.width, height: selectionRect.height)
                         .position(x: selectionRect.midX, y: selectionRect.midY)
@@ -133,17 +131,17 @@ struct OverlayerView: View {
             }
         }
     }
-    
+
     private func saveCanvas(_ key:String) {
         logger.info("保存画布")
-        if appState.annotations.isEmpty {
+        if annotationManager.annotations.isEmpty {
             logger.warning("没有标注数据")
             EventBus.shared.post(SavedAnno(data: "savedAnno"))
             return
         }
         // ImageRenderer用于将SwiftUI视图渲染为图像
         // 需要设置具体的尺寸，否则会使用视图的理想尺寸，可能导致比例失调
-        let renderer = ImageRenderer(content: CanvasView(frame: selectionRect, annotations: appState.annotations).frame(width: selectionRect.width, height: selectionRect.height))
+        let renderer = ImageRenderer(content: CanvasView(frame: selectionRect).frame(width: selectionRect.width, height: selectionRect.height))
         // 设置明确的渲染尺寸，使用frame的大小
         renderer.proposedSize = ProposedViewSize(width: selectionRect.width, height: selectionRect.height)
 
@@ -196,7 +194,8 @@ struct OverlayerView: View {
             selectionRect.size = dragOffset
             appState.cropRect = selectionRect
         } else {
-            annotations.append(Annotation(
+            // Add annotation to the annotation manager instead of local array
+            let newAnnotation = Annotation(
                 type: appState.annotationType,
                 frame: CGRect(
                     x: dragStart.x,
@@ -206,7 +205,8 @@ struct OverlayerView: View {
                 ),
                 start: dragStart,
                 offset: dragOffset
-            ))
+            )
+            annotationManager.add(newAnnotation)
         }
         dragStart = .zero
         dragOffset = .zero

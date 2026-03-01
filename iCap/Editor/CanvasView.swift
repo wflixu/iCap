@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CanvasView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject var annotationManager: AnnotationManager
 
     // 激活矩形
     @State private var isDragging = false
@@ -17,7 +18,6 @@ struct CanvasView: View {
     @State private var activeAnnotation: Annotation?
 
     var frame: CGRect
-    var annotations: [Annotation] = [];
 
     var annotationType: AnnotationType {
         appState.annotationType
@@ -25,40 +25,86 @@ struct CanvasView: View {
 
     var body: some View {
         ZStack {
-           
-                ForEach(annotations) { annotation in
-                    AnnotationView(annotation: annotation)
-                        .position(x: annotation.frame.midX - frame.minX, y: annotation.frame.midY - frame.minY)
-                }
-            
+            // Render all annotations from the annotation manager
+            ForEach(annotationManager.annotations) { annotation in
+                AnnotationView(annotation: annotation)
+                    .position(x: annotation.frame.midX - frame.minX, y: annotation.frame.midY - frame.minY)
+                    .onTapGesture {
+                        annotationManager.toggleSelection(annotation.id)
+                    }
+                    .zIndex(Double(annotation.zIndex))
+            }
 
             Color.clear
                 .contentShape(Rectangle())
-                .gesture(canvasDragGesture)
+                .gesture(drawGesture)
 
+            // Show active annotation if we're currently drawing
             if let ann = activeAnnotation {
                 ActiveAnnotationView(annotation: ann, onUpdateFrame: { offset, size in
-                    if var curAnno = annotations.first(where: { $0.id == ann.id }) {
+                    if var curAnno = annotationManager.annotations.first(where: { $0.id == ann.id }) {
                         curAnno.frame.origin.x += offset.width
                         curAnno.frame.origin.y += offset.height
                         curAnno.frame.size.width += size.width
                         curAnno.frame.size.height += size.height
                     }
-                    logger.info("更新标注位置: \(offset.width) - 大小: \(size.width)")
+                    print("更新标注位置: \(offset.width) - 大小: \(size.width)")
                     self.updateActiveAnnotation(offset, size)
-
                 })
                 .position(x: ann.frame.midX - frame.minX, y: ann.frame.midY - frame.minY)
             }
         }
-       
+    }
+
+    // 统一的手势处理
+    private var drawGesture: some Gesture {
+        DragGesture(minimumDistance: 0, coordinateSpace: .named(Keys.coordinate))
+            .onChanged { value in
+                // 序号标注在点击时触发，不需要拖动过程
+                if annotationType == .number {
+                    return
+                }
+
+                print("拖动中 - 坐标: (\(value.location.x), \(value.location.y))")
+                if !isDragging {
+                    dragStart = value.startLocation
+                    dragOffset = .zero
+                    isDragging = true
+                }
+                dragOffset = value.translation
+
+                activeAnnotation = Annotation(
+                    type: appState.annotationType,
+                    frame: CGRect(
+                        x: dragStart.x,
+                        y: dragStart.y,
+                        width: abs(dragOffset.width),
+                        height: abs(dragOffset.height)
+                    ),
+                    start: dragStart,
+                    offset: dragOffset
+                )
+            }
+            .onEnded { value in
+                // 序号标注：使用点击位置
+                if annotationType == .number {
+                    annotationManager.addNumberAnnotation(at: value.startLocation)
+                    return
+                }
+
+                // 其他标注类型：添加拖拽创建的标注
+                if let newAnnotation = activeAnnotation {
+                    annotationManager.add(newAnnotation)
+                }
+                dragStart = .zero
+                dragOffset = .zero
+                isDragging = false
+            }
     }
 
     // 更新激活标注
     func updateActiveAnnotation(_ offset: CGSize, _ size: CGSize) {
-        // 更新激活标注的位置和大小
         if let oldAnnotation = activeAnnotation {
-            // 根据旧标注和偏移量创建新的标注
             let newFrame = CGRect(
                 x: oldAnnotation.frame.origin.x + offset.width,
                 y: oldAnnotation.frame.origin.y + offset.height,
@@ -77,42 +123,6 @@ struct CanvasView: View {
         }
     }
 
-    var canvasDragGesture: some Gesture {
-        DragGesture(minimumDistance: 2, coordinateSpace: .named(Keys.coordinate)) // 允许零距离触发
-            .onChanged { value in
-
-                logger.debug("拖动中112122 - 坐标: (\(value.location.x), \(value.location.y))")
-                // 按下时触发
-                if !isDragging {
-                    dragStart = value.startLocation
-                    dragOffset = .zero
-                    isDragging = true
-                }
-
-                // 实时更新位置
-                dragOffset = value.translation
-
-                activeAnnotation = Annotation(
-                    type: appState.annotationType,
-                    frame: CGRect(
-                        x: dragStart.x,
-                        y: dragStart.y,
-                        width: abs(dragOffset.width),
-                        height: abs(dragOffset.height)
-                    ),
-                    start: dragStart,
-                    offset: dragOffset
-                )
-            }
-            .onEnded { _ in
-
-                appState.annotations.append(activeAnnotation!)
-                dragStart = .zero
-                dragOffset = .zero
-                isDragging = false
-            }
-    }
-
     private func transformCanvasCoordinate(_ rect: CGRect) -> CGRect {
         return CGRect(
             x: rect.origin.x - frame.minX,
@@ -121,6 +131,4 @@ struct CanvasView: View {
             height: rect.height
         )
     }
-
-    
 }

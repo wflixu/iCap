@@ -25,6 +25,7 @@ struct iCapApp: App {
     @AppStorage("showMenuBarExtra") private var showMenuBarExtra = true
 
     @StateObject private var appState = AppState.share
+    @StateObject private var annotationManager = AnnotationManager()
 
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.openWindow) private var openWindow
@@ -36,6 +37,7 @@ struct iCapApp: App {
             // 设置主窗口大小和属性
             ContentView()
                 .environmentObject(appState)
+                .environmentObject(annotationManager)
                 .onReceive(appState.$isShow) { isShow in
 //                  在这里处理isShow状态变化
                     logger.info("isShow状态变化: \(isShow)")
@@ -67,6 +69,7 @@ struct iCapApp: App {
         WindowGroup(AppWinsInfo.overlayer.desc, id: AppWinsInfo.overlayer.id) {
             OverlayerView()
                 .environmentObject(appState)
+                .environmentObject(annotationManager)
                 .onAppear {
                     // 查找 title 为 Overlayer 的窗口
                     if let window = NSApplication.shared.windows.first(where: { $0.title == AppWinsInfo.overlayer.desc }) {
@@ -85,44 +88,37 @@ struct iCapApp: App {
                 Button("取消") {
                     // 这里关闭该窗口
                     dismissWindow(id: "overlayer")
-                   
-                    appState.resetState();
+
+                    appState.resetState()
                 }
                 .keyboardShortcut(.escape, modifiers: [.command]) // 绑定 ESC 键
             }
         }
         .defaultAppStorage(UserDefaults.group)
-        
+
         // 固定图片
         WindowGroup(AppWinsInfo.pinboard.desc, id: AppWinsInfo.pinboard.id) {
             PinImageView()
                 .environmentObject(appState)
+                .environmentObject(annotationManager)
                 .onAppear {
-//                    if let window = NSApplication.shared.windows.first(where: { $0.title == AppWinsInfo.pinboard.desc }) {
-//                        // 设置窗口位置和尺寸
-//                        // if appState.cropRect != .zero {
-//                        //     window.setFrame(appState.cropRect, display: true)
-//                        // }
-//                        // 保持窗口在最前
-//                        window.level = .floating
-//                        // 隐藏标题栏
-//                        window.titleVisibility = .hidden
-//                        window.styleMask.remove(.titled)
-//                        // 禁止调整窗口大小
-//                        window.styleMask.remove(.resizable)
-//                        // 禁止拖放操作
-//                        window.isMovableByWindowBackground = false
-//                    }
+                    if let window = NSApplication.shared.windows.first(where: { $0.title == AppWinsInfo.pinboard.desc }) {
+                        // 设置视图显示在所有桌面空间
+                        window.collectionBehavior = [.canJoinAllSpaces]
+                    } else {
+                        logger.warning("not window find by title\(AppWinsInfo.pinboard.desc)")
+                    }
                 }
         }
         .windowStyle(.plain)
         .windowLevel(.floating)
+
         .commands {
 //            CommandMenu("操作") {
 //                Button("取消") {
 //                    // 这里关闭该窗口
 //                    dismissWindow(id: "overlayer")
-//                   
+//
 //                    appState.resetState();
 //                }
 //                .keyboardShortcut(.escape, modifiers: [.command]) // 绑定 ESC 键
@@ -134,7 +130,9 @@ struct iCapApp: App {
             "App Menu Bar Extra", image: "menubar",
             isInserted: $showMenuBarExtra)
         {
-            StatusMenu().environmentObject(appState)
+            StatusMenu()
+                .environmentObject(appState)
+                .environmentObject(annotationManager)
         }.menuBarExtraStyle(.menu)
             .defaultAppStorage(UserDefaults.group)
     }

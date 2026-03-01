@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "%@" : {
 
     },
@@ -14,10 +17,16 @@
         }
       }
     },
+    "%lld" : {
+
+    },
+    "%lld pt" : {
+
+    },
     "About" : {
       "extractionState" : "manual",
       "localizations" : {
-        "zh-Hans" : {
+        "zh" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "关于"
@@ -25,13 +34,52 @@
         }
       }
     },
+    "Annotation Editor" : {
+
+    },
+    "Annotations" : {
+
+    },
     "App Menu Bar Extra" : {
+
+    },
+    "Arrow Size" : {
+
+    },
+    "Arrow Style" : {
+
+    },
+    "Blur Radius" : {
+
+    },
+    "Bring to front" : {
+
+    },
+    "Color" : {
+
+    },
+    "Dashed" : {
+
+    },
+    "Delete selected annotation" : {
+
+    },
+    "Dotted" : {
+
+    },
+    "Fill" : {
+
+    },
+    "Filled" : {
+
+    },
+    "Font Size" : {
 
     },
     "General" : {
       "extractionState" : "manual",
       "localizations" : {
-        "zh-Hans" : {
+        "zh" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "通用"
@@ -42,7 +90,7 @@
     "General Settings" : {
       "extractionState" : "manual",
       "localizations" : {
-        "zh-Hans" : {
+        "zh" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "通用配置"
@@ -59,10 +107,52 @@
     "jpeg" : {
 
     },
+    "Line Style" : {
+
+    },
+    "Line Width" : {
+
+    },
+    "Locked" : {
+
+    },
+    "Number" : {
+
+    },
+    "Opacity" : {
+
+    },
     "png" : {
 
     },
+    "Properties" : {
+
+    },
+    "Redo" : {
+
+    },
+    "Select an annotation to edit properties" : {
+
+    },
+    "Selected" : {
+
+    },
+    "Send to back" : {
+
+    },
+    "Solid" : {
+
+    },
+    "Standard" : {
+
+    },
     "test" : {
+
+    },
+    "Text" : {
+
+    },
+    "Undo" : {
 
     },
     "保存" : {
@@ -93,6 +183,9 @@
 
     },
     "带亮截图 ⌘3" : {
+
+    },
+    "序号" : {
 
     },
     "延时全屏截图 ⌘2" : {
@@ -129,6 +222,12 @@
 
     },
     "隐藏基单栏" : {
+
+    },
+    "马赛克" : {
+
+    },
+    "高亮" : {
 
     }
   },

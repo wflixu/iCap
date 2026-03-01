@@ -31,6 +31,19 @@ class AppState: ObservableObject {
     @Published
     var annotations: [Annotation] = []
 
+    // Computed property to sync with annotation manager
+    var currentAnnotations: [Annotation] {
+        // This property should be used when interacting with the annotation manager
+        get {
+            // Return annotations from annotation manager if available
+            // For now, return the local annotations array for compatibility
+            return annotations
+        }
+        set {
+            annotations = newValue
+        }
+    }
+
     @Published
     var screenImage: CGImage?
 
@@ -160,6 +173,8 @@ class AppState: ObservableObject {
 
         let saveRes = pb.setData(data, forType: .png)
         logger.info("save data in pasteboard is \(saveRes)")
+        // Clear annotations from annotation manager if available
+        // For now, clear the local array for compatibility
         annotations.removeAll()
         annotationType = .none
     }
@@ -174,6 +189,8 @@ class AppState: ObservableObject {
             logger.error("Error saving image: \(error.localizedDescription)")
         }
         logger.info("save data in file is \(url.path)")
+        // Clear annotations from annotation manager if available
+        // For now, clear the local array for compatibility
         annotations.removeAll()
         annotationType = .none
     }
@@ -274,78 +291,71 @@ class AppState: ObservableObject {
 
     func processImageWithEffects(
         inputImage: CGImage,
-        cornerRadius: CGFloat = 10,
-        shadowColor: NSColor = .black,
-        shadowOffset: CGSize = .init(width: 0, height: 0),
-        shadowRadius: CGFloat = 15,
-        shadowOpacity: CGFloat = 0.3
+        cornerRadius: CGFloat = 8.0,
+        shadowOffset: CGSize = CGSize(width: 0, height: 0),
+        shadowBlur: CGFloat = 20,
+        shadowColor: CGColor = NSColor.black.withAlphaComponent(0.6).cgColor
     ) -> CGImage? {
-        // 创建透明画布
-        let imageSize = CGSize(width: inputImage.width, height: inputImage.height)
-        let effectiveRect = CGRect(
-            x: abs(shadowOffset.width) + shadowRadius,
-            y: abs(shadowOffset.height) + shadowRadius,
-            width: imageSize.width,
-            height: imageSize.height
-        )
+        let width = inputImage.width
+        let height = inputImage.height
 
-        let canvasSize = CGSize(
-            width: effectiveRect.width + shadowRadius * 2,
-            height: effectiveRect.height + shadowRadius * 2
-        )
+        // 为阴影预留空间
+        let contextWidth = width + Int(shadowBlur * 2)
+        let contextHeight = height + Int(shadowBlur * 2)
+
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
 
         guard let context = CGContext(
             data: nil,
-            width: Int(canvasSize.width),
-            height: Int(canvasSize.height),
+            width: contextWidth,
+            height: contextHeight,
             bitsPerComponent: 8,
             bytesPerRow: 0,
-            space: CGColorSpaceCreateDeviceRGB(),
+            space: colorSpace,
             bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-        ) else { return nil }
+        ) else {
+            return nil
+        }
 
-        // 绘制阴影
-        let shadowRect = CGRect(
-            x: effectiveRect.origin.x + shadowOffset.width,
-            y: effectiveRect.origin.y + shadowOffset.height,
-            width: effectiveRect.width,
-            height: effectiveRect.height
-        )
+        context.interpolationQuality = .high
+        context.setAllowsAntialiasing(true)
+        context.setShouldAntialias(true)
 
-        context.setShadow(
-            offset: shadowOffset,
-            blur: shadowRadius,
-            color: shadowColor.withAlphaComponent(shadowOpacity).cgColor
-        )
+        // 图片绘制区域（居中）
+         let imageRect = CGRect(
+             x: shadowBlur,
+             y: shadowBlur,
+             width: CGFloat(width),
+             height: CGFloat(height)
+         )
+         
+         // 1. 先绘制阴影
+         context.saveGState()
+         let shadowPath = CGPath(roundedRect: imageRect,
+                                cornerWidth: cornerRadius,
+                                cornerHeight: cornerRadius,
+                                transform: nil)
+         context.addPath(shadowPath)
+         context.setShadow(offset: shadowOffset,
+                          blur: shadowBlur,
+                          color: shadowColor)
+         context.fillPath()
+         context.restoreGState()
+         
+         // 2. 再绘制带圆角的图片
+         context.saveGState()
+         let clipPath = CGPath(roundedRect: imageRect,
+                              cornerWidth: cornerRadius,
+                              cornerHeight: cornerRadius,
+                              transform: nil)
+         context.addPath(clipPath)
+         context.clip()
+         context.draw(inputImage, in: imageRect)
+         context.restoreGState()
 
-        // 创建圆角路径
-        let path = NSBezierPath(
-            roundedRect: shadowRect,
-            xRadius: cornerRadius,
-            yRadius: cornerRadius
-        ).cgPath
-
-        context.addPath(path)
-        context.fillPath()
-
-        // 裁剪圆角区域
-        context.addPath(path)
-        context.clip()
-
-        // 绘制原图
-        let drawRect = CGRect(
-            x: effectiveRect.origin.x,
-            y: effectiveRect.origin.y,
-            width: imageSize.width,
-            height: imageSize.height
-        )
-
-        context.draw(inputImage, in: drawRect)
-
-        // 生成最终图像
+        // 生成新 CGImage
         return context.makeImage()
     }
-
     func setIsShow(_ isShow: Bool) {
         logger.info("start show overlayer")
         self.isShow = isShow
@@ -365,6 +375,8 @@ class AppState: ObservableObject {
         isShow = false
         cropRect = .zero
         annotationType = .none
+        // Clear annotations from annotation manager if available
+        // For now, clear the local array for compatibility
         annotations = []
         screenImage = nil
         annotationImage = nil
